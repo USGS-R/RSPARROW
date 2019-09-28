@@ -1,0 +1,49 @@
+code.json
+
+[
+  {
+    "name": "RSPARROW",
+    "organization": "U.S. Geological Survey",
+    "description": "RSPARROW: An R System for SPARROW Modeling",
+    "version": "1.0.0",
+    "status": "Production",
+
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/LICENSE.note"
+        }
+      ]
+    },
+
+    "homepageURL": "https://code.usgs.gov/water/stats/RSPARROW",
+    "downloadURL": "https://code.usgs.gov/water/stats/RSPARROW/-/archive/v1.0.0/RSPARROW-v1.0.0.zip",
+    "disclaimerURL": "https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/DISCLAIMER.md",
+    "repositoryURL": "https://code.usgs.gov/water/water/stats/RSPARROW.git",
+    "vcs": "git",
+
+    "laborHours": 2080,
+
+    "tags": [
+      "R",
+      "SPARROW",
+	  "USGS",
+	  "water"
+    ],
+
+    "languages": [
+      "R"
+    ],
+
+    "contact": {
+      "name": "Lillian Gorman-Sanisaca",
+      "email": "lgormansanisaca@usgs.gov"
+    },
+
+    "date": {
+      "metadataLastUpdated": "2019-09-30"
+    }
+  }
+]

@@ -1,0 +1,5 @@
+PARAMETER,ESTIMATE,PARM TYPE,EST TYPE,INITIAL VALUE,MIN,MAX,DESCRIPTION,PARAMETER UNITS
+point,0.813171136856245,SOURCE,Estimated,0.01,0,50000,Municipal/industrial point source,fraction, dimensionless
+ndep,0.430155263044348,SOURCE,Estimated,0.01,0,50000,Atmospheric deposition N (wet only),fraction, dimensionless
+MANC_N,0.253303022118418,SOURCE,Estimated,0.01,0,50000,Livestock manure N,fraction, dimensionless
+FARM_N,0.191842874025819,SOURCE,Estimated,0.01,0,50000,Fertilizer N use,fraction, dimensionless

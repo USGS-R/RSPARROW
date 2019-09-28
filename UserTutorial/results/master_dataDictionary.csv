@@ -1,0 +1,73 @@
+"varType","sparrowNames","data1UserNames","varunits","explanation","run_id","duplicate_sparrowName"
+"REQUIRED","waterid","mrb_id","","reach ID number","Model6",0
+"REQUIRED","fnode","fnode","","reach from (upstream) node","Model6",0
+"REQUIRED","tnode","tnode","","reach to (downstream) node","Model6",0
+"REQUIRED","frac","frac","Fraction","transport fraction (1.0 indicates no diversion of water/mass)","Model6",0
+"REQUIRED","iftran","iftran","","if transport indicator (0=no; 1=yes; nontransport","Model6",0
+"REQUIRED","hydseq","hydseq","","hydrological sequence number (reach order number needed for sorting data1 file)","Model6",0
+"REQUIRED","termflag","termflag","","reach terminal flag indicator (1=reach; 3=coastal reach)","Model6",0
+"REQUIRED","rchtype","rchtype","","reach type indicator (0=reach; 1=reservoir internal reach; 2=reservoir outlet reach; 3=coastal segment)","Model6",0
+"REQUIRED","calsites","calsites","","Calibration site index","Model6",0
+"FIXED","rchname","pname","","reach name","Model6",0
+"FIXED","demtarea","demtarea","Sq. Km.","reach total drainage area (km2)","Model6",0
+"FIXED","length","length","meters","reach length","Model6",0
+"FIXED","meanq","meanq","ft3/s","mean annual streamflow","Model6",0
+"FIXED","rchtot","rchtot","days","reach time of travel (days)","Model6",0
+"FIXED","hload","hload","meters/yr","areal hydraulic load for reservoirs (e.g.","Model6",0
+"FIXED","target","target","","terminal target reach (1=target; 0=non target) for computing load delivery","Model6",0
+"FIXED","headflag","headflag","","headwater reach indicator (1=headwater reach; 0=other reach)","Model6",0
+"FIXED","staid","staid","","numeric station ID (sequence number assigned by user; a new hydrological sequence number is assigned by code)","Model6",0
+"FIXED","station_id","station_id","","alphanumeric station ID","Model6",0
+"FIXED","depvar","LOAD_A_00600","Kg. / Year","mean load response variable (e.g.","Model6",0
+"FIXED","depvar_se","SLOAD_A_00600","Kg./Year","mean load response variable standard error","Model6",0
+"FIXED","lat","lat","Degrees","station latitude","Model6",0
+"FIXED","lon","lon","Degrees","station longitude","Model6",0
+"FIXED","station_name","station_name","","station name","Model6",0
+"FIXED","weight",NA,"","System variable for weighted NLLS","Model6",0
+"SOURCE","demiarea","demiarea","Sq. Km.","reach incremental drainage area (km2)","Model6",0
+"SOURCE","shrubgrass",NA,"Sq. Km.","Combined shrub and grass lands","Model6",0
+"SOURCE","agric",NA,"Sq. Km.","Agricultural lands (crops + pasture)","Model6",0
+"SOURCE","crops","crops","Sq. Km.","Cropland","Model6",0
+"SOURCE","pasture","pasture","Sq. Km.","Pasture land","Model6",0
+"SOURCE","forest","forest","Sq. Km.","Forested land","Model6",0
+"SOURCE","barren","barren","Sq. Km.","Barren land","Model6",0
+"SOURCE","wetlands","wetlands","Sq. Km.","Wetlands","Model6",0
+"SOURCE","urban","urban","Sq. Km.","Urban lands","Model6",0
+"SOURCE","point","point","Kg./year","Municipal/industrial point source","Model6",0
+"SOURCE","ndep","ndep","Kg./year","Atmospheric deposition N (wet only)","Model6",0
+"SOURCE","MANC_N","MANC_N","Kg./year","Livestock manure N","Model6",0
+"SOURCE","FARM_N","FARM_N","Kg./year","Fertilizer N use","Model6",0
+"SOURCE","Fixation","Fixation","Sq. Km.","Cropland area (fixation-related)","Model6",0
+"DELIVF","ldrainden","ldrainden","km/km2","Drainage density (km/km2)","Model6",0
+"DELIVF","PPT30MEAN","PPT30MEAN","mm/yr","Precipitation (annual mean)","Model6",0
+"DELIVF","meanTemp","meanTemp","degrees C.","Air temperature (annual mean)","Model6",0
+"DELIVF","tiles_perc","tiles_perc","fraction of area","Tile drainage (fraction of area)","Model6",0
+"DELIVF","soil_CLAYAVE","soil_CLAYAVE","fraction of area","Soil clay content (fraction of area)","Model6",0
+"STRM","rchdecay1","rchdecay1","days","Small stream decay (mean Q<1.13 m3/s)","Model6",0
+"STRM","rchdecay2","rchdecay2","days","Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s)","Model6",0
+"STRM","rchdecay3","rchdecay3","days","Large stream decay (mean Q > 1.93 m3/s)","Model6",0
+"RESV","iresload","iresload","m/day","Reservoir decay (areal hydr. Load)","Model6",0
+"OPEN","meanload",NA,"Kg. / Year","Mean Annual Load at Calibration Sites","Model6",0
+"OPEN","meanyield",NA,"Kg./Sq. Km./Year","Mean Annual Yield at Calibration Sites","Model6",0
+"OPEN","meanconc",NA,"mg/L","Mean Annual Flow-Weighted Concentration at Calibration Sites","Model6",0
+"OPEN","meanloadSE",NA,"Percent","Percent Error in Mean Annual Load at Calibration Sites","Model6",0
+"OPEN","huc","huc","","Hydrologic Unit Code","Model6",0
+"OPEN","huc2",NA,"","Hydrologic Unit Code","Model6",0
+"OPEN","huc4",NA,"","Hydrologic Unit Code","Model6",0
+"OPEN","huc8",NA,"","Hydrologic Unit Code","Model6",0
+"OPEN","shrub","shrub","Sq. Km.","Shrubland","Model6",0
+"OPEN","grass","grass","Sq. Km.","Grassland","Model6",0
+"OPEN","Tagsite","Tagsite","","Author identification of suitable calibration sites","Model6",0
+"OPEN","S_point",NA,"Kg./year","Point source load-reduction factors (scenario predictions)","Model6",0
+"OPEN","S_ndep",NA,"Kg./year","Atmospheric deposition source load-reduction factors (scenario predictions)","Model6",0
+"OPEN","S_FARM_N",NA,"Kg./year","Fertilizer  source load-reduction factors (scenario predictions)","Model6",0
+"OPEN","S_urban",NA,"","Scenario urban source","Model6",0
+"OPEN","S_crops",NA,"","Scenario crop source","Model6",0
+"OPEN","S_pasture",NA,"","Scenario pasture source","Model6",0
+"OPEN","urban_percent",NA,"percent","Urban land use as percent of incremental area","Model6",0
+"OPEN","agric_percent",NA,"percent","Agricultural land use as percent of incremental area","Model6",0
+"OPEN","crops_percent",NA,"percent","Crop land use as percent of incremental area","Model6",0
+"OPEN","pasture_percent",NA,"percent","Pasture land use as percent of incremental area","Model6",0
+"OPEN","forest_percent",NA,"percent","Forest land use as percent of incremental area","Model6",0
+"OPEN","shrubgrass_percent",NA,"percent","Shrub-grass land use as percent of incremental area","Model6",0
+"OPEN","barren_percent",NA,"percent","Barren land use as percent of incremental area","Model6",0

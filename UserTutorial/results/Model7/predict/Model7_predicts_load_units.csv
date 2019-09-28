@@ -1,0 +1,43 @@
+Prediction Metric Name,Units,Metric Explanation
+waterid,Reach ID Number,Reach ID Number
+pload_total,kg/year,Total load (fully decayed)
+pload_point,kg/year,Total source load (fully decayed)
+pload_ndep,kg/year,Total source load (fully decayed)
+pload_MANC_N,kg/year,Total source load (fully decayed)
+pload_FARM_N,kg/year,Total source load (fully decayed)
+pload_Fixation,kg/year,Total source load (fully decayed)
+mpload_total,kg/year,Monitoring-adjusted (conditional) total load (fully decayed)
+mpload_point,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_ndep,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_MANC_N,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_FARM_N,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_Fixation,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+pload_nd_total,kg/year,Total load delivered to streams (no stream decay)
+pload_nd_point,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_ndep,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_MANC_N,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_FARM_N,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_Fixation,kg/year,Total source load delivered to streams (no stream decay)
+pload_inc,kg/year,Total incremental load delivered to reach (with one-half of reach decay)
+pload_inc_point,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_ndep,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_MANC_N,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_FARM_N,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_Fixation,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+deliv_frac,Fraction,Fraction of total load delivered to terminal reach
+pload_inc_deliv,kg/year,Total incremental load delivered to terminal reach
+pload_inc_point_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_ndep_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_MANC_N_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_FARM_N_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_Fixation_deliv,kg/year,Total incremental source load delivered to terminal reach
+share_total_point,Percent,Source shares for total load
+share_total_ndep,Percent,Source shares for total load
+share_total_MANC_N,Percent,Source shares for total load
+share_total_FARM_N,Percent,Source shares for total load
+share_total_Fixation,Percent,Source shares for total load
+share_inc_point,Percent,Source shares for incremental load
+share_inc_ndep,Percent,Source shares for incremental load
+share_inc_MANC_N,Percent,Source shares for incremental load
+share_inc_FARM_N,Percent,Source shares for incremental load
+share_inc_Fixation,Percent,Source shares for incremental load

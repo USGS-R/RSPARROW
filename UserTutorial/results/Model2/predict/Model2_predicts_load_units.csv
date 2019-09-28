@@ -1,0 +1,36 @@
+Prediction Metric Name,Units,Metric Explanation
+waterid,Reach ID Number,Reach ID Number
+pload_total,kg/year,Total load (fully decayed)
+pload_urban,kg/year,Total source load (fully decayed)
+pload_crops,kg/year,Total source load (fully decayed)
+pload_pasture,kg/year,Total source load (fully decayed)
+pload_forest,kg/year,Total source load (fully decayed)
+mpload_total,kg/year,Monitoring-adjusted (conditional) total load (fully decayed)
+mpload_urban,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_crops,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_pasture,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+mpload_forest,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+pload_nd_total,kg/year,Total load delivered to streams (no stream decay)
+pload_nd_urban,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_crops,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_pasture,kg/year,Total source load delivered to streams (no stream decay)
+pload_nd_forest,kg/year,Total source load delivered to streams (no stream decay)
+pload_inc,kg/year,Total incremental load delivered to reach (with one-half of reach decay)
+pload_inc_urban,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_crops,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_pasture,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+pload_inc_forest,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+deliv_frac,Fraction,Fraction of total load delivered to terminal reach
+pload_inc_deliv,kg/year,Total incremental load delivered to terminal reach
+pload_inc_urban_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_crops_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_pasture_deliv,kg/year,Total incremental source load delivered to terminal reach
+pload_inc_forest_deliv,kg/year,Total incremental source load delivered to terminal reach
+share_total_urban,Percent,Source shares for total load
+share_total_crops,Percent,Source shares for total load
+share_total_pasture,Percent,Source shares for total load
+share_total_forest,Percent,Source shares for total load
+share_inc_urban,Percent,Source shares for incremental load
+share_inc_crops,Percent,Source shares for incremental load
+share_inc_pasture,Percent,Source shares for incremental load
+share_inc_forest,Percent,Source shares for incremental load

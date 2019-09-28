@@ -1,0 +1,24 @@
+sparrowNames,description,parmUnits,parmInit,parmMin,parmMax,parmType,parmCorrGroup
+demiarea,Incremental drainage area,kg/km2/year,500,0,0,SOURCE,0
+point,Municipal/industrial point source ,"fraction, dimensionless",0.01,0,10000,SOURCE,1
+ndep,Atmospheric deposition N (wet only),"fraction, dimensionless",0.01,0,10000,SOURCE,1
+MANC_N,Livestock manure N,"fraction, dimensionless",0.01,0,10000,SOURCE,1
+FARM_N,Fertilizer N use,"fraction, dimensionless",0.01,0,10000,SOURCE,1
+Fixation,Cropland area (fixation-related),kg/km2/year,1,0,10000,SOURCE,1
+urban,Urban lands,kg/km2/year,1,0,0,SOURCE,0
+agric,Agricultural lands (crops + pasture),kg/km2/year,1,0,0,SOURCE,0
+crops,Cropland ,kg/km2/year,1,0,0,SOURCE,0
+pasture,Pasture land,kg/km2/year,1,0,0,SOURCE,0
+forest,Forested land,kg/km2/year,1,0,0,SOURCE,0
+shrubgrass,Combined shrub and grass lands,kg/km2/year,1,0,0,SOURCE,0
+barren,Barren land,kg/km2/year,1,0,0,SOURCE,0
+wetlands,Wetlands,kg/km2/year,1,0,0,SOURCE,0
+ldrainden,Drainage density (km/km2),dimensionless,0,-10000,10000,DELIVF,1
+PPT30MEAN,Precipitation (annual mean),mm/yr,0,-10000,10000,DELIVF,1
+meanTemp,Air temperature (annual mean),degrees C.,0,-10000,10000,DELIVF,1
+tiles_perc,Tile drainage (fraction of area),dimensionless,0,-10000,10000,DELIVF,1
+soil_CLAYAVE,Soil clay content (fraction of area),dimensionless,0,-10000,10000,DELIVF,1
+rchdecay1,Small stream decay (mean Q<1.13 m3/s),per day travel time,0.01,0,10000,STRM,1
+rchdecay2,Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s),per day travel time,0.01,0,10000,STRM,1
+rchdecay3,Large stream decay (mean Q > 1.93 m3/s),per day travel time,0.01,0,0,STRM,0
+iresload,Reservoir decay (areal hydr. Load),meters/year,0.01,0,10000,RESV,1

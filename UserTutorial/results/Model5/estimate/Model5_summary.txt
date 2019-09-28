@@ -1,0 +1,240 @@
+                            
+  SPARROW NLLS MODEL SUMMARY
+                    
+  MODEL NAME: Model5
+                                                                                                       
+  FILE PATH: ~/UserTutorial/results/Model5/estimate/Model5_summary.txt
+  
+  
+                                                                
+  MODEL ESTIMATION PERFORMANCE (Monitoring-Adjusted Predictions)
+ MOBS NPARM  DF     SSE       MSE      RMSE       RSQ RSQ-ADJUST RSQ-YIELD PERCENT BIAS
+  708     8 700 150.232 0.2146171 0.4632679 0.9394287   0.938823 0.8036895     2.432207
+                                                      
+  MODEL SIMULATION PERFORMANCE (Simulated Predictions)
+ MOBS NPARM  DF      SSE       MSE      RMSE       RSQ RSQ-ADJUST RSQ-YIELD PERCENT BIAS
+  708     8 700 215.7677 0.3082396 0.5551933 0.9130057  0.9121357 0.7180529     14.57711
+
+   Simulated predictions are computed using mean coefficients from the NLLS model 
+     that was estimated with monitoring-adjusted (conditioned) predictions
+
+                   
+  PARAMETER SUMMARY
+  PARAMETER ESTIMATE    PARM TYPE EST TYPE  INITIAL VALUE MIN MAX   DESCRIPTION                                          PARAMETER UNITS        
+1 point      0.78864505 SOURCE    Estimated 0.01          0   10000 Municipal/industrial point source                    fraction, dimensionless
+2 ndep       0.55178958 SOURCE    Estimated 0.01          0   10000 Atmospheric deposition N (wet only)                  fraction, dimensionless
+3 MANC_N     0.22109224 SOURCE    Estimated 0.01          0   10000 Livestock manure N                                   fraction, dimensionless
+4 FARM_N     0.28102622 SOURCE    Estimated 0.01          0   10000 Fertilizer N use                                     fraction, dimensionless
+5 rchdecay1  0.66137073 STRM      Estimated 0.01          0   10000 Small stream decay (mean Q<1.13 m3/s)                per day travel time    
+6 rchdecay2  0.37918076 STRM      Estimated 0.01          0   10000 Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s) per day travel time    
+7 rchdecay3  0.03183789 STRM      Estimated 0.01          0   10000 Large stream decay (mean Q > 1.93 m3/s)              per day travel time    
+8 iresload  14.75500221 RESV      Estimated 0.01          0   10000 Reservoir decay (areal hydr. Load)                   meters/year            
+                     
+  PARAMETER ESTIMATES
+  PARAMETER PARM TYPE ESTIMATE    SE         T         P-VALUE      VIF      DESCRIPTION                                          PARAMETER UNITS        
+1 point     SOURCE     0.78864505 0.13299062  5.930081 4.756321e-09 1.076150 Municipal/industrial point source                    fraction, dimensionless
+2 ndep      SOURCE     0.55178958 0.03655928 15.093012 0.000000e+00 1.558234 Atmospheric deposition N (wet only)                  fraction, dimensionless
+3 MANC_N    SOURCE     0.22109224 0.06378799  3.466048 5.604143e-04 1.884807 Livestock manure N                                   fraction, dimensionless
+4 FARM_N    SOURCE     0.28102622 0.02119820 13.257078 0.000000e+00 2.498743 Fertilizer N use                                     fraction, dimensionless
+5 rchdecay1 STRM       0.66137073 0.10781481  6.134322 1.430179e-09 1.202855 Small stream decay (mean Q<1.13 m3/s)                per day travel time    
+6 rchdecay2 STRM       0.37918076 0.10536188  3.598842 3.421734e-04 1.377010 Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s) per day travel time    
+7 rchdecay3 STRM       0.03183789 0.02036743  1.563177 1.184629e-01 1.474505 Large stream decay (mean Q > 1.93 m3/s)              per day travel time    
+8 iresload  RESV      14.75500221 2.61568312  5.640975 2.455257e-08 1.150177 Reservoir decay (areal hydr. Load)                   meters/year            
+  
+  
+  EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
+           10.95707     0.974137 0.9377858 1.297841e-16                  1.123383
+  
+  
+[1] LOG RESIDUALS, Station quantiles
+    2.5%      10%      20%      30%      50%      70%      80%      90%      97% 
+-1.08945 -0.51340 -0.27980 -0.15900 -0.01300  0.14140  0.27100  0.53020  0.85212 
+  
+  
+[1] STANDARDIZED RESIDUALS, Station quantiles
+    2.5%      16%      20%      30%      50%      70%      84%      90%      97% 
+-2.37335 -0.72176 -0.60500 -0.34670 -0.02800  0.30560  0.73104  1.15430  1.86183 
+  
+  
+[1] RATIO OF OBSERVED TO PREDICTED LOAD, Station quantiles
+   2.5%     10%     20%     30%     50%     70%     80%     90%     97% 
+0.33640 0.59850 0.75620 0.85300 0.98700 1.15220 1.31100 1.70010 2.34435 
+  
+  
+[1] OBSERVED YIELD, percentiles
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1282  4.6273 10.3271 14.6338 21.6090 99.4497 
+  
+  
+[1] PREDICTED YIELD, percentiles
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3568  5.0735 11.4977 13.0685 19.3247 71.7009 
+  
+  
+[1] LARGEST OUTLIERS
+[1] (absolute standardized residual>3, leverage>Critical value, or Cook's D p-value<0.10)
+      waterid demtarea            rchname      station_id                                      station_name staid huc2 standardResids      Resids    leverage leverageCrit       CooksD CooksDpvalue weight  tiarea residCheck
+10592   90583   332.05         KEWAUNEE R          313038                   KEWAUNEE RIVER NEAR KEWAUNEE WI     3    4    -0.48033390 -0.21719288 0.047334729   0.03389831 1.432967e-03    1.0000000      1  332.05 0.48033390
+10233   90223   313.15              RED R         4077630           RED RIVER AT MORGAN ROAD NEAR MORGAN WI     6    4    -0.30730598 -0.13926287 0.043104977   0.03389831 5.317594e-04    1.0000000      1  313.15 0.30730598
+10706   90697   251.88       S ELKHORN CR          PRI034                   SOUTH ELKHORN CREEK NEAR MIDWAY    96    5     1.72025622  0.77430903 0.055986894   0.03389831 2.193838e-02    0.9999995      1  251.88 1.72025622
+10150   90140   805.33           WABASH R         3322500                 WABASH RIVER NEAR NEW CORYDON IND   100    5     1.66439050  0.75432131 0.042942681   0.03389831 1.553716e-02    0.9999999      1  805.33 1.66439050
+11076   91069   123.97      STILLWATER CR       1PESW0008                                  STILLWATER CREEK   141    5    -3.15290348 -1.45147693 0.012505746   0.03389831 1.573644e-02    0.9999999      1  123.97 3.15290348
+11486   91481  1614.31      MISSISSIPPI R MSU1292-BB15E67   MISSISSIPPI R AT BR ON CSAH-8 7 MI E OF BEMIDJI   143    7    -1.20740958 -0.54976244 0.034001275   0.03389831 6.414132e-03    1.0000000      1 1614.31 1.20740958
+10365   90355  3223.39       COTTONWOOD R         5317000                  COTTONWOOD RIVER NEAR NEW ULM MN   147    7     3.00066238  1.36912327 0.029967037   0.03389831 3.476975e-02    0.9999959      1 3223.39 3.00066238
+10561   90552  1728.86            BLACK R          103094                                       BLACK RIVER   158    7    -1.19839392 -0.54511171 0.035932406   0.03389831 6.690954e-03    1.0000000      1 1728.86 1.19839392
+10600   90591   576.85   BIG EAU PLEINE R          373325              BIG EAU PLEINE RIVER AT STRATFORD WI   170    7    -0.74162444 -0.33707470 0.037457539   0.03389831 2.675454e-03    1.0000000      1  576.85 0.74162444
+11209   91203   812.92          S SKUNK R        10850003                South Skunk River Upstream of Ames   181    7     3.34196804  1.51434460 0.043289594   0.03389831 6.317098e-02    0.9999462      1  812.92 3.34196804
+10628   90619   483.54              FOX R          683096                        Fox (IL) R. below Waukesha   226    7     0.29168837  0.13247067 0.038970099   0.03389831 4.312636e-04    1.0000000      1  483.54 0.29168837
+11436   91431  2325.18   POMME DE TERRE R         5294000               POMME DE TERRE RIVER AT APPLETON MN   243    7    -3.01689871 -1.39283365 0.006854907   0.03389831 7.852724e-03    1.0000000      1 2325.18 3.01689871
+9010    21272  2037.16        WISCONSIN R          443003              WISCONSIN RIVER BRIDGE AT MCNAUGHTON   268    7     0.56959718  0.25731042 0.049143993   0.03389831 2.096049e-03    1.0000000      1 2037.16 0.56959718
+10347   90337  2327.27         DES LACS R         5116500                      DES LACS RIVER AT FOXHOLM ND   289    9    -3.13272911 -1.36262780 0.118455055   0.03389831 1.648408e-01    0.9972247      1 2327.27 3.13272911
+10333   90323  2013.70        BALDHILL CR         5057200                        BALDHILL CREEK NR DAZEY ND   290    9    -1.61400186 -0.54317558 0.472274523   0.03389831 2.914101e-01    0.9771547      1 2013.70 1.61400186
+9695    65559   724.79           TURTLE R         5082625 TURTLE RIVER AT TURTLE R STATE PARK NR ARVILLA ND   292    9    -2.15432409 -0.92298605 0.144728794   0.03389831 9.817099e-02    0.9996562      1  724.79 2.15432409
+11496   91491  2799.61            THIEF R         5076000             THIEF RIVER NEAR THIEF RIVER FALLS MN   296    9     3.07901130  1.41685026 0.013354825   0.03389831 1.604020e-02    0.9999999      1 2799.61 3.07901130
+9651    65183   488.00          BEAVER CR         5064900                         BEAVER CREEK NR FINLEY ND   302    9    -4.97121669 -2.28292939 0.017358223   0.03389831 5.456893e-02    0.9999713      1  488.00 4.97121669
+9709    65653 16887.50              RED R         5053800             RED RIVER OF THE NORTH ABOVE FARGO ND   312    9    -4.13959483 -1.90500052 0.013243077   0.03389831 2.874779e-02    0.9999982      1 6358.85 4.13959483
+9704    65604   246.44            DUCK CR         4072050        DUCK CREEK AT SEMINARY ROAD NEAR ONEIDA WI   315    4    -0.12769166 -0.05777371 0.046169856   0.03389831 9.865578e-05    1.0000000      1  246.44 0.12769166
+11153   91147   449.42     NIMISHILLEN CR          601940  NIMISHILLEN CRK DST N. INDUSTRY - HOWENSTINE RD.   318    5     0.90846909  0.41316485 0.036255113   0.03389831 3.880945e-03    1.0000000      1  449.42 0.90846909
+10644   90635 15280.29              FOX R          713002                      Fox R. at Neenah and Menasha   349    4     2.32352758  0.99697336 0.142158408   0.03389831 1.118333e-01    0.9994122      1 5481.37 2.32352758
+10327   90317  5728.82         SHEYENNE R         5056000                      SHEYENNE RIVER NR WARWICK ND   371    9    -3.23001954 -1.37022133 0.161492791   0.03389831 2.511694e-01    0.9864832      1 5728.82 3.23001954
+10342   90332   456.85 LITTLE S PEMBINA R         5099400         LITTLE SOUTH PEMBINA RIVER NR WALHALLA ND   372    9    -0.05511675 -0.02495743 0.044637661   0.03389831 1.774232e-05    1.0000000      1  456.85 0.05511675
+10359   90349   215.45             ELM CR         5287890                          ELM CREEK NR CHAMPLIN MN   373    7    -0.73703868 -0.32913016 0.070840128   0.03389831 5.177016e-03    1.0000000      1  215.45 0.73703868
+10619   90610 20832.61        WISCONSIN R          573052                     Wisconsin R. at Wisconsin Del   386    7    -1.48987477 -0.67241798 0.050893920   0.03389831 1.487855e-02    0.9999999      1 5923.82 1.48987477
+10483   90473  1685.97 CHICAGO SHIP CANAL         5536995  CHICAGO SANITARY AND SHIP CANAL AT ROMEOVILLE IL   400    7     1.38484958  0.60449826 0.112188927   0.03389831 3.029317e-02    0.9999978      1 1465.94 1.38484958
+10486   90476   248.16     DU PAGE R W BR         5540095     WEST BRANCH DU PAGE RIVER NEAR WARRENVILLE IL   401    7    -0.02512924 -0.01125061 0.066038154   0.03389831 5.581291e-06    1.0000000      1  248.16 0.02512924
+10497   90487   189.45      BLACKBERRY CR         5551700                BLACKBERRY CREEK NEAR YORKVILLE IL   403    7    -0.37157770 -0.16829313 0.044195286   0.03389831 7.980242e-04    1.0000000      1  189.45 0.37157770
+10506   90496   163.69          INDIAN CR         5568800                      INDIAN CREEK NEAR WYOMING IL   405    7     1.45976597  0.66382738 0.036438363   0.03389831 1.007293e-02    1.0000000      1  163.69 1.45976597
+10576   90567   136.79 TWELVEPOLE CR E FK       1ELTW0031                           East Fork Twelvepole Ck   423    5    -1.60182857 -0.72900779 0.034909760   0.03389831 1.160168e-02    1.0000000      1  136.79 1.60182857
+10902   90894   534.08           JOHNS CR       1DEWW0001  JOHNS CR OF LEVISA FORK                       KY   551    5     6.92954800  3.15905960 0.031629662   0.03389831 1.960527e-01    0.9945926      1  534.08 6.92954800
+10908   90900   164.69                 *C          PRI030                        POND CREEK NEAR LOUISVILLE   554    5     1.17969288  0.53331256 0.047727227   0.03389831 8.718721e-03    1.0000000      1  164.69 1.17969288
+9638    65168  1824.24         CUYAHOGA R         4208000                 Cuyahoga River at Independence OH   607    4     0.12383161  0.05618540 0.040776855   0.03389831 8.148302e-05    1.0000000      1 1206.08 0.12383161
+10479   90469   314.28            SALT CR         5531500                  SALT CREEK AT WESTERN SPRINGS IL   616    7     0.57626817  0.25418016 0.093496085   0.03389831 4.281373e-03    1.0000000      1  314.28 0.57626817
+11168   91162  1968.47       DES PLAINS R         5534050                  DES PLAINES RIVER AT LOCKPORT IL   618    7    -2.92124683 -1.30170343 0.074826374   0.03389831 8.627361e-02    0.9997991      1  254.51 2.92124683
+10417   90407  1448.67             ROCK R         5424082                       ROCK RIVER AT HUSTISFORD WI   666    7    -3.47625693 -1.59793610 0.015465963   0.03389831 2.372903e-02    0.9999992      1  249.61 3.47625693
+9623    65153  1361.89        MANITOWOC R         4085427                   MANITOWOC RIVER AT MANITOWOC WI   677    4    -1.46008175 -0.66424963 0.035629409   0.03389831 9.845301e-03    1.0000000      1 1361.89 1.46008175
+11399   91394   239.91         PRAIRIE CR           MS216  PRAIRIE CR AT 310TH ST .2 MI UPSTM OF L BYLLESBY   679    7     0.24590770  0.10899695 0.084580652   0.03389831 6.984016e-04    1.0000000      1  239.91 0.24590770
+11488   91483   498.57             LOST R        S001-131                         LOST R AT CSAH-5 AT OKLEE   694    9    -0.96956655 -0.43352470 0.068445845   0.03389831 8.633845e-03    1.0000000      1  498.57 0.96956655
+11478   91473 11677.52         SHEYENNE R          380153                      SHEYENNE RIVER - BALHILL DAM   700    9    -1.15702099 -0.52170370 0.052670628   0.03389831 9.303792e-03    1.0000000      1  830.04 1.15702099
+9649    65181 15271.41         SHEYENNE R         5059000                    SHEYENNE RIVER NEAR KINDRED ND   703    9    -3.01430003 -1.38617169 0.014635868   0.03389831 1.686960e-02    0.9999998      1 1627.34 3.01430003
+  
+  
+                                                              
+  REGIONAL MODEL PERFORMANCE (Monitoring-Adjusted Predictions)
+  REGION NUMBER OF SITES      SSE
+1      4             121 20.88420
+2      5             295 51.06016
+3      7             252 47.37234
+4      9              40 30.91528
+  
+  
+                                                    
+  REGIONAL MODEL PERFORMANCE (Simulated Predictions)
+  REGION      SSE
+1      4 25.76526
+2      5 61.39914
+3      7 63.38022
+4      9 65.22309
+                       
+  PARAMETER COVARIANCES
+                  point          ndep        MANC_N        FARM_N     rchdecay1    rchdecay2     rchdecay3      iresload
+point      0.0176865037 -5.476087e-04  0.0003028160 -1.558529e-04 -0.0005276955 0.0008509591  0.0002219531  0.0108905528
+ndep      -0.0005476087  1.336581e-03 -0.0002044302  4.759963e-05  0.0004856753 0.0007900796  0.0002693981  0.0197369507
+MANC_N     0.0003028160 -2.044302e-04  0.0040689077 -6.970662e-04 -0.0001086871 0.0003615700  0.0001484241 -0.0050560809
+FARM_N    -0.0001558529  4.759963e-05 -0.0006970662  4.493638e-04  0.0005893580 0.0005814023  0.0001627898  0.0090288066
+rchdecay1 -0.0005276955  4.856753e-04 -0.0001086871  5.893580e-04  0.0116240331 0.0004426200  0.0001556872  0.0113008151
+rchdecay2  0.0008509591  7.900796e-04  0.0003615700  5.814023e-04  0.0004426200 0.0111011267  0.0002404768  0.0205208753
+rchdecay3  0.0002219531  2.693981e-04  0.0001484241  1.627898e-04  0.0001556872 0.0002404768  0.0004148320 -0.0003224032
+iresload   0.0108905528  1.973695e-02 -0.0050560809  9.028807e-03  0.0113008151 0.0205208753 -0.0003224032  6.8417981889
+  
+  
+                        
+  PARAMETER CORRELATIONS
+                point        ndep      MANC_N     FARM_N   rchdecay1  rchdecay2    rchdecay3     iresload
+point      1.00000000 -0.11262940  0.03569595 -0.0552834 -0.03680307 0.06073012  0.081941523  0.031307169
+ndep      -0.11262940  1.00000000 -0.08766143  0.0614196  0.12321682 0.20511138  0.361793526  0.206394133
+MANC_N     0.03569595 -0.08766143  1.00000000 -0.5155088 -0.01580377 0.05379848  0.114242962 -0.030303303
+FARM_N    -0.05528340  0.06141960 -0.51550881  1.0000000  0.25787054 0.26031200  0.377044099  0.162834413
+rchdecay1 -0.03680307  0.12321682 -0.01580377  0.2578705  1.00000000 0.03896450  0.070898720  0.040072480
+rchdecay2  0.06073012  0.20511138  0.05379848  0.2603120  0.03896450 1.00000000  0.112060740  0.074460719
+rchdecay3  0.08194152  0.36179353  0.11424296  0.3770441  0.07089872 0.11206074  1.000000000 -0.006051709
+iresload   0.03130717  0.20639413 -0.03030330  0.1628344  0.04007248 0.07446072 -0.006051709  1.000000000
+  
+  
+                                  
+  X'X EIGENVALUES AND EIGENVECTORS
+                                                                                                            
+EigenValues  3.1681560  0.99654813  0.925209655  0.826761041  0.72061630  0.59271554  0.48085071  0.28914258
+point       -0.1890669  0.72824953  0.261596372  0.579014197  0.06300051 -0.15081812  0.04491077  0.03852373
+ndep        -0.4074235  0.15481026 -0.042595985 -0.080500609  0.06153112  0.72314072 -0.51570460 -0.09526420
+MANC_N      -0.4334178 -0.13725336  0.127830480 -0.157389577  0.01785450 -0.52534992 -0.50594059  0.46894691
+FARM_N      -0.4803460 -0.14882894  0.008553052 -0.001990632 -0.02895037 -0.31560189  0.03679807 -0.80327070
+rchdecay1    0.2600211  0.45223576  0.372644947 -0.687527837  0.23207956 -0.11729130 -0.09293312 -0.20014572
+rchdecay2    0.3383285  0.05926911 -0.531077314  0.207874167  0.54261051 -0.20853335 -0.43306983 -0.17693063
+rchdecay3    0.3780331  0.08922525  0.027561475  0.104712801 -0.74578925 -0.09896972 -0.48152539 -0.19885199
+iresload     0.2338597 -0.43440386  0.701193361  0.326520753  0.29427752  0.10810127 -0.21598394 -0.11567527
+  
+  
+                                                                         
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+            ndep    MANC_N
+ndep   1.0000000 0.5967309
+MANC_N 0.5967309 1.0000000
+                                                                    
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+      ndep              MANC_N       
+ Min.   :   405.9   Min.   :      0  
+ 1st Qu.: 77172.3   1st Qu.:  19126  
+ Median :131158.7   Median :  75546  
+ Mean   :149644.0   Mean   : 153446  
+ 3rd Qu.:193442.5   3rd Qu.: 208438  
+ Max.   :842636.7   Max.   :3216720  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep              MANC_N       
+ Min.   :   405.9   Min.   :      2  
+ 1st Qu.: 77172.3   1st Qu.:  19126  
+ Median :131158.7   Median :  75546  
+ Mean   :149644.0   Mean   : 153446  
+ 3rd Qu.:193442.5   3rd Qu.: 208438  
+ Max.   :842636.7   Max.   :3216720  
+  
+  
+  
+  
+                                                          
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Reaches)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+            ndep    MANC_N
+ndep   1.0000000 0.6932653
+MANC_N 0.6932653 1.0000000
+                                                             
+  SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
+            ndep    MANC_N
+ndep   1.0000000 0.6876633
+MANC_N 0.6876633 1.0000000
+                                                                                                                    
+  SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
+            ndep    MANC_N
+ndep   1.0000000 0.7126109
+MANC_N 0.7126109 1.0000000
+                                                     
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Reaches)
+      ndep               MANC_N       
+ Min.   :      3.8   Min.   :      0  
+ 1st Qu.:  16019.1   1st Qu.:    883  
+ Median :  45593.2   Median :  11610  
+ Mean   :  73340.8   Mean   :  64569  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877  
+ Max.   :1075322.0   Max.   :4341221  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep               MANC_N       
+ Min.   :      3.8   Min.   :      0  
+ 1st Qu.:  16019.1   1st Qu.:    883  
+ Median :  45593.2   Median :  11610  
+ Mean   :  73340.8   Mean   :  64569  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877  
+ Max.   :1075322.0   Max.   :4341221  

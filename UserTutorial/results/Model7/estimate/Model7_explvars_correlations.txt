@@ -1,0 +1,84 @@
+                                                                         
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+                    ndep      MANC_N  ldrainden   PPT30MEAN  tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.59673095 -0.6241496 -0.23615334  0.24447505  -0.03047798
+MANC_N        0.59673095  1.00000000 -0.3273829 -0.30628417  0.47990266   0.01388232
+ldrainden    -0.62414960 -0.32738292  1.0000000  0.27477213 -0.13730226   0.15811149
+PPT30MEAN    -0.23615334 -0.30628417  0.2747721  1.00000000 -0.02898763   0.25390557
+tiles_perc    0.24447505  0.47990266 -0.1373023 -0.02898763  1.00000000   0.19565629
+soil_CLAYAVE -0.03047798  0.01388232  0.1581115  0.25390557  0.19565629   1.00000000
+  
+  
+                                                                    
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+      ndep              MANC_N          ldrainden         PPT30MEAN        tiles_perc         soil_CLAYAVE   
+ Min.   :   405.9   Min.   :      0   Min.   :-4.9141   Min.   : 427.5   Min.   :0.0000000   Min.   : 4.676  
+ 1st Qu.: 77172.3   1st Qu.:  19126   1st Qu.:-2.3334   1st Qu.: 853.8   1st Qu.:0.0003117   1st Qu.:20.490  
+ Median :131158.7   Median :  75546   Median :-2.0373   Median : 958.1   Median :0.0350256   Median :25.019  
+ Mean   :149644.0   Mean   : 153446   Mean   :-2.0807   Mean   : 958.7   Mean   :0.1452470   Mean   :24.734  
+ 3rd Qu.:193442.5   3rd Qu.: 208438   3rd Qu.:-1.7916   3rd Qu.:1064.0   3rd Qu.:0.2366969   3rd Qu.:29.274  
+ Max.   :842636.7   Max.   :3216720   Max.   : 0.1879   Max.   :1508.5   Max.   :0.8846730   Max.   :48.335  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep              MANC_N          ldrainden         PPT30MEAN        tiles_perc         soil_CLAYAVE   
+ Min.   :   405.9   Min.   :      2   Min.   :-4.9141   Min.   : 427.5   Min.   :0.0000000   Min.   : 4.676  
+ 1st Qu.: 77172.3   1st Qu.:  19126   1st Qu.:-2.3334   1st Qu.: 853.8   1st Qu.:0.0003117   1st Qu.:20.490  
+ Median :131158.7   Median :  75546   Median :-2.0373   Median : 958.1   Median :0.0350256   Median :25.019  
+ Mean   :149644.0   Mean   : 153446   Mean   :-2.0807   Mean   : 958.7   Mean   :0.1452470   Mean   :24.734  
+ 3rd Qu.:193442.5   3rd Qu.: 208438   3rd Qu.:-1.7916   3rd Qu.:1064.0   3rd Qu.:0.2366969   3rd Qu.:29.274  
+ Max.   :842636.7   Max.   :3216720   Max.   : 0.1879   Max.   :1508.5   Max.   :0.8846730   Max.   :48.335  
+  
+  
+  
+  
+                                                          
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Reaches)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+                    ndep     MANC_N   ldrainden  PPT30MEAN tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.6932653 -0.76097052 -0.1229751  0.2070471   0.04957898
+MANC_N        0.69326532  1.0000000 -0.52795240 -0.1837570  0.4680895   0.15122712
+ldrainden    -0.76097052 -0.5279524  1.00000000  0.1711225 -0.1393990   0.03119772
+PPT30MEAN    -0.12297511 -0.1837570  0.17112255  1.0000000 -0.1091727   0.34682528
+tiles_perc    0.20704711  0.4680895 -0.13939903 -0.1091727  1.0000000   0.10647668
+soil_CLAYAVE  0.04957898  0.1512271  0.03119772  0.3468253  0.1064767   1.00000000
+                                                             
+  SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
+                    ndep     MANC_N   ldrainden  PPT30MEAN tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.6992194 -0.73272178 -0.1502502  0.1809350  -0.01607282
+MANC_N        0.69921937  1.0000000 -0.51563467 -0.2312782  0.4500165   0.10885479
+ldrainden    -0.73272178 -0.5156347  1.00000000  0.1962686 -0.0917434   0.09249614
+PPT30MEAN    -0.15025021 -0.2312782  0.19626864  1.0000000 -0.1531168   0.36122047
+tiles_perc    0.18093500  0.4500165 -0.09174340 -0.1531168  1.0000000   0.13225991
+soil_CLAYAVE -0.01607282  0.1088548  0.09249614  0.3612205  0.1322599   1.00000000
+                                                                                                                    
+  SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
+                     ndep      MANC_N   ldrainden    PPT30MEAN  tiles_perc soil_CLAYAVE
+ndep          1.000000000  0.70125558 -0.74155844  0.008552823  0.17987440   0.12683367
+MANC_N        0.701255576  1.00000000 -0.04327882 -0.097239480  0.42276834   0.18458670
+ldrainden    -0.741558442 -0.04327882  1.00000000 -0.102597403 -0.21742745  -0.01168831
+PPT30MEAN     0.008552823 -0.09723948 -0.10259740  1.000000000 -0.05554995   0.38927081
+tiles_perc    0.179874397  0.42276834 -0.21742745 -0.055549953  1.00000000   0.11091019
+soil_CLAYAVE  0.126833668  0.18458670 -0.01168831  0.389270812  0.11091019   1.00000000
+  
+  
+                                                     
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Reaches)
+      ndep               MANC_N          ldrainden        PPT30MEAN        tiles_perc        soil_CLAYAVE  
+ Min.   :      3.8   Min.   :      0   Min.   :-6.327   Min.   : 380.2   Min.   :0.000000   Min.   : 0.00  
+ 1st Qu.:  16019.1   1st Qu.:    883   1st Qu.:-2.045   1st Qu.: 835.5   1st Qu.:0.000000   1st Qu.:17.98  
+ Median :  45593.2   Median :  11610   Median :-1.625   Median : 963.4   Median :0.001159   Median :24.02  
+ Mean   :  73340.8   Mean   :  64569   Mean   :-1.576   Mean   : 974.5   Mean   :0.075389   Mean   :23.38  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877   3rd Qu.:-1.195   3rd Qu.:1128.0   3rd Qu.:0.054180   3rd Qu.:29.17  
+ Max.   :1075322.0   Max.   :4341221   Max.   : 4.108   Max.   :1703.6   Max.   :0.944203   Max.   :65.90  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep               MANC_N          ldrainden        PPT30MEAN        tiles_perc        soil_CLAYAVE     
+ Min.   :      3.8   Min.   :      0   Min.   :-6.327   Min.   : 380.2   Min.   :0.000000   Min.   : 0.08942  
+ 1st Qu.:  16019.1   1st Qu.:    883   1st Qu.:-2.045   1st Qu.: 835.5   1st Qu.:0.000000   1st Qu.:17.98351  
+ Median :  45593.2   Median :  11610   Median :-1.625   Median : 963.4   Median :0.001159   Median :24.02120  
+ Mean   :  73340.8   Mean   :  64569   Mean   :-1.576   Mean   : 974.5   Mean   :0.075389   Mean   :23.37560  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877   3rd Qu.:-1.195   3rd Qu.:1128.0   3rd Qu.:0.054180   3rd Qu.:29.16555  
+ Max.   :1075322.0   Max.   :4341221   Max.   : 4.108   Max.   :1703.6   Max.   :0.944203   Max.   :65.90273  

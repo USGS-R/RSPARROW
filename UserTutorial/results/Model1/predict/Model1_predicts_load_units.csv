@@ -1,0 +1,15 @@
+Prediction Metric Name,Units,Metric Explanation
+waterid,Reach ID Number,Reach ID Number
+pload_total,kg/year,Total load (fully decayed)
+pload_demiarea,kg/year,Total source load (fully decayed)
+mpload_total,kg/year,Monitoring-adjusted (conditional) total load (fully decayed)
+mpload_demiarea,kg/year,Monitoring-adjusted (conditional) total source load (fully decayed)
+pload_nd_total,kg/year,Total load delivered to streams (no stream decay)
+pload_nd_demiarea,kg/year,Total source load delivered to streams (no stream decay)
+pload_inc,kg/year,Total incremental load delivered to reach (with one-half of reach decay)
+pload_inc_demiarea,kg/year,Total incremental source load delivered to reach (with one-half of reach decay)
+deliv_frac,Fraction,Fraction of total load delivered to terminal reach
+pload_inc_deliv,kg/year,Total incremental load delivered to terminal reach
+pload_inc_demiarea_deliv,kg/year,Total incremental source load delivered to terminal reach
+share_total_demiarea,Percent,Source shares for total load
+share_inc_demiarea,Percent,Source shares for incremental load

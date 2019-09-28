@@ -1,0 +1,15 @@
+sparrowNames,ldrainden,PPT30MEAN,meanTemp,tiles_perc,soil_CLAYAVE
+demiarea,0,0,0,0,0
+point,0,0,0,0,0
+ndep,1,1,1,1,1
+MANC_N,1,1,1,1,1
+FARM_N,1,1,1,1,1
+Fixation,1,1,1,1,1
+urban,0,0,0,0,0
+agric,1,1,1,1,1
+crops,1,1,1,1,1
+pasture,1,1,1,1,1
+forest,1,1,1,1,1
+shrubgrass,1,1,1,1,1
+barren,1,1,1,1,1
+wetlands,1,1,1,1,1

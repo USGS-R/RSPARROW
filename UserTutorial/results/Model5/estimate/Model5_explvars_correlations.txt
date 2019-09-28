@@ -1,0 +1,68 @@
+                                                                         
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+            ndep    MANC_N
+ndep   1.0000000 0.5967309
+MANC_N 0.5967309 1.0000000
+  
+  
+                                                                    
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+      ndep              MANC_N       
+ Min.   :   405.9   Min.   :      0  
+ 1st Qu.: 77172.3   1st Qu.:  19126  
+ Median :131158.7   Median :  75546  
+ Mean   :149644.0   Mean   : 153446  
+ 3rd Qu.:193442.5   3rd Qu.: 208438  
+ Max.   :842636.7   Max.   :3216720  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep              MANC_N       
+ Min.   :   405.9   Min.   :      2  
+ 1st Qu.: 77172.3   1st Qu.:  19126  
+ Median :131158.7   Median :  75546  
+ Mean   :149644.0   Mean   : 153446  
+ 3rd Qu.:193442.5   3rd Qu.: 208438  
+ Max.   :842636.7   Max.   :3216720  
+  
+  
+  
+  
+                                                          
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Reaches)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+            ndep    MANC_N
+ndep   1.0000000 0.6932653
+MANC_N 0.6932653 1.0000000
+                                                             
+  SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
+            ndep    MANC_N
+ndep   1.0000000 0.6876633
+MANC_N 0.6876633 1.0000000
+                                                                                                                    
+  SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
+            ndep    MANC_N
+ndep   1.0000000 0.7126109
+MANC_N 0.7126109 1.0000000
+  
+  
+                                                     
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Reaches)
+      ndep               MANC_N       
+ Min.   :      3.8   Min.   :      0  
+ 1st Qu.:  16019.1   1st Qu.:    883  
+ Median :  45593.2   Median :  11610  
+ Mean   :  73340.8   Mean   :  64569  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877  
+ Max.   :1075322.0   Max.   :4341221  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep               MANC_N       
+ Min.   :      3.8   Min.   :      0  
+ 1st Qu.:  16019.1   1st Qu.:    883  
+ Median :  45593.2   Median :  11610  
+ Mean   :  73340.8   Mean   :  64569  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877  
+ Max.   :1075322.0   Max.   :4341221  

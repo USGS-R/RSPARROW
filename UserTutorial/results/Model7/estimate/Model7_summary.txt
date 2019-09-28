@@ -1,0 +1,288 @@
+                            
+  SPARROW NLLS MODEL SUMMARY
+                    
+  MODEL NAME: Model7
+                                                                                                       
+  FILE PATH: ~/UserTutorial/results/Model7/estimate/Model7_summary.txt
+  
+  
+                                                                
+  MODEL ESTIMATION PERFORMANCE (Monitoring-Adjusted Predictions)
+ MOBS NPARM  DF     SSE       MSE      RMSE       RSQ RSQ-ADJUST RSQ-YIELD PERCENT BIAS
+  708    13 695 115.921 0.1667928 0.4084027 0.9532624  0.9524554 0.8485242    -1.888227
+                                                      
+  MODEL SIMULATION PERFORMANCE (Simulated Predictions)
+ MOBS NPARM  DF      SSE       MSE      RMSE       RSQ RSQ-ADJUST RSQ-YIELD PERCENT BIAS
+  708    13 695 153.7851 0.2212736 0.4703973 0.9379961  0.9369256 0.7990465     -4.92071
+
+   Simulated predictions are computed using mean coefficients from the NLLS model 
+     that was estimated with monitoring-adjusted (conditioned) predictions
+
+                   
+  PARAMETER SUMMARY
+   PARAMETER    ESTIMATE     PARM TYPE EST TYPE  INITIAL VALUE MIN    MAX   DESCRIPTION                                          PARAMETER UNITS        
+1  point         0.800972266 SOURCE    Estimated 0.01               0 10000 Municipal/industrial point source                    fraction, dimensionless
+2  ndep          0.503273757 SOURCE    Estimated 0.01               0 10000 Atmospheric deposition N (wet only)                  fraction, dimensionless
+3  MANC_N        0.308248962 SOURCE    Estimated 0.01               0 10000 Livestock manure N                                   fraction, dimensionless
+4  FARM_N        0.165683644 SOURCE    Estimated 0.01               0 10000 Fertilizer N use                                     fraction, dimensionless
+5  Fixation      3.026326381 SOURCE    Estimated 0.01               0 10000 Cropland area (fixation-related)                     kg/km2/year            
+6  ldrainden     0.141227424 DELIVF    Estimated 0.00          -10000 10000 Drainage density (km/km2)                            dimensionless          
+7  PPT30MEAN     0.001610733 DELIVF    Estimated 0.00          -10000 10000 Precipitation (annual mean)                          mm/yr                  
+8  meanTemp     -0.044417866 DELIVF    Estimated 0.00          -10000 10000 Air temperature (annual mean)                        degrees C.             
+9  tiles_perc    1.152684703 DELIVF    Estimated 0.00          -10000 10000 Tile drainage (fraction of area)                     dimensionless          
+10 soil_CLAYAVE  0.012317123 DELIVF    Estimated 0.00          -10000 10000 Soil clay content (fraction of area)                 dimensionless          
+11 rchdecay1     0.398360036 STRM      Estimated 0.01               0 10000 Small stream decay (mean Q<1.13 m3/s)                per day travel time    
+12 rchdecay2     0.218424475 STRM      Estimated 0.01               0 10000 Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s) per day travel time    
+13 iresload      5.989411721 RESV      Estimated 0.01               0 10000 Reservoir decay (areal hydr. Load)                   meters/year            
+                     
+  PARAMETER ESTIMATES
+   PARAMETER    PARM TYPE ESTIMATE     SE           T          P-VALUE      VIF      DESCRIPTION                                          PARAMETER UNITS        
+1  point        SOURCE     0.800972266 0.1086654580  7.3709924 4.825029e-13 1.104454 Municipal/industrial point source                    fraction, dimensionless
+2  ndep         SOURCE     0.503273757 0.0353046391 14.2551735 0.000000e+00 2.462946 Atmospheric deposition N (wet only)                  fraction, dimensionless
+3  MANC_N       SOURCE     0.308248962 0.0592449530  5.2029573 2.584294e-07 2.105789 Livestock manure N                                   fraction, dimensionless
+4  FARM_N       SOURCE     0.165683644 1.0000000000  0.1656836 8.684541e-01 7.800258 Fertilizer N use                                     fraction, dimensionless
+5  Fixation     SOURCE     3.026326381 1.0000000000  3.0263264 2.566887e-03 6.223802 Cropland area (fixation-related)                     kg/km2/year            
+6  ldrainden    DELIVF     0.141227424 0.0570828983  2.4740759 1.359588e-02 2.321832 Drainage density (km/km2)                            dimensionless          
+7  PPT30MEAN    DELIVF     0.001610733 0.0001916658  8.4038603 2.220446e-16 4.033866 Precipitation (annual mean)                          mm/yr                  
+8  meanTemp     DELIVF    -0.044417866 0.0217679234 -2.0405192 4.167605e-02 3.781111 Air temperature (annual mean)                        degrees C.             
+9  tiles_perc   DELIVF     1.152684703 0.1016486013 11.3398973 0.000000e+00 1.628014 Tile drainage (fraction of area)                     dimensionless          
+10 soil_CLAYAVE DELIVF     0.012317123 0.0040903920  3.0112328 2.696239e-03 1.635431 Soil clay content (fraction of area)                 dimensionless          
+11 rchdecay1    STRM       0.398360036 0.0870401558  4.5767385 5.594128e-06 1.348599 Small stream decay (mean Q<1.13 m3/s)                per day travel time    
+12 rchdecay2    STRM       0.218424475 0.0730925957  2.9883256 2.903989e-03 1.365602 Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s) per day travel time    
+13 iresload     RESV       5.989411721 1.5394384458  3.8906471 1.095880e-04 1.257939 Reservoir decay (areal hydr. Load)                   meters/year            
+  
+  
+  EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
+           52.96279    0.9559166  0.925831 3.354124e-18                  1.084267
+               
+  DESIGN MATRIX
+         ldrainden PPT30MEAN meanTemp tiles_perc soil_CLAYAVE
+point            0         0        0          0            0
+ndep             1         1        1          1            1
+MANC_N           1         1        1          1            1
+FARM_N           1         1        1          1            1
+Fixation         1         1        1          1            1
+  
+  
+[1] LOG RESIDUALS, Station quantiles
+    2.5%      10%      20%      30%      50%      70%      80%      90%      97% 
+-0.80965 -0.42830 -0.27680 -0.17440 -0.03400  0.09090  0.20200  0.41400  0.79616 
+  
+  
+[1] STANDARDIZED RESIDUALS, Station quantiles
+     2.5%       16%       20%       30%       50%       70%       84%       90%       97% 
+-2.028625 -0.832880 -0.686400 -0.426600 -0.083500  0.223900  0.704640  1.025100  1.981690 
+  
+  
+[1] RATIO OF OBSERVED TO PREDICTED LOAD, Station quantiles
+    2.5%      10%      20%      30%      50%      70%      80%      90%      97% 
+0.444675 0.651700 0.758400 0.840400 0.966500 1.095000 1.224000 1.512500 2.216900 
+  
+  
+[1] OBSERVED YIELD, percentiles
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1282  4.6273 10.3271 14.6338 21.6090 99.4497 
+  
+  
+[1] PREDICTED YIELD, percentiles
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3006  5.1318 10.8736 13.9997 20.2555 73.5909 
+  
+  
+[1] LARGEST OUTLIERS
+[1] (absolute standardized residual>3, leverage>Critical value, or Cook's D p-value<0.10)
+      waterid demtarea            rchname      station_id                                      station_name staid huc2 standardResids      Resids   leverage leverageCrit       CooksD CooksDpvalue weight  tiarea residCheck
+10592   90583   332.05         KEWAUNEE R          313038                   KEWAUNEE RIVER NEAR KEWAUNEE WI     3    4    -0.76584939 -0.30336403 0.05927165   0.05508475 2.842668e-03    1.0000000      1  332.05 0.76584939
+10677   90668  1291.59         ST MARYS R     LES040-0007                                  St. Mary's River    19    4    -0.73263923 -0.29059541 0.05676484   0.05508475 2.484828e-03    1.0000000      1 1291.59 0.73263923
+9643    65173  4845.32            BLACK R         4260500                       BLACK RIVER AT WATERTOWN NY    46    4    -0.12473756 -0.04947939 0.05664107   0.05508475 7.186304e-05    1.0000000      1 4845.32 0.12473756
+10059   90048   226.42           CLEAR CR         3157000                    Clear Creek near Rockbridge OH    54    5     3.04723405  1.23704214 0.01194716   0.05508475 8.636795e-03    1.0000000      1  226.42 3.04723405
+10077   90066   693.14              ELK R         3194700                ELK RIVER BELOW WEBSTER SPRINGS WV    66    5    -0.49573566 -0.19443629 0.07768955   0.05508475 1.592364e-03    1.0000000      1  693.14 0.49573566
+10150   90140   805.33           WABASH R         3322500                 WABASH RIVER NEAR NEW CORYDON IND   100    5    -0.35182844 -0.13829783 0.07361473   0.05508475 7.566440e-04    1.0000000      1  805.33 0.35182844
+10162   90152   724.29   VERMILION R N FK         3338780       NORTH FORK VERMILION RIVER NEAR BISMARCK IL   116    5     3.37050151  1.36416844 0.01786824   0.05508475 1.589856e-02    1.0000000      1  724.29 3.37050151
+11076   91069   123.97      STILLWATER CR       1PESW0008                                  STILLWATER CREEK   141    5    -3.52816329 -1.42712485 0.01904430   0.05508475 1.858958e-02    1.0000000      1  123.97 3.52816329
+10365   90355  3223.39       COTTONWOOD R         5317000                  COTTONWOOD RIVER NEAR NEW ULM MN   147    7     3.44724358  1.39630013 0.01635945   0.05508475 1.520312e-02    1.0000000      1 3223.39 3.44724358
+11209   91203   812.92          S SKUNK R        10850003                South Skunk River Upstream of Ames   181    7     3.09063078  1.23703042 0.03951781   0.05508475 3.023113e-02    1.0000000      1  812.92 3.09063078
+11482   91477  7940.58      MISSISSIPPI R MSU1186-BB15E67  MISSISSIPPI R AT MN-6 BRIDGE 8 MI SW OF COHASSET   254    7     3.63606404  1.43594608 0.06494743   0.05508475 7.063918e-02    0.9999990      1 6326.27 3.63606404
+9010    21272  2037.16        WISCONSIN R          443003              WISCONSIN RIVER BRIDGE AT MCNAUGHTON   268    7     1.25683399  0.49409440 0.07341163   0.05508475 9.626990e-03    1.0000000      1 2037.16 1.25683399
+10347   90337  2327.27         DES LACS R         5116500                      DES LACS RIVER AT FOXHOLM ND   289    9    -3.33182386 -1.21211701 0.20649835   0.05508475 2.222232e-01    0.9988192      1 2327.27 3.33182386
+10333   90323  2013.70        BALDHILL CR         5057200                        BALDHILL CREEK NR DAZEY ND   290    9    -1.04737028 -0.31501663 0.45763798   0.05508475 7.120163e-02    0.9999990      1 2013.70 1.04737028
+9695    65559   724.79           TURTLE R         5082625 TURTLE RIVER AT TURTLE R STATE PARK NR ARVILLA ND   292    9    -1.72163014 -0.62671091 0.20552981   0.05508475 5.898391e-02    0.9999997      1  724.79 1.72163014
+11499   91494  4900.83      LITTLE FORK R LRLF7.5-BB14A71    LITTLE FORK R MN-11 BRIDGE 0.5 MI W OF PELLAND   293    9     1.99445869  0.78664986 0.06731355   0.05508475 2.208379e-02    1.0000000      1 4900.83 1.99445869
+11496   91491  2799.61            THIEF R         5076000             THIEF RIVER NEAR THIEF RIVER FALLS MN   296    9     4.74176448  1.85958784 0.07790377   0.05508475 1.461231e-01    0.9999001      1 2799.61 4.74176448
+9594    65113    31.52      UPPER TWIN CR         3237280                      Upper Twin Creek at McGaw OH   300    5    -3.20154916 -1.28324895 0.03678265   0.05508475 3.010896e-02    1.0000000      1   31.52 3.20154916
+9651    65183   488.00          BEAVER CR         5064900                         BEAVER CREEK NR FINLEY ND   302    9    -3.67144714 -1.45751092 0.05513039   0.05508475 6.049930e-02    0.9999996      1  488.00 3.67144714
+9709    65653 16887.50              RED R         5053800             RED RIVER OF THE NORTH ABOVE FARGO ND   312    9    -3.18394933 -1.28299029 0.02649708   0.05508475 2.122510e-02    1.0000000      1 6358.85 3.18394933
+10074   90063  1403.07           GAULEY R         3189100                  GAULEY RIVER NEAR CRAIGSVILLE WV   320    5     0.17397511  0.06872468 0.06443502   0.05508475 1.603537e-04    1.0000000      1 1403.07 0.17397511
+10644   90635 15280.29              FOX R          713002                      Fox R. at Neenah and Menasha   349    4     0.97232782  0.37453588 0.11042155   0.05508475 9.027171e-03    1.0000000      1 5481.37 0.97232782
+10327   90317  5728.82         SHEYENNE R         5056000                      SHEYENNE RIVER NR WARWICK ND   371    9    -2.28806401 -0.75652523 0.34455946   0.05508475 2.117015e-01    0.9991036      1 5728.82 2.28806401
+10342   90332   456.85 LITTLE S PEMBINA R         5099400         LITTLE SOUTH PEMBINA RIVER NR WALHALLA ND   372    9     1.13254045  0.44545769 0.07246932   0.05508475 7.708857e-03    1.0000000      1  456.85 1.13254045
+10359   90349   215.45             ELM CR         5287890                          ELM CREEK NR CHAMPLIN MN   373    7    -0.11802669 -0.04666327 0.06284231   0.05508475 7.185494e-05    1.0000000      1  215.45 0.11802669
+10383   90373    15.26           EAGLE CR         5378183           JOOS VALLEY CREEK NEAR FOUNTAIN CITY WI   379    7    -3.07092817 -1.22627014 0.04400461   0.05508475 3.339168e-02    1.0000000      1   15.26 3.07092817
+10398   90388    14.06     BLACK EARTH CR         5406491                GARFOOT CREEK NEAR CROSS PLAINS WI   387    7     1.37577114  0.54165283 0.07066466   0.05508475 1.107080e-02    1.0000000      1   14.06 1.37577114
+10483   90473  1685.97 CHICAGO SHIP CANAL         5536995  CHICAGO SANITARY AND SHIP CANAL AT ROMEOVILLE IL   400    7     1.43077813  0.55582082 0.09520990   0.05508475 1.657049e-02    1.0000000      1 1465.94 1.43077813
+10486   90476   248.16     DU PAGE R W BR         5540095     WEST BRANCH DU PAGE RIVER NEAR WARRENVILLE IL   401    7    -0.02798948 -0.01102555 0.06967784   0.05508475 4.513438e-06    1.0000000      1  248.16 0.02798948
+10714   90705   225.06         CROOKED CR     UMK090-0001                                        Crooked Cr   469    7    -3.24996606 -1.30621840 0.03150641   0.05508475 2.643117e-02    1.0000000      1  225.06 3.24996606
+10717   90708   507.72         WILDCAT CR     WAW010-0063                                        Wildcat Cr   475    5     0.36471209  0.13767223 0.14569057   0.05508475 1.744911e-03    1.0000000      1  507.72 0.36471209
+10755   90746   629.65        SALAMONIE R     WSA020-0002                                   Salamonie River   486    5    -0.47949900 -0.18786084 0.07972011   0.05508475 1.532075e-03    1.0000000      1  629.65 0.47949900
+10902   90894   534.08           JOHNS CR       1DEWW0001  JOHNS CR OF LEVISA FORK                       KY   551    5     7.29268603  2.92234905 0.03725349   0.05508475 1.583021e-01    0.9998377      1  534.08 7.29268603
+11002   90994  1852.62            CHEAT R       4CRR11005                               CHEAT RIVER RM 75.6   562    5     0.27862971  0.11023941 0.06148385   0.05508475 3.912287e-04    1.0000000      1 1852.62 0.27862971
+10479   90469   314.28            SALT CR         5531500                  SALT CREEK AT WESTERN SPRINGS IL   616    7     0.64043203  0.25001832 0.08626471   0.05508475 2.978623e-03    1.0000000      1  314.28 0.64043203
+11168   91162  1968.47       DES PLAINS R         5534050                  DES PLAINES RIVER AT LOCKPORT IL   618    7    -3.37124653 -1.32772157 0.07005812   0.05508475 6.586283e-02    0.9999994      1  254.51 3.37124653
+10417   90407  1448.67             ROCK R         5424082                       ROCK RIVER AT HUSTISFORD WI   666    7    -4.42990117 -1.79770512 0.01264883   0.05508475 1.933853e-02    1.0000000      1  249.61 4.42990117
+11399   91394   239.91         PRAIRIE CR           MS216  PRAIRIE CR AT 310TH ST .2 MI UPSTM OF L BYLLESBY   679    7     0.02617434  0.01036032 0.06067060   0.05508475 3.403835e-06    1.0000000      1  239.91 0.02617434
+11476   91471   218.30            KNIFE R              18      KNIFE RIVER UPSTREAM OF US-61 AT KNIFE RIVER   693    4     0.98694493  0.38820672 0.07239502   0.05508475 5.847741e-03    1.0000000      1  218.30 0.98694493
+11488   91483   498.57             LOST R        S001-131                         LOST R AT CSAH-5 AT OKLEE   694    9     0.35054247  0.13857212 0.06309997   0.05508475 6.366105e-04    1.0000000      1  498.57 0.35054247
+11478   91473 11677.52         SHEYENNE R          380153                      SHEYENNE RIVER - BALHILL DAM   700    9    -1.74472456 -0.69147584 0.05827720   0.05508475 1.449059e-02    1.0000000      1  830.04 1.74472456
+  
+  
+                                                              
+  REGIONAL MODEL PERFORMANCE (Monitoring-Adjusted Predictions)
+  REGION NUMBER OF SITES      SSE
+1      4             121 13.63071
+2      5             295 45.39197
+3      7             252 41.96663
+4      9              40 14.93166
+  
+  
+                                                    
+  REGIONAL MODEL PERFORMANCE (Simulated Predictions)
+  REGION      SSE
+1      4 18.95814
+2      5 54.11782
+3      7 50.93224
+4      9 29.77693
+                       
+  PARAMETER COVARIANCES
+                     point          ndep        MANC_N        FARM_N      Fixation     ldrainden     PPT30MEAN      meanTemp    tiles_perc  soil_CLAYAVE     rchdecay1     rchdecay2      iresload
+point         1.180818e-02 -9.516259e-04 -4.674150e-04 -3.607675e-03  3.001903e-01  1.687174e-04  9.943990e-06 -8.398495e-05 -1.368769e-03  7.665799e-05  1.548367e-04 -1.512815e-03 -5.607642e-03
+ndep         -9.516259e-04  1.246418e-03  3.624391e-05 -1.832900e-03  1.352114e-01  4.491626e-04 -3.466916e-06  4.535961e-04 -3.946658e-06  1.786671e-05  8.631168e-04 -3.666230e-05  5.789585e-03
+MANC_N       -4.674150e-04  3.624391e-05  3.509964e-03 -1.337393e-03  5.515464e-02  1.925299e-04 -3.510058e-06  5.356982e-04 -3.532453e-06 -1.995632e-05 -1.494452e-04 -3.336886e-05 -1.259544e-02
+FARM_N       -3.607675e-03 -1.832900e-03 -1.337393e-03 -1.552336e-02  1.320923e+00 -1.353210e-03  2.973429e-05  1.079621e-03 -1.018853e-02  2.119414e-04  3.070707e-03 -6.937392e-03 -3.602368e-02
+Fixation      3.001903e-01  1.352114e-01  5.515464e-02  1.320923e+00 -1.089532e+02  1.534797e-01 -2.292236e-03 -1.041823e-01  7.450408e-01 -1.886562e-02 -2.137373e-01  6.111621e-01  3.497443e+00
+ldrainden     1.687174e-04  4.491626e-04  1.925299e-04 -1.353210e-03  1.534797e-01  3.258457e-03  1.736298e-06 -9.890444e-07 -9.269586e-04  1.255731e-05  1.155186e-03 -1.199944e-04 -1.010645e-02
+PPT30MEAN     9.943990e-06 -3.466916e-06 -3.510058e-06  2.973429e-05 -2.292236e-03  1.736298e-06  3.673580e-08 -8.101713e-06  1.615431e-05  1.242816e-08 -7.967990e-06  9.461594e-06  3.498992e-05
+meanTemp     -8.398495e-05  4.535961e-04  5.356982e-04  1.079621e-03 -1.041823e-01 -9.890444e-07 -8.101713e-06  4.738425e-04  6.059148e-04 -7.457977e-05 -2.615603e-04  6.812639e-04  1.343321e-03
+tiles_perc   -1.368769e-03 -3.946658e-06 -3.532453e-06 -1.018853e-02  7.450408e-01 -9.269586e-04  1.615431e-05  6.059148e-04  1.033244e-02  1.463173e-04  2.220807e-04 -4.811197e-03 -4.466784e-02
+soil_CLAYAVE  7.665799e-05  1.786671e-05 -1.995632e-05  2.119414e-04 -1.886562e-02  1.255731e-05  1.242816e-08 -7.457977e-05  1.463173e-04  1.673131e-05 -2.156835e-05  5.485990e-05  1.710632e-04
+rchdecay1     1.548367e-04  8.631168e-04 -1.494452e-04  3.070707e-03 -2.137373e-01  1.155186e-03 -7.967990e-06 -2.615603e-04  2.220807e-04 -2.156835e-05  7.575989e-03  1.380584e-03  1.782779e-02
+rchdecay2    -1.512815e-03 -3.666230e-05 -3.336886e-05 -6.937392e-03  6.111621e-01 -1.199944e-04  9.461594e-06  6.812639e-04 -4.811197e-03  5.485990e-05  1.380584e-03  5.342528e-03 -9.920943e-03
+iresload     -5.607642e-03  5.789585e-03 -1.259544e-02 -3.602368e-02  3.497443e+00 -1.010645e-02  3.498992e-05  1.343321e-03 -4.466784e-02  1.710632e-04  1.782779e-02 -9.920943e-03  2.369871e+00
+  
+  
+                        
+  PARAMETER CORRELATIONS
+                   point         ndep        MANC_N      FARM_N    Fixation     ldrainden    PPT30MEAN      meanTemp    tiles_perc soil_CLAYAVE   rchdecay1    rchdecay2    iresload
+point         1.00000000 -0.248052131 -0.0726038653 -0.03319984   2.7625182  0.0271995914   0.47744620 -0.0355052807 -0.1239188081   0.17246500  0.01637053 -0.190467552 -0.03352173
+ndep         -0.24805213  1.000000000  0.0173281405 -0.05191669   3.8298486  0.2228772880  -0.51235014  0.5902289693 -0.0010997558   0.12372226  0.28087827 -0.014207399  0.10652544
+MANC_N       -0.07260387  0.017328141  1.0000000000 -0.02257396   0.9309593  0.0569299384  -0.30911368  0.4153859643 -0.0005865751  -0.08235012 -0.02898083 -0.007705781 -0.13810188
+FARM_N       -0.03319984 -0.051916686 -0.0225739638  1.00000000   1.3209225 -0.0237060552   0.15513610  0.0495968779 -0.1002328294   0.05181444  0.03527920 -0.094912377 -0.02340053
+Fixation      2.76251823  3.829848609  0.9309593471  1.32092251   1.0000000  2.6887166388 -11.95954184 -4.7860466056  7.3295722490  -4.61217868 -2.45561711  8.361477072  2.27189542
+ldrainden     0.02719959  0.222877288  0.0569299384 -0.02370606   2.6887166  1.0000000000   0.15869872 -0.0007959628 -0.1597544349   0.05378062  0.23250167 -0.028759519 -0.11500856
+PPT30MEAN     0.47744620 -0.512350139 -0.3091136825  0.15513610 -11.9595418  0.1586987170   1.00000000 -1.9418474651  0.8291673972   0.01585248 -0.47762209  0.675376887  0.11858669
+meanTemp     -0.03550528  0.590228969  0.4153859643  0.04959688  -4.7860466 -0.0007959628  -1.94184747  1.0000000000  0.2738376512  -0.83760468 -0.13804963  0.428178610  0.04008673
+tiles_perc   -0.12391881 -0.001099756 -0.0005865751 -0.10023283   7.3295722 -0.1597544349   0.82916740  0.2738376512  1.0000000000   0.35190821  0.02510092 -0.647557523 -0.28545076
+soil_CLAYAVE  0.17246500  0.123722261 -0.0823501213  0.05181444  -4.6121787  0.0537806189   0.01585248 -0.8376046778  0.3519082111   1.00000000 -0.06058042  0.183491828  0.02716622
+rchdecay1     0.01637053  0.280878267 -0.0289808322  0.03527920  -2.4556171  0.2325016695  -0.47762209 -0.1380496299  0.0251009228  -0.06058042  1.00000000  0.217005043  0.13305020
+rchdecay2    -0.19046755 -0.014207399 -0.0077057809 -0.09491238   8.3614771 -0.0287595195   0.67537689  0.4281786101 -0.6475575228   0.18349183  0.21700504  1.000000000 -0.08816927
+iresload     -0.03352173  0.106525443 -0.1381018763 -0.02340053   2.2718954 -0.1150085574   0.11858669  0.0400867277 -0.2854507550   0.02716622  0.13305020 -0.088169269  1.00000000
+  
+  
+                                  
+  X'X EIGENVALUES AND EIGENVECTORS
+                                                                                                                                                                                   
+EigenValues   4.4069670  2.16439249  1.309958977  0.9197497218  0.862827487  0.83950872  0.690956103  0.58374567  0.4204188112  0.3249967731  0.26448999  0.1287795103  0.083208736
+point        -0.1466863 -0.06091659  0.347835708 -0.3894123899  0.825650387 -0.04095670 -0.067167002 -0.08794005  0.0438071509 -0.0538280991 -0.00822135 -0.0329601776  0.023436173
+ndep         -0.2784842 -0.09829667  0.547570019  0.1714568181 -0.242076259  0.02943743 -0.200311524 -0.09487725 -0.1974733048 -0.5357023835 -0.19030901  0.3181175156 -0.107568827
+MANC_N       -0.3715613 -0.03461146  0.008782098  0.0283469673 -0.090211876  0.18571589 -0.250779611  0.13907248  0.8194040457  0.0170277906  0.22853597  0.0840286956 -0.063253365
+FARM_N       -0.4327793 -0.15886888 -0.114325828 -0.0006122216 -0.058044154 -0.02739559  0.002387865 -0.03041144 -0.0317962134  0.1662691719 -0.39097619  0.0055710061  0.766675922
+Fixation     -0.4341739 -0.03385220 -0.135406182 -0.0267767967 -0.014439031  0.00043548 -0.030631396 -0.02710331 -0.0857698009  0.2979133713 -0.51694173 -0.2466135405 -0.604365660
+ldrainden     0.3726411 -0.05797958 -0.079831151  0.2050792466  0.138900294  0.04129343  0.308909025 -0.28977934  0.4681990399 -0.3007909785 -0.54699045 -0.0007311015 -0.008158088
+PPT30MEAN     0.1530665 -0.53172993  0.338479782  0.0266409619 -0.197359615  0.03435894 -0.116302124 -0.20443926  0.0504406008  0.0675195346  0.12238479 -0.6763268553  0.060029074
+meanTemp      0.1060035 -0.60744254  0.066332941  0.0079479663 -0.001854117 -0.10083446  0.153712257 -0.13859718  0.0185215822  0.4390020300  0.05772458  0.5896138054 -0.135142592
+tiles_perc   -0.2216556 -0.19373566 -0.505140772 -0.3170045283 -0.054674577  0.15831541  0.017023567 -0.56792386 -0.1011833975 -0.3623856852  0.24651225  0.0249798432 -0.061984571
+soil_CLAYAVE -0.1042081 -0.46607231 -0.266388058  0.0410769015  0.116717301 -0.30113890  0.189385628  0.60953905 -0.0250934752 -0.4142336757  0.03108845 -0.0986744972 -0.068063680
+rchdecay1     0.2245264 -0.08966443  0.074632779 -0.6623583765 -0.249163833  0.50401159  0.043878242  0.32999407 -0.0001543336 -0.0387488228 -0.25110864  0.0752144737  0.010656087
+rchdecay2     0.2560286  0.01041490 -0.137089073 -0.3145017167 -0.138144152 -0.59416144 -0.616685000 -0.05938210  0.1190880145 -0.0355845116 -0.19998736  0.0723785569  0.004008933
+iresload      0.1938718 -0.20261740 -0.268067422  0.3671513147  0.303246639  0.47577065 -0.583582604  0.10387453 -0.1792969426  0.0004448698 -0.09539956  0.0590361418  0.017057099
+  
+  
+                                                                         
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+                    ndep      MANC_N  ldrainden   PPT30MEAN  tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.59673095 -0.6241496 -0.23615334  0.24447505  -0.03047798
+MANC_N        0.59673095  1.00000000 -0.3273829 -0.30628417  0.47990266   0.01388232
+ldrainden    -0.62414960 -0.32738292  1.0000000  0.27477213 -0.13730226   0.15811149
+PPT30MEAN    -0.23615334 -0.30628417  0.2747721  1.00000000 -0.02898763   0.25390557
+tiles_perc    0.24447505  0.47990266 -0.1373023 -0.02898763  1.00000000   0.19565629
+soil_CLAYAVE -0.03047798  0.01388232  0.1581115  0.25390557  0.19565629   1.00000000
+                                                                    
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Site Incremental Areas)
+      ndep              MANC_N          ldrainden         PPT30MEAN        tiles_perc         soil_CLAYAVE   
+ Min.   :   405.9   Min.   :      0   Min.   :-4.9141   Min.   : 427.5   Min.   :0.0000000   Min.   : 4.676  
+ 1st Qu.: 77172.3   1st Qu.:  19126   1st Qu.:-2.3334   1st Qu.: 853.8   1st Qu.:0.0003117   1st Qu.:20.490  
+ Median :131158.7   Median :  75546   Median :-2.0373   Median : 958.1   Median :0.0350256   Median :25.019  
+ Mean   :149644.0   Mean   : 153446   Mean   :-2.0807   Mean   : 958.7   Mean   :0.1452470   Mean   :24.734  
+ 3rd Qu.:193442.5   3rd Qu.: 208438   3rd Qu.:-1.7916   3rd Qu.:1064.0   3rd Qu.:0.2366969   3rd Qu.:29.274  
+ Max.   :842636.7   Max.   :3216720   Max.   : 0.1879   Max.   :1508.5   Max.   :0.8846730   Max.   :48.335  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep              MANC_N          ldrainden         PPT30MEAN        tiles_perc         soil_CLAYAVE   
+ Min.   :   405.9   Min.   :      2   Min.   :-4.9141   Min.   : 427.5   Min.   :0.0000000   Min.   : 4.676  
+ 1st Qu.: 77172.3   1st Qu.:  19126   1st Qu.:-2.3334   1st Qu.: 853.8   1st Qu.:0.0003117   1st Qu.:20.490  
+ Median :131158.7   Median :  75546   Median :-2.0373   Median : 958.1   Median :0.0350256   Median :25.019  
+ Mean   :149644.0   Mean   : 153446   Mean   :-2.0807   Mean   : 958.7   Mean   :0.1452470   Mean   :24.734  
+ 3rd Qu.:193442.5   3rd Qu.: 208438   3rd Qu.:-1.7916   3rd Qu.:1064.0   3rd Qu.:0.2366969   3rd Qu.:29.274  
+ Max.   :842636.7   Max.   :3216720   Max.   : 0.1879   Max.   :1508.5   Max.   :0.8846730   Max.   :48.335  
+  
+  
+  
+  
+                                                          
+  CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Reaches)
+                                            
+  SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS
+                    ndep     MANC_N   ldrainden  PPT30MEAN tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.6932653 -0.76097052 -0.1229751  0.2070471   0.04957898
+MANC_N        0.69326532  1.0000000 -0.52795240 -0.1837570  0.4680895   0.15122712
+ldrainden    -0.76097052 -0.5279524  1.00000000  0.1711225 -0.1393990   0.03119772
+PPT30MEAN    -0.12297511 -0.1837570  0.17112255  1.0000000 -0.1091727   0.34682528
+tiles_perc    0.20704711  0.4680895 -0.13939903 -0.1091727  1.0000000   0.10647668
+soil_CLAYAVE  0.04957898  0.1512271  0.03119772  0.3468253  0.1064767   1.00000000
+                                                             
+  SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
+                    ndep     MANC_N   ldrainden  PPT30MEAN tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.6992194 -0.73272178 -0.1502502  0.1809350  -0.01607282
+MANC_N        0.69921937  1.0000000 -0.51563467 -0.2312782  0.4500165   0.10885479
+ldrainden    -0.73272178 -0.5156347  1.00000000  0.1962686 -0.0917434   0.09249614
+PPT30MEAN    -0.15025021 -0.2312782  0.19626864  1.0000000 -0.1531168   0.36122047
+tiles_perc    0.18093500  0.4500165 -0.09174340 -0.1531168  1.0000000   0.13225991
+soil_CLAYAVE -0.01607282  0.1088548  0.09249614  0.3612205  0.1322599   1.00000000
+                                                                                                                    
+  SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
+                     ndep      MANC_N   ldrainden    PPT30MEAN  tiles_perc soil_CLAYAVE
+ndep          1.000000000  0.70125558 -0.74155844  0.008552823  0.17987440   0.12683367
+MANC_N        0.701255576  1.00000000 -0.04327882 -0.097239480  0.42276834   0.18458670
+ldrainden    -0.741558442 -0.04327882  1.00000000 -0.102597403 -0.21742745  -0.01168831
+PPT30MEAN     0.008552823 -0.09723948 -0.10259740  1.000000000 -0.05554995   0.38927081
+tiles_perc    0.179874397  0.42276834 -0.21742745 -0.055549953  1.00000000   0.11091019
+soil_CLAYAVE  0.126833668  0.18458670 -0.01168831  0.389270812  0.11091019   1.00000000
+                                                     
+  SUMMARY METRICS FOR EXPLANATORY VARIABLES (Reaches)
+      ndep               MANC_N          ldrainden        PPT30MEAN        tiles_perc        soil_CLAYAVE  
+ Min.   :      3.8   Min.   :      0   Min.   :-6.327   Min.   : 380.2   Min.   :0.000000   Min.   : 0.00  
+ 1st Qu.:  16019.1   1st Qu.:    883   1st Qu.:-2.045   1st Qu.: 835.5   1st Qu.:0.000000   1st Qu.:17.98  
+ Median :  45593.2   Median :  11610   Median :-1.625   Median : 963.4   Median :0.001159   Median :24.02  
+ Mean   :  73340.8   Mean   :  64569   Mean   :-1.576   Mean   : 974.5   Mean   :0.075389   Mean   :23.38  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877   3rd Qu.:-1.195   3rd Qu.:1128.0   3rd Qu.:0.054180   3rd Qu.:29.17  
+ Max.   :1075322.0   Max.   :4341221   Max.   : 4.108   Max.   :1703.6   Max.   :0.944203   Max.   :65.90  
+                                                                                                          
+  FILTERED SUMMARY METRICS FOR EXPLANATORY VARIABLES (zero values converted to minimum of non-zero values)
+      ndep               MANC_N          ldrainden        PPT30MEAN        tiles_perc        soil_CLAYAVE     
+ Min.   :      3.8   Min.   :      0   Min.   :-6.327   Min.   : 380.2   Min.   :0.000000   Min.   : 0.08942  
+ 1st Qu.:  16019.1   1st Qu.:    883   1st Qu.:-2.045   1st Qu.: 835.5   1st Qu.:0.000000   1st Qu.:17.98351  
+ Median :  45593.2   Median :  11610   Median :-1.625   Median : 963.4   Median :0.001159   Median :24.02120  
+ Mean   :  73340.8   Mean   :  64569   Mean   :-1.576   Mean   : 974.5   Mean   :0.075389   Mean   :23.37560  
+ 3rd Qu.:  96174.4   3rd Qu.:  61877   3rd Qu.:-1.195   3rd Qu.:1128.0   3rd Qu.:0.054180   3rd Qu.:29.16555  
+ Max.   :1075322.0   Max.   :4341221   Max.   : 4.108   Max.   :1703.6   Max.   :0.944203   Max.   :65.90273  

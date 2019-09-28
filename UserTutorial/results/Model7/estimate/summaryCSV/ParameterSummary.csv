@@ -1,0 +1,14 @@
+PARAMETER,ESTIMATE,PARM TYPE,EST TYPE,INITIAL VALUE,MIN,MAX,DESCRIPTION,PARAMETER UNITS
+point,0.800972266398398,SOURCE,Estimated,0.01,0,10000,Municipal/industrial point source,fraction, dimensionless
+ndep,0.503273756972349,SOURCE,Estimated,0.01,0,10000,Atmospheric deposition N (wet only),fraction, dimensionless
+MANC_N,0.308248962154265,SOURCE,Estimated,0.01,0,10000,Livestock manure N,fraction, dimensionless
+FARM_N,0.165683644086433,SOURCE,Estimated,0.01,0,10000,Fertilizer N use,fraction, dimensionless
+Fixation,3.02632638112391,SOURCE,Estimated,0.01,0,10000,Cropland area (fixation-related),kg/km2/year
+ldrainden,0.14122742377168,DELIVF,Estimated,0,-10000,10000,Drainage density (km/km2),dimensionless
+PPT30MEAN,0.00161073297179303,DELIVF,Estimated,0,-10000,10000,Precipitation (annual mean),mm/yr
+meanTemp,-0.0444178657466831,DELIVF,Estimated,0,-10000,10000,Air temperature (annual mean),degrees C.
+tiles_perc,1.15268470255826,DELIVF,Estimated,0,-10000,10000,Tile drainage (fraction of area),dimensionless
+soil_CLAYAVE,0.01231712276593,DELIVF,Estimated,0,-10000,10000,Soil clay content (fraction of area),dimensionless
+rchdecay1,0.39836003586792,STRM,Estimated,0.01,0,10000,Small stream decay (mean Q<1.13 m3/s),per day travel time
+rchdecay2,0.218424474874159,STRM,Estimated,0.01,0,10000,Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s),per day travel time
+iresload,5.98941172141039,RESV,Estimated,0.01,0,10000,Reservoir decay (areal hydr. Load),meters/year

@@ -1,0 +1,155 @@
+setting,value
+path_master,~/RSPARROW_master/R/
+path_main,~/RSPARROW_master
+path_user,~/UserTutorial
+path_data,~/UserTutorial/data/
+path_gis,~/UserTutorial/gis
+path_results,"""~/UserTutorial/results/Model1/"""
+filter_data1_conditions,NA
+reach_decay_specification,"""exp(-data[,jdecvar[i]] * beta1[,jbdecvar[i]])"""
+reservoir_decay_specification,"""(1 / (1 + data[,jresvar[i]] * beta1[,jbresvar[i]]))"""
+classvar,"c(""huc2"", ""huc4"")"
+class_landuse,"c(""forest"", ""agric"", ""crops"", ""pasture"", ""urban"", ""shrubgrass"", )"
+master_map_list,NA
+lineShapeName,"""ccLinesMRB3"""
+lineWaterid,"""MRB_ID"""
+polyShapeName,"""mrb3_cats_usonly_withdata_tn"""
+polyWaterid,"""MRB_ID"""
+LineShapeGeo,"""states"""
+CRStext,"""+proj=longlat +datum=NAD83"""
+scenario_sources,"c(""point"", ""ndep"", ""crops"")"
+scenario_map_list,"c(""ratio_total"", ""ratio_inc"", ""pload_total"", ""concentration"")"
+run_id,"""Model1"""
+add_vars,"c(""huc2"", ""huc4"")"
+output_map_type,"""stream"""
+scenario_name,"""scenario1"""
+input_data_fileName,"""data1.csv"""
+modelComparison_name,NA
+compare_models,NA
+results_directoryName,"""results"""
+data_directoryName,"""data"""
+gis_directoryName,"""gis"""
+csv_decimalSeparator,"""."""
+csv_columnSeparator,""","""
+copy_PriorModelFiles,NA
+outputERSImaps,"c(""no"", ""no"", ""no"", ""no"")"
+predictionLegendBackground,"""white"""
+predictionMapColors,"c(""blue"", ""dark green"", ""gold"", ""red"", ""dark red"")"
+predictionMapBackground,"""white"""
+residualColors,"c(""red"", ""red"", ""gold"", ""gold"", ""dark green"", ""dark green"", ""blue"", , ""blue"")"
+residualMapBackground,"""white"""
+siteAttrColors,"c(""blue"", ""green4"", ""yellow"", ""orange"", ""red"")"
+siteAttrMapBackground,"""white"""
+scenarioMapColors,"c(""light blue"", ""blue"", ""dark green"", ""gold"", ""red"", ""dark red"", )"
+loadUnits,"""kg/year"""
+yieldUnits,"""kg/ha/year"""
+landuseConversion,NA
+incr_delivery_specification,"""exp(ddliv1 %*% t(dlvdsgn))"""
+MoranDistanceWeightFunc,"""1/distance"""
+minimum_headwater_site_area,0
+minimum_reaches_separating_sites,1
+minimum_site_incremental_area,0
+s_offset,1.00E+14
+pvalidate,0.25
+biters,0
+iseed,139933493
+ConcFactor,0.001143648
+lat_limit,"c(35, 50)"
+lon_limit,"c(-105, -70)"
+scenario_factors,"c(0.2, 1.1, 0.25)"
+class_landuse_percent,"c(90, 50, 75, 75, 80, 10)"
+predictionTitleSize,1
+predictionLegendSize,0.6
+predictionClassRounding,3
+lineWidth,0.8
+residual_map_breakpoints,"c(-2.5, -1, -0.5, 0, 0.5, 1, 2.5)"
+ratio_map_breakpoints,"c(0.3, 0.5, 0.8, 1, 1.25, 2, 3.3)"
+residualTitleSize,1
+residualLegendSize,1
+residualPointStyle,"c(2, 2, 1, 1, 1, 1, 6, 6)"
+residualPointSize_breakpoints,"c(0.75, 0.5, 0.4, 0.25, 0.25, 0.4, 0.5, 0.75)"
+residualPointSize_factor,1
+siteAttrTitleSize,1
+siteAttrLegendSize,1
+siteAttrClassRounding,2
+siteAttr_mapPointStyle,16
+siteAttr_mapPointSize,1
+diagnosticPlotPointSize,0.4
+diagnosticPlotPointStyle,1
+confInterval,0.9
+select_targetReachWatersheds,"c(15531, 14899, 1332)"
+input_data_fileName,"""data1.csv"""
+minimum_headwater_site_area,0
+minimum_reaches_separating_sites,1
+minimum_site_incremental_area,0
+reach_decay_specification,"""exp(-data[,jdecvar[i]] * beta1[,jbdecvar[i]])"""
+reservoir_decay_specification,"""(1 / (1 + data[,jresvar[i]] * beta1[,jbresvar[i]]))"""
+s_offset,1.00E+14
+NLLS_weights,"""default"""
+pvalidate,0.25
+biters,0
+iseed,139933493
+ConcFactor,0.001143648
+run_id,"""Model1"""
+output_map_type,"""stream"""
+scenario_name,"""scenario1"""
+modelComparison_name,NA
+results_directoryName,"""results"""
+data_directoryName,"""data"""
+gis_directoryName,"""gis"""
+csv_decimalSeparator,"""."""
+csv_columnSeparator,""","""
+copy_PriorModelFiles,NA
+predictionTitleSize,1
+predictionLegendSize,0.6
+predictionLegendBackground,"""white"""
+predictionClassRounding,3
+predictionMapBackground,"""white"""
+lineWidth,0.8
+residualTitleSize,1
+residualLegendSize,1
+residualPointSize_factor,1
+residualMapBackground,"""white"""
+siteAttrTitleSize,1
+siteAttrLegendSize,1
+siteAttrClassRounding,2
+siteAttr_mapPointStyle,16
+siteAttr_mapPointSize,1
+siteAttrMapBackground,"""white"""
+loadUnits,"""kg/year"""
+yieldUnits,"""kg/ha/year"""
+diagnosticPlotPointSize,0.4
+diagnosticPlotPointStyle,1
+confInterval,0.9
+MoranDistanceWeightFunc,"""1/distance"""
+if_verify_demtarea,"""no"""
+if_reverse_hydseq,"""no"""
+if_mean_adjust_delivery_vars,"""yes"""
+if_estimate,"""yes"""
+ifHess,"""no"""
+if_spatialAutoCorr,"""no"""
+if_corrExplanVars,"""yes"""
+if_validate,"""no"""
+if_boot_estimate,"""no"""
+if_predict,"""yes"""
+if_boot_predict,"""no"""
+batch_mode,"""no"""
+if_install_packages,"""no"""
+if_create_binary_maps,"""no"""
+create_initial_dataDictionary,"""no"""
+create_initial_parameterControlFiles,"""no"""
+if_userModifyData,"""yes"""
+edit_Parameters,"""yes"""
+edit_DesignMatrix,"""no"""
+edit_dataDictionary,"""no"""
+if_estimate_simulation,"""no"""
+load_previousDataImport,"""no"""
+enable_interactiveMaps,"""yes"""
+if_verify_demtarea_maps,"""no"""
+RSPARROW_errorOption,"""yes"""
+calculate_reach_attribute_list,NA
+NLLS_weights,"""default"""
+select_scenarioReachAreas,"""none"""
+convertShapeToBinary.list,"c(""lineShapeName"", ""polyShapeName"")"
+output_map_type,"""stream"""
+outputERSImaps,"c(""no"", ""no"", ""no"", ""no"")"

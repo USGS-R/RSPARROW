@@ -1,0 +1,7 @@
+PARAMETER,ESTIMATE,PARM TYPE,EST TYPE,INITIAL VALUE,MIN,MAX,DESCRIPTION,PARAMETER UNITS
+urban,1732.83139592677,SOURCE,Estimated,1,0,50000,Urban lands,kg/km2/year
+crops,1961.22457602409,SOURCE,Estimated,1,0,50000,Cropland,kg/km2/year
+pasture,724.969513935517,SOURCE,Estimated,1,0,50000,Pasture land,kg/km2/year
+forest,165.072297502624,SOURCE,Estimated,1,0,50000,Forested land,kg/km2/year
+shrubgrass,0.00137421802975411,SOURCE,Estimated,1,0,50000,Combined shrub and grass lands,kg/km2/year
+barren,8359.90207257506,SOURCE,Estimated,1,0,50000,Barren land,kg/km2/year

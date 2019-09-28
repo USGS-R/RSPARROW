@@ -1,0 +1,27 @@
+Prediction Metric Name,Units,Metric Explanation
+waterid,Reach ID Number,Reach ID Number
+concentration,mg/L,Flow-weighted concentration based on decayed total load and mean discharge
+yield_total,kg/ha/year,Total yield (fully decayed)
+yield_point,kg/ha/year,Total source yield (fully decayed)
+yield_ndep,kg/ha/year,Total source yield (fully decayed)
+yield_MANC_N,kg/ha/year,Total source yield (fully decayed)
+yield_FARM_N,kg/ha/year,Total source yield (fully decayed)
+yield_Fixation,kg/ha/year,Total source yield (fully decayed)
+myield_total,kg/ha/year,Monitoring-adjusted (conditional) total yield (fully decayed)
+myield_point,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_ndep,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_MANC_N,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_FARM_N,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_Fixation,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+yield_inc,kg/ha/year,Total incremental yield delivered to reach (with one-half of reach decay)
+yield_inc_point,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_ndep,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_MANC_N,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_FARM_N,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_Fixation,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_deliv,kg/ha/year,Total incremental yield delivered to terminal reach
+yield_inc_point_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_ndep_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_MANC_N_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_FARM_N_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_Fixation_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach

@@ -1,0 +1,75 @@
+lower:[1] 0 0 0 0
+upper:[1] 50000 50000 50000 50000
+ssminval = 3.617922e-51 
+Start:lamda: 1e-04  SS= 14883.27  at  = 1  = 1  = 1  = 1  1 / 0
+roff = 0.005339696   converged =  FALSE 
+gradient projection =  -14482.8  g-delta-angle= 150.7699 
+Stepsize= 1 
+<<lamda: 4e-05  SS= 7549.984  at  = 8.59711  = 8.923928  = 7.841112  = 6.678701  2 / 1
+roff = 0.00384027   converged =  FALSE 
+gradient projection =  -7183.866  g-delta-angle= 148.7589 
+Stepsize= 1 
+<<lamda: 1.6e-05  SS= 3287.859  at  = 54.98132  = 59.3726  = 43.02318  = 31.92657  3 / 2
+roff = 0.00249697   converged =  FALSE 
+gradient projection =  -3002.549  g-delta-angle= 144.8442 
+Stepsize= 1 
+<<lamda: 6.4e-06  SS= 1177.401  at  = 239.693  = 280.7114  = 167.4404  = 101.6496  4 / 3
+roff = 0.00140179   converged =  FALSE 
+gradient projection =  -932.7799  g-delta-angle= 138.2986 
+Stepsize= 1 
+<<lamda: 2.56e-06  SS= 406.1645  at  = 730.6773  = 863.7784  = 397.607  = 193.6228  5 / 4
+roff = 0.0006293412   converged =  FALSE 
+gradient projection =  -165.9391  g-delta-angle= 133.0189 
+Stepsize= 1 
+<<lamda: 1.024e-06  SS= 249.4487  at  = 1333.925  = 1609.018  = 603.2053  = 236.5781  6 / 5
+roff = 0.0001566897   converged =  FALSE 
+gradient projection =  -10.11029  g-delta-angle= 128.7949 
+Stepsize= 1 
+<<lamda: 4.096e-07  SS= 239.1759  at  = 1659.323  = 1933.465  = 671.7402  = 231.7316  7 / 6
+roff = 1.226709e-05   converged =  FALSE 
+gradient projection =  -0.05416538  g-delta-angle= 123.7307 
+Stepsize= 1 
+<<lamda: 1.6384e-07  SS= 239.1142  at  = 1668.035  = 1966.337  = 667.2885  = 234.8431  8 / 7
+roff = 1.64368e-05   converged =  FALSE 
+gradient projection =  -0.1009612  g-delta-angle= 106.5434 
+Stepsize= 1 
+<<lamda: 6.5536e-08  SS= 239.0523  at  = 1805.401  = 1954.52  = 665.4325  = 221.3224  9 / 8
+roff = 5.060487e-06   converged =  FALSE 
+gradient projection =  -0.01073411  g-delta-angle= 111.1745 
+Stepsize= 1 
+lamda: 6.5536e-07  SS= 239.0723  at  = 1852.92  = 1947.531  = 666.9126  = 217.2291  10 / 9
+roff = 4.748901e-06   converged =  FALSE 
+gradient projection =  -0.009538936  g-delta-angle= 111.6137 
+Stepsize= 1 
+lamda: 6.5536e-06  SS= 239.0698  at  = 1846.744  = 1948.366  = 667.6247  = 217.5394  11 / 9
+roff = 3.404475e-06   converged =  FALSE 
+gradient projection =  -0.004901153  g-delta-angle= 114.8498 
+Stepsize= 1 
+lamda: 6.5536e-05  SS= 239.0623  at  = 1823.584  = 1951.767  = 669.1393  = 218.8132  12 / 9
+roff = 1.989414e-06   converged =  FALSE 
+gradient projection =  -0.001332503  g-delta-angle= 129.382 
+Stepsize= 1 
+lamda: 0.00065536  SS= 239.0579  at  = 1808.243  = 1954.325  = 666.819  = 220.0655  13 / 9
+roff = 1.174478e-06   converged =  FALSE 
+gradient projection =  -0.0003583394  g-delta-angle= 165.4869 
+Stepsize= 1 
+lamda: 0.0065536  SS= 239.0547  at  = 1805.685  = 1954.514  = 665.5799  = 220.814  14 / 9
+roff = 4.694878e-07   converged =  FALSE 
+gradient projection =  -5.420118e-05  g-delta-angle= 178.3145 
+Stepsize= 1 
+lamda: 0.065536  SS= 239.0527  at  = 1805.428  = 1954.519  = 665.4447  = 221.2394  15 / 9
+roff = 1.534007e-07   converged =  FALSE 
+gradient projection =  -5.751156e-06  g-delta-angle= 179.8214 
+Stepsize= 1 
+lamda: 0.65536  SS= 239.0523  at  = 1805.404  = 1954.52  = 665.4337  = 221.3135  16 / 9
+roff = 4.867532e-08   converged =  TRUE 
+gradient projection =  -5.786944e-07  g-delta-angle= 179.9744 
+Stepsize= 1 
+No parameter change
+
+ 
+Time elapsed in optimization
+    user  system elapsed 
+   2.17    0.08    2.25 
+
+ 

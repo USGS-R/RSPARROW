@@ -1,0 +1,23 @@
+Prediction Metric Name,Units,Metric Explanation
+waterid,Reach ID Number,Reach ID Number
+concentration,mg/L,Flow-weighted concentration based on decayed total load and mean discharge
+yield_total,kg/ha/year,Total yield (fully decayed)
+yield_urban,kg/ha/year,Total source yield (fully decayed)
+yield_crops,kg/ha/year,Total source yield (fully decayed)
+yield_pasture,kg/ha/year,Total source yield (fully decayed)
+yield_forest,kg/ha/year,Total source yield (fully decayed)
+myield_total,kg/ha/year,Monitoring-adjusted (conditional) total yield (fully decayed)
+myield_urban,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_crops,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_pasture,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+myield_forest,kg/ha/year,Monitoring-adjusted (conditional) total source yield (fully decayed)
+yield_inc,kg/ha/year,Total incremental yield delivered to reach (with one-half of reach decay)
+yield_inc_urban,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_crops,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_pasture,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_forest,kg/ha/year,Total incremental source yield delivered to reach (with one-half of reach decay)
+yield_inc_deliv,kg/ha/year,Total incremental yield delivered to terminal reach
+yield_inc_urban_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_crops_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_pasture_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach
+yield_inc_forest_deliv,kg/ha/year,Total incremental source yield delivered to terminal reach

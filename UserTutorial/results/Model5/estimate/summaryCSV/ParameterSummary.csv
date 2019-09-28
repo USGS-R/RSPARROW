@@ -1,0 +1,9 @@
+PARAMETER,ESTIMATE,PARM TYPE,EST TYPE,INITIAL VALUE,MIN,MAX,DESCRIPTION,PARAMETER UNITS
+point,0.788645054302214,SOURCE,Estimated,0.01,0,10000,Municipal/industrial point source,fraction, dimensionless
+ndep,0.551789575544415,SOURCE,Estimated,0.01,0,10000,Atmospheric deposition N (wet only),fraction, dimensionless
+MANC_N,0.2210922438328,SOURCE,Estimated,0.01,0,10000,Livestock manure N,fraction, dimensionless
+FARM_N,0.281026217485755,SOURCE,Estimated,0.01,0,10000,Fertilizer N use,fraction, dimensionless
+rchdecay1,0.6613707325966,STRM,Estimated,0.01,0,10000,Small stream decay (mean Q<1.13 m3/s),per day travel time
+rchdecay2,0.379180761981861,STRM,Estimated,0.01,0,10000,Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s),per day travel time
+rchdecay3,0.0318378927242884,STRM,Estimated,0.01,0,10000,Large stream decay (mean Q > 1.93 m3/s),per day travel time
+iresload,14.7550022050512,RESV,Estimated,0.01,0,10000,Reservoir decay (areal hydr. Load),meters/year

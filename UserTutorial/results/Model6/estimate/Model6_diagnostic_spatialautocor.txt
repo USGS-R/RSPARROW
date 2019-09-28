@@ -1,0 +1,43 @@
+                                                              
+  MORAN'S I EUCLIDEAN AND HYDROLOGIC DISTANCE WEIGHTED RESULTS
+                                                 
+    Inverse distance weight function:  1/distance
+                     
+  RIVER BASIN RESULTS
+                                                                                                                          
+   Euclidean (E) and hydrologic (H) distance weighting (reported for most downstream site in river basins with >= 5 sites)
+  
+  
+                                        Site Name  Site ID  Downstrm Site ID  Upstrm Site Count  P-Value(E)  Standard Deviate(E)  P-Value(H)  Standard Deviate(H)
+15                      ST. LOUIS RIVER AT OLIVER   163001                36                  6  0.01041397            2.5617717  0.08110638           -1.7443024
+184        KASKASKIA RIVER NEAR VENEDY STATION IL  5594100               420                 12  0.02081664            2.3112936  0.56859035           -0.5701288
+190            FOX RIVER AT MOUTH AT GREEN BAY WI  4085139               433                 10  0.58079227           -0.5522278  0.45886399            0.7407187
+274 CUMBERLAND R 174.5    U/S FROM CLEESE'S FERRY      770               539                  8  0.40157637           -0.8388092  0.69907035            0.3865757
+337                 Maumee River at Waterville OH  4193500               621                 17  0.05703731           -1.9030248  0.22467334           -1.2141948
+343             ST. JOSEPH RIVER AT ST. JOSEPH MI  4102533               627                  8  0.60302350           -0.5200575  0.76195822           -0.3029103
+366                  Ohio River near Smithland KY     OR21               653                281  0.19024917           -1.3098423  0.04822033           -1.9754216
+375 SAGINAW R AT MIDLAND ST BR; BANGOR TWP SEC 21    90162               664                  5  0.08410109           -1.7273708  0.57068882            0.5670373
+395            MISSISSIPPI RIVER BELOW GRAFTON IL  5587455               689                230  0.09522784           -1.6684429  0.86744395           -0.1669061
+409             RED RIVER OF THE NORTH AT OSLO MN  5083500               708                 32  0.56863547            0.5700623  0.34860411            0.9373003
+  
+  
+                                                                         
+  FULL DOMAIN RESULTS (Hydrologic distance weighting within river basins)
+   Moran's P-Value  Moran's Standard Deviate
+         0.8175546                 0.2306914
+                                             
+    Fraction of sites that are nested:  0.578
+  
+  
+                                  
+  REGIONAL AND FULL DOMAIN RESULTS
+                                                                                                 
+   Euclidean distance weighting (regional results reported for contiguous spatial class variable)
+  
+  
+        huc2  Number Stations  Moran's P-Value  Moran's Standard Deviate
+1          4              121        0.9519368                0.06027475
+2          5              295        0.2235316               -1.21719097
+3          7              252        0.3438225               -0.94663945
+4          9               40        0.2496004                1.15132047
+5 Total Area              708        0.2864388                1.06596657

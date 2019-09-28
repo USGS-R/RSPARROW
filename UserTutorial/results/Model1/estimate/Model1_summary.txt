@@ -1,0 +1,105 @@
+                            
+  SPARROW NLLS MODEL SUMMARY
+                    
+  MODEL NAME: Model1
+                                                                                                       
+  FILE PATH: ~/UserTutorial/results/Model1/estimate/Model1_summary.txt
+  
+  
+                                                                
+  MODEL ESTIMATION PERFORMANCE (Monitoring-Adjusted Predictions)
+ MOBS NPARM  DF      SSE       MSE      RMSE       RSQ RSQ-ADJUST RSQ-YIELD PERCENT BIAS
+  708     1 707 432.7155 0.6120446 0.7823328 0.8255356  0.8255356 0.4345638    0.5762475
+                                                      
+  MODEL SIMULATION PERFORMANCE (Simulated Predictions)
+ MOBS NPARM  DF      SSE      MSE     RMSE       RSQ RSQ-ADJUST    RSQ-YIELD PERCENT BIAS
+  708     1 707 769.3498 1.088189 1.043163 0.6898097  0.6898097 -0.005321489     15.67349
+
+   Simulated predictions are computed using mean coefficients from the NLLS model 
+     that was estimated with monitoring-adjusted (conditioned) predictions
+
+                   
+  PARAMETER SUMMARY
+  PARAMETER ESTIMATE PARM TYPE EST TYPE  INITIAL VALUE MIN MAX   DESCRIPTION               PARAMETER UNITS
+1 demiarea  869.1212 SOURCE    Estimated 500           0   10000 Incremental drainage area kg/km2/year    
+                     
+  PARAMETER ESTIMATES
+  PARAMETER PARM TYPE ESTIMATE SE       T        P-VALUE VIF DESCRIPTION               PARAMETER UNITS
+1 demiarea  SOURCE    869.1212 36.07074 24.09491 0       1   Incremental drainage area kg/km2/year    
+  
+  
+  EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
+                  1    0.9803326 0.9587258 3.259483e-13                  1.338349
+  
+  
+[1] LOG RESIDUALS, Station quantiles
+    2.5%      10%      20%      30%      50%      70%      80%      90%      97% 
+-1.72430 -0.95740 -0.46460 -0.23310 -0.01100  0.19370  0.49880  1.02710  1.53243 
+  
+  
+[1] STANDARDIZED RESIDUALS, Station quantiles
+     2.5%       16%       20%       30%       50%       70%       84%       90%       97% 
+-2.206975 -0.809520 -0.594400 -0.297800 -0.014000  0.246800  0.883520  1.314700  1.961380 
+  
+  
+[1] RATIO OF OBSERVED TO PREDICTED LOAD, Station quantiles
+   2.5%     10%     20%     30%     50%     70%     80%     90%     97% 
+0.17800 0.38410 0.62860 0.79180 0.98900 1.21370 1.64700 2.79330 4.62841 
+  
+  
+[1] OBSERVED YIELD, percentiles
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1282  4.6273 10.3271 14.6338 21.6090 99.4497 
+  
+  
+[1] PREDICTED YIELD, percentiles
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.6603  8.6912  8.6912 11.4165 13.2084 60.5317 
+  
+  
+[1] LARGEST OUTLIERS
+[1] (absolute standardized residual>3, leverage>Critical value, or Cook's D p-value<0.10)
+      waterid demtarea            rchname      station_id                                     station_name staid huc2 standardResids    Resids    leverage leverageCrit     CooksD CooksDpvalue weight  tiarea residCheck
+11486   91481  1614.31      MISSISSIPPI R MSU1292-BB15E67  MISSISSIPPI R AT BR ON CSAH-8 7 MI E OF BEMIDJI   143    7      -3.117317 -2.435374 0.002790727  0.004237288 0.02719524    0.9731722      1 1614.31   3.117317
+10347   90337  2327.27         DES LACS R         5116500                     DES LACS RIVER AT FOXHOLM ND   289    9      -5.396843 -4.216335 0.002741649  0.004237288 0.08007256    0.9230577      1 2327.27   5.396843
+10333   90323  2013.70        BALDHILL CR         5057200                       BALDHILL CREEK NR DAZEY ND   290    9      -3.309764 -2.585785 0.002741659  0.004237288 0.03011617    0.9703340      1 2013.70   3.309764
+10327   90317  5728.82         SHEYENNE R         5056000                     SHEYENNE RIVER NR WARWICK ND   371    9      -4.039754 -3.156017 0.002792317  0.004237288 0.04569714    0.9553341      1 5728.82   4.039754
+10483   90473  1685.97 CHICAGO SHIP CANAL         5536995 CHICAGO SANITARY AND SHIP CANAL AT ROMEOVILLE IL   400    7       3.034355  2.371761 0.001780970  0.004237288 0.01642720    0.9837074      1 1465.94   3.034355
+9725    65689  4532.62         AU SABLE R         4137500                  AU SABLE RIVER NEAR AU SABLE MI   690    4      -3.468796 -2.709961 0.002792317  0.004237288 0.03369276    0.9668701      1 4532.62   3.468796
+  
+  
+                                                              
+  REGIONAL MODEL PERFORMANCE (Monitoring-Adjusted Predictions)
+  REGION NUMBER OF SITES       SSE
+1      4             121  64.92534
+2      5             295 141.05640
+3      7             252 146.45503
+4      9              40  80.27873
+  
+  
+                                                    
+  REGIONAL MODEL PERFORMANCE (Simulated Predictions)
+  REGION       SSE
+1      4  97.26927
+2      5 231.87932
+3      7 261.14845
+4      9 179.05272
+                       
+  PARAMETER COVARIANCES
+         demiarea
+demiarea 1301.098
+  
+  
+                        
+  PARAMETER CORRELATIONS
+         demiarea
+demiarea        1
+  
+  
+                                  
+  X'X EIGENVALUES AND EIGENVECTORS
+             
+EigenValues 1
+demiarea    1
+  
+  

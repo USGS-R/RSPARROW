@@ -1,0 +1,73 @@
+varType,sparrowNames,data1UserNames,varunits,explanation
+REQUIRED,waterid,mrb_id,,reach ID number
+REQUIRED,fnode,fnode,,reach from (upstream) node
+REQUIRED,tnode,tnode,,reach to (downstream) node
+REQUIRED,frac,frac,Fraction,transport fraction (1.0 indicates no diversion of water/mass)
+REQUIRED,iftran,iftran,,if transport indicator (0=no; 1=yes; nontransport
+REQUIRED,hydseq,hydseq,,hydrological sequence number (reach order number needed for sorting data1 file)
+REQUIRED,termflag,termflag,,reach terminal flag indicator (1=reach; 3=coastal reach)
+REQUIRED,rchtype,rchtype,,reach type indicator (0=reach; 1=reservoir internal reach; 2=reservoir outlet reach; 3=coastal segment)
+REQUIRED,calsites,calsites,,Calibration site index
+FIXED,rchname,pname,,reach name
+FIXED,demtarea,demtarea,Sq. Km.,reach total drainage area (km2)
+FIXED,length,length,meters,reach length
+FIXED,meanq,meanq,ft3/s,mean annual streamflow
+FIXED,rchtot,rchtot,days,reach time of travel (days)
+FIXED,hload,hload,meters/yr,areal hydraulic load for reservoirs (e.g.
+FIXED,target,target,,terminal target reach (1=target; 0=non target) for computing load delivery
+FIXED,headflag,headflag,,headwater reach indicator (1=headwater reach; 0=other reach)
+FIXED,staid,staid,,numeric station ID (sequence number assigned by user; a new hydrological sequence number is assigned by code)
+FIXED,station_id,station_id,,alphanumeric station ID
+FIXED,depvar,LOAD_A_00600,Kg. / Year,mean load response variable (e.g.
+FIXED,depvar_se,SLOAD_A_00600,Kg./Year,mean load response variable standard error
+FIXED,lat,lat,Degrees,station latitude
+FIXED,lon,lon,Degrees,station longitude
+FIXED,station_name,station_name,,station name
+FIXED,weight,NA,,System variable for weighted NLLS
+SOURCE,demiarea,demiarea,Sq. Km.,reach incremental drainage area (km2)
+SOURCE,shrubgrass,NA,Sq. Km.,Combined shrub and grass lands
+SOURCE,agric,NA,Sq. Km.,Agricultural lands (crops + pasture)
+SOURCE,crops,crops,Sq. Km.,Cropland
+SOURCE,pasture,pasture,Sq. Km.,Pasture land
+SOURCE,forest,forest,Sq. Km.,Forested land
+SOURCE,barren,barren,Sq. Km.,Barren land
+SOURCE,wetlands,wetlands,Sq. Km.,Wetlands
+SOURCE,urban,urban,Sq. Km.,Urban lands
+SOURCE,point,point,Kg./year,Municipal/industrial point source
+SOURCE,ndep,ndep,Kg./year,Atmospheric deposition N (wet only)
+SOURCE,MANC_N,MANC_N,Kg./year,Livestock manure N
+SOURCE,FARM_N,FARM_N,Kg./year,Fertilizer N use
+SOURCE,Fixation,Fixation,Sq. Km.,Cropland area (fixation-related)
+DELIVF,ldrainden,ldrainden,km/km2,Drainage density (km/km2)
+DELIVF,PPT30MEAN,PPT30MEAN,mm/yr,Precipitation (annual mean)
+DELIVF,meanTemp,meanTemp,degrees C.,Air temperature (annual mean)
+DELIVF,tiles_perc,tiles_perc,fraction of area,Tile drainage (fraction of area)
+DELIVF,soil_CLAYAVE,soil_CLAYAVE,fraction of area,Soil clay content (fraction of area)
+STRM,rchdecay1,rchdecay1,days,Small stream decay (mean Q<1.13 m3/s)
+STRM,rchdecay2,rchdecay2,days,Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s)
+STRM,rchdecay3,rchdecay3,days,Large stream decay (mean Q > 1.93 m3/s)
+RESV,iresload,iresload,m/day,Reservoir decay (areal hydr. Load)
+OPEN,meanload,NA,Kg. / Year,Mean Annual Load at Calibration Sites
+OPEN,meanyield,NA,Kg./Sq. Km./Year,Mean Annual Yield at Calibration Sites
+OPEN,meanconc,NA,mg/L,Mean Annual Flow-Weighted Concentration at Calibration Sites
+OPEN,meanloadSE,NA,Percent,Percent Error in Mean Annual Load at Calibration Sites
+OPEN,huc,huc,,Hydrologic Unit Code
+OPEN,huc2,NA,,Hydrologic Unit Code
+OPEN,huc4,NA,,Hydrologic Unit Code
+OPEN,huc8,NA,,Hydrologic Unit Code
+OPEN,shrub,shrub,Sq. Km.,Shrubland
+OPEN,grass,grass,Sq. Km.,Grassland
+OPEN,Tagsite,Tagsite,,Author identification of suitable calibration sites
+OPEN,S_point,NA,Kg./year,Point source load-reduction factors (scenario predictions)
+OPEN,S_ndep,NA,Kg./year,Atmospheric deposition source load-reduction factors (scenario predictions)
+OPEN,S_FARM_N,NA,Kg./year,Fertilizer  source load-reduction factors (scenario predictions)
+OPEN,S_urban,NA,,Scenario urban source
+OPEN,S_crops,NA,,Scenario crop source
+OPEN,S_pasture,NA,,Scenario pasture source
+OPEN,urban_percent,NA,percent,Urban land use as percent of incremental area
+OPEN,agric_percent,NA,percent,Agricultural land use as percent of incremental area
+OPEN,crops_percent,NA,percent,Crop land use as percent of incremental area
+OPEN,pasture_percent,NA,percent,Pasture land use as percent of incremental area
+OPEN,forest_percent,NA,percent,Forest land use as percent of incremental area
+OPEN,shrubgrass_percent,NA,percent,Shrub-grass land use as percent of incremental area
+OPEN,barren_percent,NA,percent,Barren land use as percent of incremental area

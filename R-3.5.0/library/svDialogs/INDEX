@@ -1,0 +1,11 @@
+dlg_dir                 Modal dialog to select a directory.
+dlg_form                Modal dialog to fill a series of different
+                        fields.
+dlg_input               Modal dialog to input a string or a value.
+dlg_list                Modal dialog to select one or more items in a
+                        list.
+dlg_message             Display a modal message box.
+dlg_open                Modal dialog to select a file.
+dlg_save                Modal dialog to select a file to save to.
+menu                    Manage custom R menus.
+svDialogs-package       SciViews - Standard Dialog Boxes for R

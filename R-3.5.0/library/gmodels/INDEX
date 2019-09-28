@@ -1,0 +1,13 @@
+CrossTable              Cross Tabulation with Tests for Factor
+                        Independence
+ci                      Compute Confidence Intervals
+coefFrame               Return model parameters in a data frame
+estimable               Contrasts and estimable linear functions of
+                        model coefficients
+fast.prcomp             Efficient computation of principal components
+                        and singular value decompositions.
+fit.contrast            Compute and test arbitrary contrasts for
+                        regression objects
+glh.test                Test a General Linear Hypothesis for a
+                        Regression Model
+make.contrasts          Construct a User-Specified Contrast Matrix

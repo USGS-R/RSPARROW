@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Expanded Replacement and Extension of the 'optim' Function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Expanded Replacement and Extension of the 'optim' Function
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;optimx&rsquo; version 2018-7.10</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../demo">Code demos</a>.  Use <a href="../../utils/help/demo">demo()</a> to run them.</li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="optimx-package.html">optimx-package</a></td>
+<td>A replacement and extension of the optim() function, plus various optimization tools</td></tr>
+<tr><td style="width: 25%;"><a href="optimx.html">as.data.frame.optimx</a></td>
+<td>General-purpose optimization</td></tr>
+<tr><td style="width: 25%;"><a href="axsearch.html">axsearch</a></td>
+<td>Perform axial search around a supposed minimum and provide diagnostics</td></tr>
+<tr><td style="width: 25%;"><a href="bmchk.html">bmchk</a></td>
+<td>Check bounds and masks for parameter constraints used in nonlinear optimization</td></tr>
+<tr><td style="width: 25%;"><a href="bmstep.html">bmstep</a></td>
+<td>Compute the maximum step along a search direction.</td></tr>
+<tr><td style="width: 25%;"><a href="checksolver.html">checksolver</a></td>
+<td>Test if requested solver is present</td></tr>
+<tr><td style="width: 25%;"><a href="coef.opm.html">coef.opm</a></td>
+<td>Summarize opm object</td></tr>
+<tr><td style="width: 25%;"><a href="coef.opm.html">coef.optimx</a></td>
+<td>Summarize opm object</td></tr>
+<tr><td style="width: 25%;"><a href="coef.opm.html">coef&lt;-</a></td>
+<td>Summarize opm object</td></tr>
+<tr><td style="width: 25%;"><a href="coef.opm.html">coef&lt;-.opm</a></td>
+<td>Summarize opm object</td></tr>
+<tr><td style="width: 25%;"><a href="coef.opm.html">coef&lt;-.optimx</a></td>
+<td>Summarize opm object</td></tr>
+<tr><td style="width: 25%;"><a href="ctrldefault.html">ctrldefault</a></td>
+<td>set control defaults</td></tr>
+<tr><td style="width: 25%;"><a href="ctrldefault.html">dispdefault</a></td>
+<td>set control defaults</td></tr>
+<tr><td style="width: 25%;"><a href="fnchk.html">fnchk</a></td>
+<td>Run tests, where possible, on user objective function</td></tr>
+<tr><td style="width: 25%;"><a href="gHgen.html">gHgen</a></td>
+<td>Generate gradient and Hessian for a function at given parameters.</td></tr>
+<tr><td style="width: 25%;"><a href="gHgenb.html">gHgenb</a></td>
+<td>Generate gradient and Hessian for a function at given parameters.</td></tr>
+<tr><td style="width: 25%;"><a href="grback.html">grback</a></td>
+<td>Backward difference numerical gradient approximation.</td></tr>
+<tr><td style="width: 25%;"><a href="grcentral.html">grcentral</a></td>
+<td>Central difference numerical gradient approximation.</td></tr>
+<tr><td style="width: 25%;"><a href="grchk.html">grchk</a></td>
+<td>Run tests, where possible, on user objective function and (optionally) gradient and hessian</td></tr>
+<tr><td style="width: 25%;"><a href="grfwd.html">grfwd</a></td>
+<td>Forward difference numerical gradient approximation.</td></tr>
+<tr><td style="width: 25%;"><a href="grnd.html">grnd</a></td>
+<td>A reorganization of the call to numDeriv grad() function.</td></tr>
+<tr><td style="width: 25%;"><a href="hesschk.html">hesschk</a></td>
+<td>Run tests, where possible, on user objective function and (optionally) gradient and hessian</td></tr>
+<tr><td style="width: 25%;"><a href="hjn.html">hjn</a></td>
+<td>Compact R Implementation of Hooke and Jeeves Pattern Search Optimization</td></tr>
+<tr><td style="width: 25%;"><a href="kktchk.html">kktchk</a></td>
+<td>Check Kuhn Karush Tucker conditions for a supposed function minimum</td></tr>
+<tr><td style="width: 25%;"><a href="multistart.html">multistart</a></td>
+<td>General-purpose optimization - multiple starts</td></tr>
+<tr><td style="width: 25%;"><a href="opm.html">opm</a></td>
+<td>General-purpose optimization</td></tr>
+<tr><td style="width: 25%;"><a href="optchk.html">optchk</a></td>
+<td>General-purpose optimization</td></tr>
+<tr><td style="width: 25%;"><a href="optimr.html">optimr</a></td>
+<td>General-purpose optimization</td></tr>
+<tr><td style="width: 25%;"><a href="optimx.html">optimx</a></td>
+<td>General-purpose optimization</td></tr>
+<tr><td style="width: 25%;"><a href="grfwd.html">optsp</a></td>
+<td>Forward difference numerical gradient approximation.</td></tr>
+<tr><td style="width: 25%;"><a href="polyopt.html">polyopt</a></td>
+<td>General-purpose optimization - sequential application of methods</td></tr>
+<tr><td style="width: 25%;"><a href="proptimr.html">proptimr</a></td>
+<td>Compact display of an 'optimr()' result object</td></tr>
+<tr><td style="width: 25%;"><a href="Rcgmin.html">Rcgmin</a></td>
+<td>An R implementation of a nonlinear conjugate gradient algorithm with the Dai / Yuan update and restart. Based on Nash (1979) Algorithm 22 for its main structure.</td></tr>
+<tr><td style="width: 25%;"><a href="Rcgminb.html">Rcgminb</a></td>
+<td>An R implementation of a bounded nonlinear conjugate gradient algorithm with the Dai / Yuan update and restart. Based on Nash (1979) Algorithm 22 for its main structure. CALL THIS VIA 'Rcgmin' AND DO NOT USE DIRECTLY.</td></tr>
+<tr><td style="width: 25%;"><a href="Rcgminu.html">Rcgminu</a></td>
+<td>An R implementation of an unconstrained nonlinear conjugate gradient algorithm with the Dai / Yuan update and restart. Based on Nash (1979) Algorithm 22 for its main structure.  CALL THIS VIA 'Rcgmin' AND DO NOT USE DIRECTLY.</td></tr>
+<tr><td style="width: 25%;"><a href="Rvmmin.html">Rvmmin</a></td>
+<td>Variable metric nonlinear function minimization, driver.</td></tr>
+<tr><td style="width: 25%;"><a href="Rvmminb.html">Rvmminb</a></td>
+<td>Variable metric nonlinear function minimization with bounds constraints</td></tr>
+<tr><td style="width: 25%;"><a href="Rvmminu.html">Rvmminu</a></td>
+<td>Variable metric nonlinear function minimization, unconstrained</td></tr>
+<tr><td style="width: 25%;"><a href="scalechk.html">scalechk</a></td>
+<td>Check the scale of the initial parameters and bounds input to an optimization code used in nonlinear optimization</td></tr>
+<tr><td style="width: 25%;"><a href="snewton.html">snewton</a></td>
+<td>Safeguarded Newton methods for function minimization using R functions.</td></tr>
+<tr><td style="width: 25%;"><a href="snewton.html">snewtonm</a></td>
+<td>Safeguarded Newton methods for function minimization using R functions.</td></tr>
+<tr><td style="width: 25%;"><a href="summary.optimx.html">summary.optimx</a></td>
+<td>Summarize optimx object</td></tr>
+<tr><td style="width: 25%;"><a href="tn.html">tn</a></td>
+<td>Truncated Newton minimization of an unconstrained function.</td></tr>
+<tr><td style="width: 25%;"><a href="tnbc.html">tnbc</a></td>
+<td>Truncated Newton function minimization with bounds constraints</td></tr>
+<tr><td style="width: 25%;"><a href="optimx.html">[.optimx</a></td>
+<td>General-purpose optimization</td></tr>
+</table>
+</body></html>

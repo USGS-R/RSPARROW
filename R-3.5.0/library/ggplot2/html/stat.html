@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculated aesthetics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for stat {ggplot2}"><tr><td>stat {ggplot2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculated aesthetics</h2>
+
+<h3>Description</h3>
+
+<p>Most aesthetics are mapped from variables found in the data. Sometimes,
+however, you want to map from variables computed by the aesthetic. The
+most common example of this is the height of bars in <code><a href="geom_histogram.html">geom_histogram()</a></code>:
+the height does not come from a variable in the underlying data, but
+is instead mapped to the <code>count</code> computed by <code><a href="geom_histogram.html">stat_bin()</a></code>. The <code>stat()</code>
+function is a flag to ggplot2 to it that you want to use calculated
+aesthetics produced by the statistic.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+stat(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An aesthetic expression using variables calculated by the stat.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This replaces the older approach of surrounding the variable name with
+<code>..</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Default histogram display
+ggplot(mpg, aes(displ)) +
+  geom_histogram(aes(y = stat(count)))
+
+# Scale tallest bin to 1
+ggplot(mpg, aes(displ)) +
+  geom_histogram(aes(y = stat(count / max(count))))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggplot2</em> version 3.2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

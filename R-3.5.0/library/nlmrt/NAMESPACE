@@ -1,0 +1,24 @@
+##
+##  NAMESPACE
+##
+
+# We need the following routines from stats package for 
+# either nlmrt functions or the vignettes
+importFrom("stats", "deriv", "nls", "pt")
+# Public routines
+export(
+   nlxb,
+   nlfb,
+   wrapnls,
+   modss,
+   modgr,
+   model2grfun,
+   model2jacfun,
+   model2resfun,
+   model2ssfun
+)
+# S3 Methods
+S3method(print, nlmrt)
+S3method(summary, nlmrt)
+S3method(coef, nlmrt)
+# S4 Methods

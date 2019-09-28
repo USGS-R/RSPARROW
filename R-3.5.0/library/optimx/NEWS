@@ -1,0 +1,726 @@
+NEWS about R package opt
+
+TODO
+      o trig1507.R issue of bounds to avoid multiple minima, note ttrig8b lbfgsb3 etc.
+      o Put counters in efn, egr
+      o General issue: nlminb and possibly nlm not working as Newton with 
+	explicit Hessian i.e., may "work", but seemingly not like Newton
+      o Should add examples, esp. of use of summary.
+      o Rationalize tests, examples, unit tests and demos.
+      o can we add bounds and masks easily to Newton methods?
+      o Drop nmkb from methods for bounds if start is on bound
+      o Add nloptr methods -- there are a number and we need to choose how
+	to do so. Seems unable to handle parameter scaling or dot arguments.
+        nloptr difficult to incorporate -- for now left outside of optimr()
+        Troubles with NAMESPACE collisions NOT resolved for nloptr
+      o Consider how the hyperbolic transformation (transfinite fn)
+        could be used in all unconstrained methods
+        How can transfinite be made to work when start is on bounds?
+	To work when end is on bounds?
+      o Rcgmin seems to report reset of parameters to bounds when parameter
+        is apparently on the bound. Could have rounding issues, and should
+        avoid this warning if it is really not needed.
+      o Do NOT add ipoptr until non-standard install is fixed up.
+      o Check all failures reported below are fixed! (As at 2018-03-27
+	JN believes they are.)
+
+===================================================================================
+NEWS from the optimx package
+
+Some comments apply to deprecated packages optimr on CRAN and optimrx on R-forge
+
+VERSION 2018-07-10
+      o Added proptimr() compact display of result of optimr
+      o Some minor changes to vignettes and to message (msg) output for 
+        line ending
+
+VERSION 2018-07-06
+      o Changed setup of control vector using ctrldefault to allow for use of
+	individual method defaults
+
+VERSION 2018-04-17
+      o Comments in tests etc. to explain why methods fail
+        Add hessian to simple test
+      o Split optim() call in optimx() based on have.bounds. Note glitch in 
+	optim() for vector vs scalar infinite bounds.
+      o Fix Rvmmin for n=1 infinite loop      
+
+VERSION 2018-03-30
+      o Cleanup of output from various solvers and fix some minor omissions
+	and errors in the returned information
+      o Conditional output of nlm diagnostic info.
+      o Changed Rvmmin call. Rvmminb and Rvmminu NOT now called separately,
+	as user may inadvertently supply inadmissible parameters and get wrong
+	answer.
+      o Changed optimr() so nlminb() can use ehess() function
+      o Replace convcode in optimr() with convergence to align with optim() result
+      o axsearch() example added to bdstest.R in tests.
+      o Merged optextras package into optimx
+      o rationalized  optimz-package.R, optimx-package.R into one set of code
+      o Tests for grchk, kktchk, fnchk included
+      o Fixed unconditional printout of maxit
+      o savehess saves (approximate!) hessian with nlminb, call with 'hess' not 'hessian'
+
+VERSION 2018-03-18
+      o added 
+           mcontrol$fnscale <- control$fnscale
+        in optim() section of optimr for correction of maximization 
+        Thanks to Carlo Lapid cmlapid@up.edu.ph
+      o Thanks to playing with examples from Hans Werner Borchers for Nelder-Mead
+        style codes, found that optimr() did not transfer control$maxit to the
+        optim() functions. Fixed.
+
+2018-03-03
+  o update snewton vignette and tests
+  o sorted out optimr nlminb failure (used hessian vs hess in optimr call)
+
+VERSION 2017-12-15
+      o merging optimr(x) into optimx
+      o some documentation of differences between opm() and optimx()
+      o Use pkg::fn style calls in optimx.run.R
+      o add bib references to vignette
+      o checked method="ALL" and control(all.methods=TRUE) are equivalent for opm()
+      o set trace=0 in all tests
+      o partially simplify tests
+
+
+VERSION 2017-11-25 optextras
+   o    Changed kktchk argument maxfn to maximize to agree with 
+        optimr and other packages
+
+
+VERSION 2017-10-05
+      o Ravi Varadhan as maintainer (reverted later)
+      o Warning about combining options.
+
+VERSION 2017-09-24
+      o comments include 2017-09-18 version
+      o brought optimx solvers into optimr and added check that packages 
+        are available
+      o Fix for lbfgsb3 which was changed at same time to correct and
+        simplify some control parameters
+
+2017-04-20
+  o unconstrained method is working. Several tests, but Hobbs
+    gives a problem from 1, 1, 1
+
+VERSION 2017-04-04
+      o allowed hessian in opm() and optimr() (for nlm)
+      o Thanks to Marie Boehnstedt for catching error in creation of
+        the composite function and gradient for calling nlm() method.
+
+2017-04-10
+  o Initial setup of project with trial codes. No manuals
+
+VERSION 2017-02-15
+      o added subplex method
+
+VERSION 2016-09-16
+      o Harry Joe reported troubles with numerical gradient approximations. Found
+           some glitches and conflicts to fix. Also documentation is less than ideal.
+        Scaling spar to par was INSIDE control$trace
+
+VERSION 2016-08-26
+      o Thanks to Henrik Singmann for spotting a bug in optimx.run.R
+        for the case where nlminb fails. I had missed resetting some
+        elements of the solution object in this case. ??check optimr()/opm()
+
+VERSION 2016-07-10
+      o hessian=TRUE is NOT properly executed ??
+      o Test function hobbs15b illustrates different scalings across all methods
+      o Appropriate lists of "ALL", "bounded" and "masked" methods are defined 
+        in the ctrldefault() function.
+      o jonesrun L-BFGS-B fails with numerical gradient approximation.
+      o dfoptim hjkb was fixed by Ravi Varadhan
+
+VERSION 2016-07-03
+      o Move allmeth, bdmeth, maskmeth into ctrldefault so we have just in
+	one place. Note that this will change with optimr/optimrx
+      o Masks for hjn(), and incorporate hjn in optimr
+      o time (xtimes) removed from optimr, but timing is included in opm()
+      o polyalgorithm wrapper polyopt() included and documented with example
+      o multistart wrapper multistart() included and documented with example
+      o renamed coef.optimx to coef.opm
+
+VERSION optextras 2016-06-30
+   o    Streamlined the package to get rid of ufn, ugr, uhess, 
+        ugHgenb that are so far unused. 
+   o    The optsp environment is only currently used
+        with the simple numerical gradient approximations.
+   o    kktc renamed to kktchk. scalecheck renamed to scalechk
+        for consistency with other naming.
+
+VERSION 2016-06-28
+      o Checked that controls do not conflict, e.g., maximize and fnscale. Note that
+        maximize is NOT in optim() call.
+      o Checked and fixed scaling of bounds in optimr. However, hjkb seems to fail
+      o Creates scbdtest.R,  a test function that is simple but bounded and scaled badly
+      o Get routines from optextras rather than have duplicates in optimr
+      o rename package to optimr for optimR(eplacement)
+      o Problems with lbfgs package (unconstrained) resolved
+      o test parameter scaling (but this could be improved)
+      o Demos still refer to optimx -- must be changed -- 160628 moved 
+        off to Roptimtest/current/
+
+
+VERSION 2016-05-30
+      o Crude setting of uobyqa and newuoa for control rhobeg.
+        Especially when parameters all 0, or bounds undefined, program 
+	will fail so we need to set this. May also be needed for rhoend.
+
+VERSION 2016-01-07
+      o realized control rhobeg needed to be set or bobyqa would fail.
+
+VERSION 2015-06-03
+      o Added index to bstate in optimx.check.R to avoid unwanted 
+        elements in reporting bounds when trace > 0
+
+VERSION 2015-04-23
+      o removed condition that made solution NA if gradient or function
+        limits exceeded. Now returns parameters and function at the point
+	where limit reached.
+
+VERSION 2015-01-21
+      o Added lbfgsb3, the 2011 version of this code.
+
+VERSION 2013-10-27 optextras
+   o    Inserted missing index in bmchk (bdmsk)
+
+VERSION 2013-9-11 optextras
+   o    Fixed some elements of manual. Alias optextras-package
+        to optextras.
+
+VERSION 2013-8-20 optextras
+   o    optsp scratchpad environment added. Note that it
+        is aliased in grfwd to avoid a warning in R CMD
+        check.
+   o    Can change this in numerical derivative routines
+        in case of parallel running.
+
+VERSION 2013-08-08
+      o Attempt to sort out Rvmmin and Rcgmin no gradient failures. 
+        Resolved by REQUIRING a gradient routine. In optimr() can provide
+        an approximation via quoted gradient function name.
+      o Fix for nlm calls which sometimes failed due to inappropriate
+        control settings and failure to clear (NULL) temporary settings.
+
+VERSION 2013-08-07
+      o Moved optimizer packages to Imports and removed require() calls to
+	satisfy R 3.1.2.
+      o This version is artificial! It is the version of 2013-08-06 with an 
+	updated CITATION and minor fixes to satisfy NAMESPACE requirements.
+	A new optimx is in process with quite sweeping changes that may or
+	may not result in changed behaviour and usage. (JN 2014-09-04).
+      o Failure to have the following packages installed may give rise to 
+	diagnostic messages that can be confusing: Rvmmin, Rcgmin, ucminf,
+	minqa, BB, and dfoptim.
+
+VERSION 2013-08-02
+
+      o Change startup to avoid warning messages for missing methods.
+        Add function to check which methods available.
+
+      o UOBYQA is present in optimx.run.R, but is not included in the list of
+        "all.methods" in optimx.setup.R. It should be possible to run UOBYQA
+        by including "uobyqa" in the list of methods in a direct call to optimx.run.R.
+
+VERSION 2013-07-09
+
+      o patch for missing "details" behaviour
+
+      o point to example of use of "follow.on" control 
+
+VERSION 2013-07-03 
+
+      o added control usenumDeriv
+
+VERSION 2013-06-04 
+
+      o improved coef() function to extract parameters
+
+VERSION 2013-05-03
+
+      o removed optansout.R, get.result.R, get.best.R (no longer needed)
+
+VERSION 2013-04-30
+
+      o added optimx<-.coef
+
+VERSION 2013-04-29
+
+      o removed help pages documenting obsolete features
+
+VERSION 2013-04-06
+
+      o nmkb and hjkb had no ... arguments in call. Fixed.
+
+      o L-BFGS-B (and possibly other optim() methods) return no gevals (count[[2]])
+        on failure. Forced to NA in case of try-error.
+
+VERSION 2013-04-05
+
+      o Fixed maximize of function without gradient function. Also glitch
+        (not tested or encountered) with user supplied Hessian function when
+        maximizing.
+
+      o Separate .Rd files for coef() and summary()
+
+      o Use have.bounds to select bounds and unconstrained methods where there
+        is a choice to avoid duplication of tests. This has been done for 
+	hjk, nmk, Rcgmin, Rvmmin
+
+      o Revision of output description in optimx.Rd; some simplifications.
+
+      o Parameter names preserved from starting vector, or "p1", "p2", etc. used.
+        There is a test for these in the ox demo().
+
+VERSION 2013-04-03
+
+      o in summary.optimx no re-ordering is now specified using order = NULL
+
+      o Fixup of examples -- simplified, corrected call to details
+
+VERSION 2013-04-02
+
+      o in summary.optimx the order= argument may now be an unevaluated 
+        expression (as before), a string representation of that expression or 
+        a character vector of names, e.g. these all work:
+           order = value # unevaluated expression
+           order = "value" # character string containing column name
+	   order = list(fevals, gevals) # unevaluated list
+           order = c("fevals", "gevals") # character vector of column names
+           order = list(round(value,3), fevals) # unevaluated list
+           order = "list(round(value,3),fevals)" # expression as string
+
+VERSION 2013-03-29
+
+      o Note that asking for a method that is NOT in the results will return
+        a row with rowname (the method name) as "NA". Note that this will NOT
+        test TRUE with is.na() on the rowname. Use instead a test like
+
+               (row.names(ans8missmeth["Rvmmin",])[[1]] == "NA")
+
+      o kkt1 and kkt2 in results now returned TRUE/FALSE as in 2012 versions
+
+      o Fixed error in kkt2 test (using old name evnhatend rather than hev)
+
+      o Results are no longer sorted by optimx, but can be using the 'summary()'
+        function. This can be called in a variety of ways. ?? see examples in??
+
+      o The 'details' are always kept in a matrix form, even when only one
+        method has been used.
+
+      o 'convcode' is used in place of 'convergence' in result structure
+
+      o There is a directory inst/interactive-test that contains ox.R test
+        script that pauses so user can see interim results. 
+
+      o As a result of several issues, the result structure is changed from
+        that of optimx 2012 versions. It is now a data frame with a `details'
+        attribute. Also an 'npar' attribute to give the number of parameters,
+        and a 'maximize' attribute that is TRUE when the function is to be
+        maximized.
+
+
+VERSION 2013-03-28
+
+      o print.optimx dropped. Not needed as print defaults to print.data.frame.
+
+      o added summary.optimx which has order= and par.select= arguments
+
+      o order= is an expression or list of expressions using the column names 
+        of the "optimx" object as variables (plus the variable rownames).
+
+      o par.select = FALSE now has same meaning as par.select = 0 (rather than 
+        being an error)
+
+      o [.optimx now subsets details attribute too
+
+      o method column from details attribute dropped and moved to row names
+
+
+VERSION 2013-03-27
+
+      o created unit test framework with 2 unit tests in 
+          inst/unitTests/runit.all.R.  
+        To run: demo("unitTests")
+
+VERSION 2013-03-25
+
+      o [.optimx and as.data.frame.optimx added
+
+      o coef.optimx fixed to reflect new ans.ret
+
+VERSION 2013-03-22
+
+
+      o ans.ret structure changed
+
+VERSION 2013-03-21
+
+      o maximize works with print(x, best.only=TRUE)
+
+      o KKT checks can be switched off. Decided to NOT separate the code from
+        optimx.run  UNTESTED
+
+      o optimx.setup, optimx.run, optimx.check are NOT exported in NAMESPACE,
+        but a knowledgeable user could use these codes directly, either from
+        the source code or by modifying the package locally.
+
+VERSION 2013-03-18
+
+      o removed method= and columns= arguments from print.optimx and added
+        best.only
+
+      o removed print.optimx help page and moved it to the optimx help page
+
+      o the row names of the optimx output now show the method and the method
+        column has been removed
+
+VERSION 2013-03-18
+
+      o Removed all user accessible functions except optimx and added
+        print.optimx.
+
+VERSION 2013-03-16
+      o  get.result now emits a warning if method requested is not in
+         optimx solution
+      o  attempt 2013-3-17 to include summary() in methods to replace
+         trimpars()
+
+VERSION 2012-07-18 optextras
+   o    Extracted helper routines from optplus to 
+        create optextras package to put on CRAN.
+        Formerly in optplus or optfntools on R-forge,
+        but difficulties with dependencies indicated
+        that the support routines need to be on CRAN.
+        Renamed to avoid name confusion.
+
+VERSION 2012-07-09 optextras
+   o    Suppress warnings in ugHgenb -- too much
+        unhelpful output
+   o    Fixed optansout to print parameters
+
+VERSION 2012-06-07 optextras
+   o    Merged optfntools into optplus to ensure 
+        R-forge build.
+
+VERSION 2012-05-26 optextras
+   o    Added check for "on a bound" in bmchk to aid
+	in use of tanh() transformation as in nmkb().
+
+
+##### OPEN ISSUES: (any date order)
+# 091220 -- ?? kkt1 tolerance. Do we want to let this be an input control?
+# 090612 -- ?? (Similar to above) Better choices for the tolerances in tests of equality for gradient / kkt tests?
+# 091018 -- ?? masks?
+# 090929 -- ?? control structure could use simplification 
+# 090729 -- ?? simplify structure of answers -- avoid repetition and make easier to access
+# 090531 -- ?? like SNewton back in to keep Ramsay and Co. on side
+# 090601 -- ?? Do we want hessevals to count Hessian evaluations?
+
+##### IMPLEMENTED: (reverse date order)
+# 110212 -- & to && and | to || for controls
+# 110212 -- Hessian changed from NULL to FALSE default
+# 100328 -- check if maximize works for Powell (minqa) routines -- 100415
+# 100329 -- make sure spg fixed on CRAN -- 100415
+# 100329 -- maximize tested for all but minqa, though spg needs fixup on CRAN.
+# 100215 -- Add newuoa and uobyqa to test minqa
+# 100212 -- ?? setting scaletol in controls ??
+# 091018 -- new control "starttest" so we can skip them DONE 091220
+# 091218 -- scaling checks (before computing rhobeg) and warning
+# 091215 -- mcontrol omission in nlm() call fixed
+# 091026 -- Remove SANN because no real conv indicator
+# 091018 - 090531 Use function code joint with funtest and funcheck in initial checks -- not fully possible
+# 091018 -- decided not to Put optimx.dev into package to provide for local source packages etc.
+# 090923 -- add bobyqa (from minqa)
+# 090923 -- add Rcgmin for large scale problems
+# 090729 -- put hessian argument back as an alternate for kkt
+# 090729 -- should have kkt only carried out for n<50 (no gradient), n<500 (with gradient and Jacobian
+#            of gradient to get Hessian)
+# 090531 -- KKT stuff
+# 090531 -- control for keeping failed runs (save.failures)
+# 090531 Decided to omit 'trust' from package methods for the time being.
+# 090527 -- added follow.on
+# 090511 What should be default method(s)? 
+#         090601: to provide compatibility with optim(), Nelder-Mead is put first. 
+#                 The choice of BFGS second is open to discussion. JN
+#  A wrapper function to integrate major optimization packages in R
+#  For now, we only consider algorithms for unconstrained and box-constrained optimization
+#  This function can implement "multiple" algorithms
+#
+# Input:
+#  par = a single vector of starting values
+#  fn = objective function (assumed to be sufficeintly differentiable)
+#  gr = name of a function to compute the (analytic) gradient of the objective function
+#  hess = name of a function to compute the (analytic) Hessian of the objective function
+#         Editorial note: Capitalize Hessian after the name of Otto Hesse. JN
+#  method = a character vector denoting all the algorithms to be executed (in the specified order)
+#      Complete names are not needed. A partial matching is attempted.
+#  hessian = logical variable that, if present, is equivalent to control$kkt. If TRUE, it causes
+#      optimx to try to compute an approximation to the Hessian matrix at the final set of parameters.
+#  control = list of control information, in particular
+#      trace = an integer controlling output (note different methods may use logicals
+#         trace = 0 gives no output, positive numbers give more output for greater values
+#      follow.on = TRUE or FALSE. If TRUE, and there are multiple methods, then the last set of 
+#         parameters from one method is used as the starting set for the next. 
+#      save.failures = TRUE if we wish to keep "answers" from runs where the method does not 
+#         return conv==0. FALSE otherwise (default).
+#      maximize = TRUE if we want to maximize rather than minimize a function. (Default FALSE)
+#         090601: Not yet implemented for nlm, nlminb, ucminf. However, there is a check to avoid
+#                 usage of these codes when maximize is TRUE.
+#      all.methods = TRUE if we want to use all available (and suitable) methods
+#      sort.result=TRUE, that is, we sort the results in decreasing order of the final function value
+#      kkt=TRUE to run Kuhn, Karush, Tucker tests of results unless problem large
+#      kkttol=0.001 (was .Machine$double.eps^(1/4)) Default value to check for small gradient and negative
+#               Hessian eigenvalues
+#      kkt2tol=1E-6 (default WAS 10* default for kkttol) Tolerance for eigenvalue ratio in KKT test of 
+#               positive definite Hessian
+#      all.methods=FALSE By default we do NOT run all methods
+#      starttests=TRUE  By default we run tests of the function and parameters: feasibility relative to
+#               bounds, analytic vs numerical gradient, scaling tests) before we try optimization methods
+#      dowarn=TRUE By default we leave warnings generated by optimx.
+#      badval=(0.5)*.Machine$double.xmax The value to set for the function value when try(fn()) fails.
+#      scaletol=3 To check parameters or their bounds we take logs of absolute values and find the range 
+#               i.e., max - min. This should not exceed scaletol. A value of 3 gives magnitudes between 
+#               1 and 20 approximately.  
+#
+# Output:
+# ans = an object containing two sets of information:
+# essential output = a data frame of converged parameters, function value at convergence, 
+#    name of algorithm, convergence indicator, and function evaluation and gradient evaluation counts
+# detailed output = this is a list with one component for each algorithm, and contains parameters, 
+#    function values, convergence code, number of function and gradient evals, numerical gradient 
+#    and hessian at convergence, eigenvalues of that hessian approximation, cpu time, and other 
+#    information returned by algorithms, and name of the algorithm.
+# detailed output can be accessed via the attribute called `details'
+#
+#  Authors:  Ravi Varadhan & John Nash
+#  Date:  February 17, 2008
+#  Changes: Ravi Varadhan - Date: May 29, 2009, John Nash - Latest: Oct 18, 2009
+#
+===================================================================================
+
+Changes in the optextras package
+
+Changes before 2012-5-26 not recorded 
+
+TODOS
+   o scalechk should take account of masks
+
+Changes
+
+2018-03-28
+   o    Examples all functions added, checked, revised.
+
+2017-11-25
+   o    Changed kktchk argument maxfn to maximize to agree with 
+        optimr and other packages
+
+2016-6-30
+   o    Streamlined the package to get rid of ufn, ugr, uhess, 
+        ugHgenb that are so far unused. 
+   o    The optsp environment is only currently used
+        with the simple numerical gradient approximations.
+   o    kktc renamed to kktchk. scalecheck renamed to scalechk
+        for consistency with other naming.
+
+2013-10-27
+   o    Inserted missing index in bmchk (bdmsk)
+
+2013-9-11
+   o    Fixed some elements of manual. Alias optextras-package
+        to optextras.
+
+2013-8-20
+   o    optsp scratchpad environment added. Note that it
+        is aliased in grfwd to avoid a warning in R CMD
+        check.
+
+   o    Can change this in numerical derivative routines
+        in case of parallel running.
+
+2012-7-18
+   o    Extracted helper routines from optplus to 
+        create optextras package to put on CRAN.
+        Formerly in optplus or optfntools on R-forge,
+        but difficulties with dependencies indicated
+        that the support routines need to be on CRAN.
+        Renamed to avoid name confusion.
+
+2012-7-09
+   o    Suppress warnings in ugHgenb -- too much
+        unhelpful output
+   o    Fixed optansout to print parameters
+
+2012-6-07
+   o    Merged optfntools into optplus to ensure 
+        R-forge build.
+
+2012-5-26
+   o    Added check for "on a bound" in bmchk to aid
+	in use of tanh() transformation as in nmkb().
+
+===================================================================================
+
+Changes in Rcgmin
+
+Changes before 2012-4-30 not recorded 
+
+TODOS
+   o    Eventually include different line searches, possibly in a
+        separate routine
+
+2014-7-17
+   o    Changed default of control$checkgrad to FALSE. Changed error message
+	that mentions Rvmmin to Rcgmin.
+
+2013-9-24 
+   o    Warning that parameter moved to bound suppressed when start
+        is on the bound.
+
+2013-8-20
+
+   o    Allow quoted gradient names to bring in different gradient 
+        routines. Also to allow gradient approximation step to be
+	adjusted.
+
+   o    Dependency on optextras rather than numDeriv
+
+2013-2-20
+
+   o    Removed fail, setstep (not used), ceps from Rcgminu (not used)
+
+2012-8-08
+
+   o    Minor edits and addition of references.
+
+2012-6-09
+
+   o    User-tolerance for gradient size.
+
+2012-5-21
+   o	Separation of constrained and unconstrained versions.
+
+===================================================================================
+
+Changes in Rtnmin
+
+TODOS
+   o    20171007 -- make lmqnbc printout conditional on trace??
+   o    Simplification and streamlining of code to mesh
+	better with other R optimization tools.
+
+   o    Put maxit, maxfun in control list somehow.
+
+   o    Setup trace as integer to work properly
+
+
+2018-03-28
+   o Try ! is.numeric(g) vs is.null(g)
+   o trace changed to integer
+
+??2016-09-22 account for null gradient 
+
+2016-06-28
+
+   o    Removed development files from inst, and inst directory
+
+2013-09-12
+
+   o    Modlnp fix from SGN implemented so jones function works.
+
+2013-09-03
+
+   o    Some fixes, particularly to dot-arguments missing
+	from calls to user function.
+
+   o    Changed returned user fgfun to f with g as attribute.
+
+2013-06-03
+
+   o    Properly packaged version of Rtnmin. 
+
+2013-11-11 
+   
+   o    First version of Rtn.
+
+
+===================================================================================
+
+Changes in Rvmmin
+
+Changes before 2012-4-30 not recorded 
+
+TODOS
+   o    Saving of final Hessian approx as in Rvmminx
+
+   o    Eventual incorporation of line searches, possibly in a
+        separate routine
+
+2017-11-25
+   o    Tidy tests
+   o    Some cleanup of vignette
+
+2017-7-18
+   o    Simplify example
+   o    Added tests
+
+2016-11-30
+   o    Vignette added (incomplete)
+
+2015-11-30
+   o    Changed control "stopbadupdate" to TRUE from FALSE.
+
+2015-06-03
+   o    Had "lower" instead of "upper" in one of the bounds checks.
+        Fixed.
+
+2015-05-03
+   o    Check gradient count ig > 2 when doing convergence test.
+	Possible failure for test fn = sum(x*x) noted. However, 
+	other fns fail with this change. This is an issue in the
+	program logic rather than an algorithmic failure. 
+
+2015-01-07
+
+   o    comments in codes Rvmminb.R and Rvmminu.R aligned so that the
+        differences between bounds constrained version and unconstrained
+        more easily visualized
+        
+   o    control keepinputpar explained. It is used when user does NOT want
+        out-of-bounds parameters on input moved to nearest bound. Program
+        will stop in this case.
+        
+   o    Minor changes to maxit and maxfeval defaults so that they are 
+        increased with increasing numbers of parameters.
+
+2014-12-21 
+
+   o    As per CRAN policies, edited DESCRIPTION and NAMESPACE files. 
+	Because there is no change to code, the date of the package 
+	advanced by only 1 day.
+
+2013-10-27 
+   
+   o    Added maxfevals to control. (It had been there some time.)
+
+2013-8-19
+
+   o    Numerical gradient from optextras, remove bmchk from package,
+	put bmchk call in Rvmmin, not Rvmminb
+
+2013-7-20
+   o    Minor improvements to timing by use of crossprod() in 
+        computing y and D2
+
+2012-7-9
+   o    Removed optansout to avoid conflicts with optplus/optimx
+
+2012-5-21
+   o	Separation of constrained and unconstrained versions.
+
+
+===================================================================================
+
+

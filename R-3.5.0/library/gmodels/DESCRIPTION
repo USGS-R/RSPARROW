@@ -1,0 +1,20 @@
+Package: gmodels
+Version: 2.18.1
+Date: 2018-06-25
+Title: Various R Programming Tools for Model Fitting
+Author: Gregory R. Warnes, Ben Bolker, Thomas Lumley, and Randall C
+        Johnson. Contributions from Randall C. Johnson are Copyright
+        (2005) SAIC-Frederick, Inc. Funded by the Intramural Research
+        Program, of the NIH, National Cancer Institute, Center for
+        Cancer Research under NCI Contract NO1-CO-12400.
+Maintainer: Gregory R. Warnes <greg@warnes.net>
+Description: Various R programming tools for model fitting.
+Depends: R (>= 1.9.0)
+Suggests: gplots, gtools, Matrix, nlme, lme4 (>= 0.999999-0)
+Imports: MASS, gdata
+License: GPL-2
+NeedsCompilation: no
+Packaged: 2018-06-25 16:01:56 UTC; gwarnes
+Repository: CRAN
+Date/Publication: 2018-06-25 16:23:05 UTC
+Built: R 3.5.3; ; 2019-08-08 23:58:05 UTC; windows

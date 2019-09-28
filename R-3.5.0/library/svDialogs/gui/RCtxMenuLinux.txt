@@ -1,0 +1,18 @@
+@@@ R context menu
+
+item=_Copy
+cmd=xvkbd -xsendevent -text "\CC" @@@ Default shortcut in gnome-terminal is Ctrl-Shift-C
+@@@ Note: this will not work if shortcut is changed!
+
+item=_Paste
+cmd=xvkbd -xsendevent -text "\CV" @@@ Default shortcut in gnome-terminal is Ctrl-Shift-V
+@@@ Note: this will not work if shortcut is changed!
+
+item=Paste commands _only
+cmd=NULL
+
+item=Copy _and paste
+cmd=xvkbd -xsendevent -text "\CC\CV" @@@ Same note as for copy / paste
+
+item=_Select all
+cmd=NULL

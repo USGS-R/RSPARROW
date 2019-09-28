@@ -1,0 +1,120 @@
+# From Hadley 20120319
+
+Hi John,
+
+Here's a somewhat streamlined version of the code:
+
+Form2resfun <- function(f, params) {
+  stopifnot(inherits(f, "formula"), length(f) == 3)
+
+  # Create function body
+  body <- substitute(
+    crossprod(rhs - lhs), list(lhs = f[[2]], rhs = f[[3]])
+  )
+
+  # Create argument list
+  free_params <- setdiff(all.vars(f), names(params))
+  missing_args <- setNames(rep(list(bquote()), length(free_params)),
+    free_params)
+  args <- as.pairlist(c(missing_args, params))
+
+  eval(call("function", args, body))
+}
+
+# a test
+tfn <- Form2resfun(y ~ b1 / (1 + b2 * exp(-1 * b3 * t)),
+  c(b1 = 1, b2 = 1, b3 = 1))
+
+tfn
+
+y <- c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443,
+     38.558, 50.156, 62.948, 75.995, 91.972)
+tfn(y, seq_along(y))
+
+
+It basically works by generating the call to "function", so you get
+back a regular function (although I haven't made sure it has the
+environment that you might expect).  A couple of tricks:
+
+* bquote() generates a call that represents a missing value
+
+* using as.pairlist to make sure that the arugments argument to
+function is a pairlist - as far as I know this is the only case where
+you need to care about the difference between lists and pairlists
+
+You may also want to chat with Randy Pruim, who seems to be working on
+similar stuff.
+
+Hadley
+
+
+On Sun, Mar 18, 2012 at 12:01 PM, John C Nash <nashjc@uottawa.ca> wrote:
+> > Previously, I've posted queries about this, and thanks to postings and messages in
+> > response have recently had some success, to the extent that there is now a package called
+> > nlmrt on the R-forge project https://r-forge.r-project.org/R/?group_id=395 for solving
+> > nonlinear least squares problems that include small or zero residual problems via a
+> > Marquardt method using a call that mirrors the nls() function. nls() specifically warns
+> > against zero residual problems.
+> >
+> > However, I would still like to be able to convert expressions with example vectors of
+> > parameters to functions that optim() and related functions can use. The code below gets
+> > "almost" there, but
+> >
+> > 1) Can the code be improved / cleaned up?
+> >
+> > 2) Can the eval() of the output of the Form2resfun be avoided?
+> >
+> > 3) Can the extraction of the parameter names be embedded in the function rather than put
+> > separately?
+> >
+> > Off-list responses are likely best at this stage, while the tedious details are sorted
+> > out. I will post a summary in a couple of weeks of the results. Collaborations re: this
+> > and the larger package welcome, as there is considerable testing and tuning to do, but
+> > preliminary experience is encouraging.
+> >
+> > John Nash
+> >
+> >
+> > # --------- code block -----------
+> > rm(list=ls()) # clear workspace
+> > Form2resfun <- function(f, p ) {
+> >        cat("In Form2resfun\n")
+> >        xx <- all.vars(f)
+> >        fp <- match(names(p), xx) # Problem in matching the names of params
+> >        xx2 <- c(xx[fp], xx[-fp])
+> >        ff <- vector("list", length(xx2))
+> >        names(ff) <- xx2
+> >        sf<-as.character(f)
+> >        if ((length(sf)!=3) && (sf[1]!="~")) stop("Bad model formula expression")
+> >        lhs<-sf[2] # NOTE ORDER formula with ~ puts ~, lhs, rhs
+> >        rhs<-sf[3]
+> > # And build the residual at the parameters
+> >        resexp<-paste(rhs,"-",lhs, collapse=" ")
+> >        fnexp<-paste("crossprod(",resexp,")", sep="")
+> >        ff[[length(ff) + 1]] <- parse(text=fnexp)
+> > #  want crossprod(resexp)
+> >        myfn<-as.function(ff, parent.frame())
+> > }
+> > # a test
+> >    y<-c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443,
+> >          38.558, 50.156, 62.948, 75.995, 91.972) # for testing
+> >    t<-1:length(y) # for testing
+> >    f<- y ~ b1/(1+b2*exp(-1*b3*t))
+> >    p<-c(b1=1, b2=1, b3=1)
+> >    b<-p
+> >    npar<-length(b)
+> >    for (i in 1:npar){
+> >                bbit<-paste(names(b)[[i]],"<-",b[[i]])
+> >                eval(parse(text=bbit))
+> >    }
+> >    tfn<-Form2resfun(f, b)
+> >    ans<-eval(tfn(t=t,y=y, b))
+> >    print(ans)
+> > # --------- end code block -----------
+> >
+> > ______________________________________________
+> > R-devel@r-project.org mailing list
+> > https://stat.ethz.ch/mailman/listinfo/r-devel
+
+
+-- Assistant Professor / Dobelman Family Junior Chair Department of Statistics / Rice University http://had.co.nz/ 

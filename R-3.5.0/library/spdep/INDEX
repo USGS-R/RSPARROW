@@ -1,0 +1,111 @@
+EBImoran.mc             Permutation test for empirical Bayes index
+EBest                   Global Empirical Bayes estimator
+EBlocal                 Local Empirical Bayes estimator
+LOSH                    Local spatial heteroscedasticity
+LOSH.cs                 Chi-square based test for local spatial
+                        heteroscedasticity
+LOSH.mc                 Bootstrapping-based test for local spatial
+                        heteroscedasticity
+Rotation                Rotate a set of point by a certain angle
+aggregate.nb            Aggregate a spatial neighbours object
+airdist                 Measure distance from plot
+aple                    Approximate profile-likelihood estimator (APLE)
+aple.mc                 Approximate profile-likelihood estimator (APLE)
+                        permutation test
+aple.plot               Approximate profile-likelihood estimator (APLE)
+                        scatterplot
+autocov_dist            Distance-weighted autocovariate
+bhicv                   Data set with 4 life condition indices of Belo
+                        Horizonte region
+card                    Cardinalities for neighbours lists
+cell2nb                 Generate neighbours list for grid cells
+choynowski              Choynowski probability map values
+columbus                Columbus OH spatial analysis data set
+diffnb                  Differences between neighbours lists
+dnearneigh              Neighbourhood contiguity by distance
+droplinks               Drop links in a neighbours list
+edit.nb                 Interactive editing of neighbours lists
+eire                    Eire data sets
+gabrielneigh            Graph based spatial weights
+geary                   Compute Geary's C
+geary.mc                Permutation test for Geary's C statistic
+geary.test              Geary's C test for spatial autocorrelation
+globalG.test            Global G test for spatial autocorrelation
+grid2nb                 Construct neighbours for a GridTopology
+include.self            Include self in neighbours list
+intersect.nb            Set operations on neighborhood objects
+invIrM                  Compute SAR generating operator
+is.symmetric.nb         Test a neighbours list for symmetry
+joincount.mc            Permutation test for same colour join count
+                        statistics
+joincount.multi         BB, BW and Jtot join count statistic for
+                        k-coloured factors
+joincount.test          BB join count statistic for k-coloured factors
+knearneigh              K nearest neighbours for spatial weights
+knn2nb                  Neighbours list from knn object
+lag.listw               Spatial lag of a numeric vector
+lee                     Compute Lee's statistic
+lee.mc                  Permutation test for Lee's L statistic
+lee.test                Lee's L test for spatial autocorrelation
+listw2sn                Spatial neighbour sparse representation
+lm.LMtests              Lagrange Multiplier diagnostics for spatial
+                        dependence in linear models
+lm.morantest            Moran's I test for residual spatial
+                        autocorrelation
+lm.morantest.exact      Exact global Moran's I test
+lm.morantest.sad        Saddlepoint approximation of global Moran's I
+                        test
+localG                  G and Gstar local spatial statistics
+localmoran              Local Moran's I statistic
+localmoran.exact        Exact local Moran's Ii tests
+localmoran.sad          Saddlepoint approximation of local Moran's Ii
+                        tests
+mat2listw               Convert a square spatial weights matrix to a
+                        weights list object
+moran                   Compute Moran's I
+moran.mc                Permutation test for Moran's I statistic
+moran.plot              Moran scatterplot
+moran.test              Moran's I test for spatial autocorrelation
+mstree                  Find the minimal spanning tree
+n.comp.nb               Depth First Search on Neighbor Lists
+nb2INLA                 Output spatial neighbours for INLA
+nb2WB                   Output spatial weights for WinBUGS
+nb2blocknb              Block up neighbour list for location-less
+                        observations
+nb2lines                Use vector files for import and export of
+                        weights
+nb2listw                Spatial weights for neighbours lists
+nb2mat                  Spatial weights matrices for neighbours lists
+nbcosts                 Compute cost of edges
+nbdists                 Spatial link distance measures
+nblag                   Higher order neighbours lists
+oldcol                  Columbus OH spatial analysis data set - old
+                        numbering
+p.adjustSP              Adjust local association measures' p-values
+plot.mst                Plot the Minimum Spanning Tree
+plot.nb                 Plot a neighbours list
+plot.skater             Plot the object of skater class
+poly2nb                 Construct neighbours list from polygon list
+probmap                 Probability mapping for rates
+prunecost               Compute cost of prune each edge
+prunemst                Prune a Minimun Spanning Tree
+read.gal                Read a GAL lattice file into a neighbours list
+read.gwt2nb             Read and write spatial neighbour files
+set.mcOption            Options for parallel support
+set.spChkOption         Control checking of spatial object IDs
+skater                  Spatial 'K'luster Analysis by Tree Edge Removal
+sp.correlogram          Spatial correlogram
+sp.mantel.mc            Mantel-Hubert spatial general cross product
+                        statistic
+spdep                   Return package version number
+spdep-deprecated        Deprecated Functions in Package 'spdep'
+spweights.constants     Provides constants for spatial weights matrices
+ssw                     Compute the sum of dissimilarity
+subset.listw            Subset a spatial weights list
+subset.nb               Subset a neighbours list
+summary.nb              Print and summary function for neighbours and
+                        weights lists
+tolerance.nb            Function to construct edges based on a
+                        tolerance angle and a maximum distance
+tri2nb                  Neighbours list from tri object
+write.nb.gal            Write a neighbours list as a GAL lattice file

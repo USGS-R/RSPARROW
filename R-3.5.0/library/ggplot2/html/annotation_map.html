@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Annotation: a maps</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for annotation_map {ggplot2}"><tr><td>annotation_map {ggplot2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Annotation: a maps</h2>
+
+<h3>Description</h3>
+
+<p>Display a fixed map on a plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+annotation_map(map, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>map</code></td>
+<td>
+<p>data frame representing a map.  Most map objects can be
+converted into the right format by using <code><a href="fortify.html">fortify()</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments used to modify aesthetics</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("maps")) {
+usamap &lt;- map_data("state")
+
+seal.sub &lt;- subset(seals, long &gt; -130 &amp; lat &lt; 45 &amp; lat &gt; 40)
+ggplot(seal.sub, aes(x = long, y = lat)) +
+  annotation_map(usamap, fill = "NA", colour = "grey50") +
+  geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat))
+}
+
+if (require("maps")) {
+seal2 &lt;- transform(seal.sub,
+  latr = cut(lat, 2),
+  longr = cut(long, 2))
+
+ggplot(seal2,  aes(x = long, y = lat)) +
+  annotation_map(usamap, fill = "NA", colour = "grey50") +
+  geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat)) +
+  facet_grid(latr ~ longr, scales = "free", space = "free")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggplot2</em> version 3.2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Continuous colour scales</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for scale_colour_continuous {ggplot2}"><tr><td>scale_colour_continuous {ggplot2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Continuous colour scales</h2>
+
+<h3>Description</h3>
+
+<p>Colour scales for continuous data default to the values of the
+<code>ggplot2.continuous.colour</code> and <code>ggplot2.continuous.fill</code> options. If these
+options are not present, <code>"gradient"</code> will be used. See <code><a href="../../base/html/options.html">options()</a></code> for more
+information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+scale_colour_continuous(...,
+  type = getOption("ggplot2.continuous.colour", default = "gradient"))
+
+scale_fill_continuous(..., type = getOption("ggplot2.continuous.fill",
+  default = "gradient"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional parameters passed on to the scale type</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>One of &quot;gradient&quot; (the default) or &quot;viridis&quot; indicating the
+colour scale to use</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="scale_gradient.html">scale_colour_gradient()</a></code>, <code><a href="scale_viridis.html">scale_colour_viridis_c()</a></code>,
+<code><a href="scale_gradient.html">scale_fill_gradient()</a></code>, and <code><a href="scale_viridis.html">scale_fill_viridis_c()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+v &lt;- ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+geom_tile()
+v
+
+v + scale_fill_continuous(type = "gradient")
+v + scale_fill_continuous(type = "viridis")
+
+# The above are equivalent to
+v + scale_fill_gradient()
+v + scale_fill_viridis_c()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggplot2</em> version 3.2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

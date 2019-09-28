@@ -1,0 +1,663 @@
+\documentclass{article}
+
+%!\VignetteEncoding{UTF-8}
+%\VignetteIndexEntry{nlmrt Tutorial}
+%\VignetteDepends{}
+%\VignetteKeywords{nonlinear least squares, Levenberg-Marquardt method}
+%\VignettePackage{nlmrt}
+
+%% from Ross Ihaka doc.
+
+\newcommand{\R}{{\sf R\ }}
+
+\newcommand{\B}[1]{{\bf#1\rm}}
+\newcommand{\code}[1]{{\tt #1}}
+\newcommand{\pkg}[1]{\bf{\tt #1}\rm }
+
+\title{nlmrt-vignette}
+\author{John C. Nash}
+\usepackage{Sweave}
+\usepackage{fancyvrb}
+%% \usepackage{chicago}
+
+\DefineVerbatimEnvironment{Sinput}{Verbatim} {xleftmargin=1em}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{xleftmargin=1em}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=1em}
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+ 
+%%% \DefineVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small,fontshape=n}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\maketitle
+
+\section*{Background}
+
+This vignette discusses the 
+\R package \code{nlmrt}, that aims to provide computationally robust
+tools for nonlinear least squares problems. Note that \R already has the
+\code{nls()} function to solve nonlinear least squares problems, and this
+function has a large repertoire of tools for such problems. However, it is
+specifically NOT indicated for problems where the residuals are small or
+zero. Furthermore, it frequently fails to find a solution if starting 
+parameters are provided that are not close enough to a solution. The tools
+of \code{nlmrt} are very much intended to cope with both these issues.
+
+The functions are also intended to provide stronger support for bounds
+constraints and to introduce the capability for \B{masks}, that is,
+parameters that are fixed for a given run of the function.
+
+\code{nlmrt} tools generally do not return the large nls-style object.
+However, we do provide a tool \code{wrapnls} that will run either
+\code{nlxb} followed by a call to \code{nls}. The call to \code{nls} is
+adjusted to use the \code{port} algorithm if there are bounds constraints.
+
+
+\section{An example problem and its solution}
+
+Let us try an example initially presented by \cite{Ratkowsky83} and 
+developed by \cite{Huet1996}. This is a model for the regrowth of pasture.
+We set up the computation by putting the data for the problem in a data
+frame, and specifying the formula for the model. This can be as a formula
+object, but I have found that saving it as a character string seems to give
+fewer difficulties. Note the "~" that implies "is modeled by". There must
+be such an element in the formula for this package (and for \code{nls()}).
+We also specify two sets of starting parameters, that is, the \code{ones}
+which is a trivial (but possibly unsuitable) start with all parameters 
+set to 1, and \code{huetstart} which was suggested in \cite{Huet1996}.
+Finally we load the routines in the package \code{nlmrt}.
+
+%% For knitR only
+%% <<setup, echo=FALSE, cache=FALSE>>=
+%% # size takes valid value of LaTeX font sizes like small, big, huge, ...
+%% opts_chunk$set(size = 'scriptsize')
+%% @
+
+
+%%Chunk01, 
+<<chunk01, echo=TRUE>>=
+options(width=60)
+pastured <- data.frame(
+time=c(9, 14, 21, 28, 42, 57, 63, 70, 79),
+yield= c(8.93, 10.8, 18.59, 22.33, 39.35, 
+         56.11, 61.73, 64.62, 67.08))
+regmod <- "yield ~ t1 - t2*exp(-exp(t3+t4*log(time)))"
+ones <- c(t1=1, t2=1, t3=1, t4=1) # all ones start
+huetstart <- c(t1=70, t2=60, t3=0, t4=1)
+require(nlmrt)
+@
+
+Let us now call the routine \code{nlsmnqb} (even though we are not 
+specifying bounds). We try both starts.
+
+<<chunk02, echo=TRUE>>=
+anmrt <- nlxb(regmod, start=ones, trace=FALSE, data=pastured)
+print(anmrt)
+@
+
+<<chunk03, echo=TRUE>>=
+anmrtx <- try(nlxb(regmod, start=huetstart, trace=FALSE, data=pastured))
+print(strwrap(anmrtx))
+@
+
+Note that the standard \code{nls()} of \R fails to find a solution 
+from either start.
+
+\RecustomVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\scriptsize}
+
+<<chunk04, echo=TRUE>>=
+anls <- try(nls(regmod, start=ones, trace=FALSE, data=pastured))
+print(strwrap(anls))
+@
+
+
+<<chunk05, echo=TRUE>>=
+anlsx <- try(nls(regmod, start=huetstart, trace=FALSE, data=pastured))
+print(strwrap(anlsx))
+@
+
+In both cases, the \code{nls()} failed with a 'singular gradient'. 
+This implies the Jacobian is effectively singular at some point. The
+Levenberg-Marquardt stabilization used in \code{nlxb} avoids this 
+particular issue by augmenting the Jacobian until it is non-singular.
+The details of this common approach may be found elsewhere \cite[Algorithm 23]{jncnm79}.
+
+
+There are some other tools for \R that aim to solve nonlinear least 
+squares problems. We have not yet been able to successfully use the INRA package 
+\code{nls2}. This 
+is a quite complicated package and is not installable as a regular \R package 
+using \code{install.packages()}. Note that there is a very different package 
+by the same name on CRAN by Gabor Grothendieck. 
+
+\section{The \code{nls} solution}
+
+We can call \code{nls} after getting a potential nonlinear least squares
+solution using \code{nlxb}. Package \code{nlmrt} has function \code{wrapnls} 
+to allow this to be carried out automatically. Thus,
+
+<<chunk06, echo=TRUE>>=
+awnls <- wrapnls(regmod, start=ones, data=pastured, control=list(rofftest=FALSE))
+print(awnls)
+cat("Note that the above is just the nls() summary result.\n")
+@
+
+
+\section{Problems specified by residual functions}
+
+The model expressions in \R, such as 
+
+\code{yield $\sim$ t1 - t2*exp(-exp(t3+t4*log(time)))}
+
+are an extremely helpful feature of the language. Moreover, they are used
+to compute symbolic or automatic derivatives, so we do not have to rely on 
+numerical approximations for the Jacobian of the nonlinar least squares 
+problem. However, there are many situations where the expression structure
+is not flexible enough to allow us to define our residuals, or where the
+construction of the residuals is simply too complicated. In such cases it
+is helpful to have tools that work with \R functions. 
+
+Once we have an \R function for the residuals, we can use the safeguarded 
+Marquardt routine \code{nlfb} from package \code{nlmrt} or else the 
+routine \code{nls.lm} from package \code{minpack.lm} \cite{minpacklm12}. The latter is 
+built on the Minpack Fortran codes of \cite{more80} implemented by Kate
+Mullen. \code{nlfb} is written entirely in \R, and is intended to be 
+quite aggessive in ensuring it finds a good minimum. Thus these two approaches
+have somewhat different characteristics.
+
+Let us consider a slightly different problem, called WEEDS. Here the objective
+is to model a set of 12 data points (density $y$ of weeds at annual time points $tt$)
+versus the time index. (A minor note: use of \code{t} rather than \code{tt} in \R
+may encourage confusion with the transpose function \code{t()}, so I tend to 
+avoid plain \code{t}.) The model suggested was a 3-parameter logistic function,
+
+$  y_{model}  =  b_1/(1 + b_2 exp(-b_3 tt) ) $
+
+and while it is possible to use this formulation, a scaled version gives slightly
+better results
+
+$  y_{model} =  100  b_1/(1 + 10 b_2 exp(-0.1 b_3 tt) ) $
+
+The residuals for this latter model (in form "model" minus "data") are coded in 
+\R in the following code chunk in the function \code{shobbs.res}. We have also
+coded the Jacobian for this model as \code{shobbs.jac}
+
+<<chunk07, echo=TRUE>>=
+shobbs.res <- function(x){ # scaled Hobbs weeds problem -- residual
+# This variant uses looping
+    if(length(x) != 3) stop("hobbs.res -- parameter vector n!=3")
+    y <- c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443, 38.558, 50.156, 62.948,
+         75.995, 91.972)
+    tt <- 1:12
+    res <- 100.0*x[1]/(1+x[2]*10.*exp(-0.1*x[3]*tt)) - y
+}
+ 
+shobbs.jac <- function(x) { # scaled Hobbs weeds problem -- Jacobian
+    jj <- matrix(0.0, 12, 3)
+    tt <- 1:12
+    yy <- exp(-0.1*x[3]*tt) # We don't need data for the Jacobian
+    zz <- 100.0/(1+10.*x[2]*yy)
+    jj[tt,1]  <-  zz
+    jj[tt,2]  <-  -0.1*x[1]*zz*zz*yy
+    jj[tt,3]  <-  0.01*x[1]*zz*zz*yy*x[2]*tt
+    return(jj)
+}
+@
+
+With package \code{nlmrt}, function \code{nlfb} can be used to estimate the 
+parameters of the WEEDS problem as follows, where we use the naive starting 
+point where all parameters are 1.
+
+<<chunk08, echo=TRUE>>=
+st <- c(b1=1, b2=1, b3=1)
+ans1 <- nlfb(st, shobbs.res, shobbs.jac, trace=FALSE)
+print(ans1)
+@
+
+This works very well, with almost identical iterates as given by \code{nlxb}.
+(Since the algorithms are the same, this should be the case.) Note that we 
+turn off the \code{trace} output. There is also the possibility of interrupting
+the iterations to \code{watch} the progress. Changing the value of \code{watch} in 
+the call to \code{nlfb} below allows this. In this code chunk, we use an internal
+numerical approximation to the Jacobian. 
+
+<<chunk09, echo=TRUE>>=
+cat("No jacobian function -- use internal approximation\n")
+ans1n <- nlfb(st, shobbs.res, trace=FALSE, control=list(watch=FALSE)) # NO jacfn
+print(ans1n)
+@
+
+Note that we could also form the sum of squares function and the gradient and
+use a function minimization code. The next code block shows how this is done,
+creating the sum of squares function and its gradient, then using the \code{optimx}
+package to call a number of minimizers simultaneously.
+
+<<chunk10, echo=TRUE>>=
+shobbs.f <- function(x){
+   res <- shobbs.res(x)
+   as.numeric(crossprod(res))
+}
+shobbs.g <- function(x){
+   res <- shobbs.res(x) # This is NOT efficient -- we generally have res already calculated
+   JJ <- shobbs.jac(x)
+   2.0*as.vector(crossprod(JJ,res))
+}
+require(optimx)
+aopx <- optimx(st, shobbs.f, shobbs.g, control=list(all.methods=TRUE))
+summary(aopx)
+cat("\nNow with numerical gradient approximation or derivative free methods\n")
+aopxn <- optimx(st, shobbs.f, control=list(all.methods=TRUE))
+summary(aopxn) # no file output
+@
+
+We see that most of the minimizers work with either the analytic or approximated
+gradient. The 'CG' option of function \code{optim()} does not do very well in 
+either case. As the author of the original step and description and then Turbo
+Pascal code, I can say I was never very happy with this method and replaced it
+recently with \code{Rcgmin} from the package of the same name, in the process
+adding the possibility of bounds or masks constraints.
+
+\section{Converting an expression to a function}
+
+Clearly if we have an expression, it would be nice to be able to automatically
+convert this to a function, if possible also getting the derivatives. Indeed,
+it is possible to convert an expression to a function, and there are
+several ways to do this (references??). In package \code{nlmrt} we 
+provide the tools 
+\code{model2grfun.R}, \code{model2jacfun.R}, \code{model2resfun.R}, 
+and \code{model2ssfun.R} to convert a model expression to a function to
+compute the gradient, Jacobian, residuals or sum of squares functions respectively.
+We do not provide any tool for converting a function for the residuals back
+to an expression, as functions can use structures that are not easily expressed
+as \R expressions. 
+
+Below are code chunks to illustrate the generation of the residual, sum of squares,
+Jacobian and gradient code for the Ratkowsky problem used earlier in the 
+vignette. The commented-out first line shows how we would use one of these
+function generators to output the function to a file named "testresfn.R". 
+However, it is not necessary to generate the file.
+
+First, let us generate the residuals. We must supply the names of the parameters,
+and do this via the starting vector of parameters \code{ones}. The actual
+values are not needed by \code{model2resfun}, just the names. Other names
+are drawn from the variables used in the model expression \code{regmod}.
+
+<<chunk12, echo=TRUE>>=
+# jres <- model2resfun(regmod, ones, funname="myxres", file="testresfn.R")
+jres <- model2resfun(regmod, ones)
+print(jres)
+valjres <- jres(ones, yield=pastured$yield, time=pastured$time)
+cat("valjres:")
+print(valjres)
+@
+
+Now let us also generate the Jacobian and test it using the numerical
+approximations from package \code{numDeriv}. 
+
+<<chunk13, echo=TRUE>>=
+jjac <- model2jacfun(regmod, ones)
+print(jjac)
+# Note that we now need some data!
+valjjac <- jjac(ones, yield=pastured$yield, time=pastured$time)
+cat("valjac:")
+print(valjjac)
+# Now compute the numerical approximation
+require(numDeriv)
+Jn <- jacobian(jres, ones, , yield=pastured$yield, time=pastured$time)
+cat("maxabsdiff=",max(abs(Jn-valjjac)),"\n")
+@
+
+As with the WEEDS problem, we can compute the sum of squares function and
+the gradient. 
+
+<<chunk14, echo=TRUE>>=
+ssfn <- model2ssfun(regmod, ones) # problem getting the data attached!
+print(ssfn)
+valss <- ssfn(ones, yield=pastured$yield, time=pastured$time)
+cat("valss: ",valss,"\n")
+grfn <- model2grfun(regmod, ones) # problem getting the data attached!
+print(grfn)
+valgr <- grfn(ones, yield=pastured$yield, time=pastured$time)
+cat("valgr:")
+print(valgr)
+gn <- grad(ssfn, ones, yield=pastured$yield, time=pastured$time)
+cat("maxabsdiff=",max(abs(gn-valgr)),"\n")
+@
+
+Moreover, we can use the Huet starting parameters as a double check
+on our conversion of the expression to various optimization-style functions.
+
+<<chunk15, echo=TRUE>>=
+cat("\n\nHuetstart:")
+print(huetstart)
+valjres <- jres(huetstart, yield=pastured$yield, time=pastured$time)
+cat("valjres:")
+print(valjres)
+valss <- ssfn(huetstart, yield=pastured$yield, time=pastured$time)
+cat("valss:", valss, "\n")
+valjjac <- jjac(huetstart, yield=pastured$yield, time=pastured$time)
+cat("valjac:")
+print(valjjac)
+Jn <- jacobian(jres, huetstart, , yield=pastured$yield, time=pastured$time)
+cat("maxabsdiff=",max(abs(Jn-valjjac)),"\n")
+valgr <- grfn(huetstart, yield=pastured$yield, time=pastured$time)
+cat("valgr:")
+print(valgr)
+gn <- grad(ssfn, huetstart, yield=pastured$yield, time=pastured$time)
+cat("maxabsdiff=",max(abs(gn-valgr)),"\n")
+@
+
+Now that we have these functions, let us apply them with \code{nlfb}. 
+
+<<chunk16, echo=TRUE>>=
+cat("All ones to start\n")
+anlfb <- nlfb(ones, jres, jjac, trace=FALSE, yield=pastured$yield, time=pastured$time)
+print(strwrap(anlfb))
+cat("Huet start\n")
+anlfbh <- nlfb(huetstart, jres, jjac, trace=FALSE, yield=pastured$yield, time=pastured$time)
+print(strwrap(anlfbh))
+@
+
+\section{Using bounds and masks}
+
+The manual for \code{nls()} tells us that bounds are restricted to the 'port' 
+algorithm.
+
+\begin{verbatim}
+lower, upper: vectors of lower and upper bounds, replicated to be as
+          long as 'start'.  If unspecified, all parameters are assumed
+          to be unconstrained.  Bounds can only be used with the
+          '"port"' algorithm.  They are ignored, with a warning, if
+          given for other algorithms.
+\end{verbatim}
+
+Later in the manual, there is the discomforting warning:
+
+\begin{verbatim}
+     The 'algorithm = "port"' code appears unfinished, and does not
+     even check that the starting value is within the bounds.  Use with
+     caution, especially where bounds are supplied.
+\end{verbatim}
+
+We will base the rest of this discussion on the examples in man/nlmrt-package.Rd,
+and use an unscaled version of the WEEDS problem. 
+
+First, let us estimate the model with no constraints.
+
+
+<<uweeds01, echo=TRUE>>=
+require(nlmrt)
+# Data for Hobbs problem
+ydat <- c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443, 
+          38.558, 50.156, 62.948, 75.995, 91.972)
+tdat <- 1:length(ydat)
+weeddata1 <- data.frame(y=ydat, tt=tdat)
+start1 <- c(b1=1, b2=1, b3=1) # name parameters for nlxb, nls, wrapnls.
+eunsc <-  y ~ b1/(1+b2*exp(-b3*tt))
+anlxb1 <- try(nlxb(eunsc, start=start1, data=weeddata1))
+print(anlxb1)
+@
+
+Now let us see if we can apply bounds. Note that we name the parameters in the
+vectors for the bounds. First we apply bounds that are NOT active at the 
+unconstrained solution. 
+
+<<bweeds01, echo=TRUE>>=
+# WITH BOUNDS
+startf1 <- c(b1=1, b2=1, b3=.1) # a feasible start when b3 <= 0.25
+anlxb1 <- try(nlxb(eunsc, start=startf1, lower=c(b1=0, b2=0, b3=0), 
+      upper=c(b1=500, b2=100, b3=5), data=weeddata1))
+print(anlxb1)
+@
+
+We note that \code{nls()} also solves this case.
+
+<<bweeds02, echo=TRUE>>=
+anlsb1 <- try(nls(eunsc, start=startf1, lower=c(b1=0, b2=0, b3=0), 
+     upper=c(b1=500, b2=100, b3=5), data=weeddata1, algorithm='port'))
+print(anlsb1)
+@
+
+Now we will change the bounds so the start is infeasible.
+
+<<bweeds03, echo=TRUE>>=
+## Uncon solution has bounds ACTIVE. Infeasible start
+anlxb2i <- try(nlxb(eunsc, start=start1, lower=c(b1=0, b2=0, b3=0), 
+           upper=c(b1=500, b2=100, b3=.25), data=weeddata1))
+print(anlxb2i)
+anlsb2i <- try(nls(eunsc, start=start1, lower=c(b1=0, b2=0, b3=0), 
+           upper=c(b1=500, b2=100, b3=.25), data=weeddata1, algorithm='port'))
+print(anlsb2i)
+@
+
+Both \code{nlxb()} and \code{nls()} (with 'port') do the right thing and refuse
+to proceed. There is a minor "glitch" in the output processing of both
+\code{knitR} and \code{Sweave} here. Let us start them off properly and see
+what they accomplish. 
+
+<<bweeds04, echo=TRUE>>=
+## Uncon solution has bounds ACTIVE. Feasible start
+anlxb2f <- try(nlxb(eunsc, start=startf1, lower=c(b1=0, b2=0, b3=0), 
+   upper=c(b1=500, b2=100, b3=.25), data=weeddata1))
+print(anlxb2f)
+anlsb2f <- try(nls(eunsc, start=startf1, lower=c(b1=0, b2=0, b3=0), 
+   upper=c(b1=500, b2=100, b3=.25), data=weeddata1, algorithm='port'))
+print(anlsb2f)
+@
+
+Both methods get essentially the same answer for the bounded problem, 
+and this solution has parameters \code{b1} and \code{b3} at their
+upper bounds. The Jacobian elements for these parameters are zero as
+returned by \code{nlxb()}.
+
+Let us now turn to \B{masks}, which functions from \pkg{nlmrt}
+are designed to handle. Masks are also available with packages
+\pkg{Rcgmin} and \pkg{Rvmmin}. I would like to hear if other
+packages offer this capability.
+
+<<mweeds01, echo=TRUE>>=
+## TEST MASKS
+anlsmnqm <- try(nlxb(eunsc, start=start1, lower=c(b1=0, b2=0, b3=0), 
+   upper=c(b1=500, b2=100, b3=5), masked=c("b2"), data=weeddata1))
+print(anlsmnqm) # b2 masked
+an1qm3 <- try(nlxb(eunsc, start=start1, data=weeddata1, masked=c("b3")))
+print(an1qm3) # b3 masked 
+# Note that the parameters are put in out of order to test code.
+an1qm123 <- try(nlxb(eunsc, start=start1, data=weeddata1, masked=c("b2","b1","b3")))
+print(an1qm123) # ALL masked - fails!!
+@
+
+Finally (for \code{nlxb}) we combine the bounds and mask.
+
+<<bmweeds01, echo=TRUE>>=
+## BOUNDS and MASK
+an1qbm2 <- try(nlxb(eunsc, start=startf1, data=weeddata1, 
+    lower=c(0,0,0), upper=c(200, 60, .3), masked=c("b2")))
+print(an1qbm2)
+an1qbm2x <- try(nlxb(eunsc, start=startf1, data=weeddata1, 
+    lower=c(0,0,0), upper=c(48, 60, .3), masked=c("b2")))
+print(an1qbm2x)
+@
+
+Turning to the function-based \code{nlfb}, 
+
+
+<<bmweeds10, echo=TRUE>>=
+hobbs.res <- function(x){ # Hobbs weeds problem -- residual
+    if(length(x) != 3) stop("hobbs.res -- parameter vector n!=3")
+    y <- c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443, 38.558, 50.156, 62.948,
+         75.995, 91.972)
+    tt <- 1:12
+    res <- x[1]/(1+x[2]*exp(-x[3]*tt)) - y
+}
+ 
+hobbs.jac <- function(x) { # Hobbs weeds problem -- Jacobian
+    jj <- matrix(0.0, 12, 3)
+    tt <- 1:12
+    yy <- exp(-x[3]*tt)
+    zz <- 1.0/(1+x[2]*yy)
+    jj[tt,1]  <-  zz
+    jj[tt,2]  <-  -x[1]*zz*zz*yy
+    jj[tt,3]  <-  x[1]*zz*zz*yy*x[2]*tt
+    return(jj)
+}
+# Check unconstrained
+ans1 <- nlfb(start1, hobbs.res, hobbs.jac)
+ans1
+## No jacobian - use internal approximation
+ans1n <- nlfb(start1, hobbs.res) 
+ans1n
+# Bounds -- infeasible start
+ans2i <- try(nlfb(start1, hobbs.res, hobbs.jac, 
+   lower=c(b1=0, b2=0, b3=0), upper=c(b1=500, b2=100, b3=.25)))
+ans2i
+# Bounds -- feasible start
+ans2f <- nlfb(startf1, hobbs.res, hobbs.jac, 
+   lower=c(b1=0, b2=0, b3=0), upper=c(b1=500, b2=100, b3=.25))
+ans2f
+# Mask b2
+ansm2 <- nlfb(start1, hobbs.res, hobbs.jac, maskidx=c(2))
+ansm2
+# Mask b3
+ansm3 <- nlfb(start1, hobbs.res, hobbs.jac, maskidx=c(3))
+ansm3
+# Mask all -- should fail
+ansma <- try(nlfb(start1, hobbs.res, hobbs.jac, maskidx=c(3,1,2)))
+ansma
+# Bounds and mask
+ansmbm2 <- nlfb(startf1, hobbs.res, hobbs.jac, maskidx=c(2),
+      lower=c(0,0,0), upper=c(200, 60, .3))
+ansmbm2
+# Active bound
+ansmbm2x <- nlfb(startf1, hobbs.res, hobbs.jac, maskidx=c(2),
+      lower=c(0,0,0), upper=c(48, 60, .3))
+ansmbm2x
+@
+
+The results match those of \code{nlxb()}
+
+Finally, let us check the results above with \code{Rvmmin} and
+\code{Rcgmin}. Note that this vignette cannot be created on systems
+that lack these codes.
+
+<<vmcgcheck, echo=TRUE>>=
+require(Rcgmin)
+require(Rvmmin)
+hobbs.f <- function(x) {
+   res<-hobbs.res(x)
+   as.numeric(crossprod(res))
+}
+hobbs.g <- function(x) {
+   res <- hobbs.res(x) # Probably already available
+   JJ <- hobbs.jac(x)
+   2.0*as.numeric(crossprod(JJ, res))
+}
+
+# Check unconstrained
+a1cg <- Rcgmin(start1, hobbs.f, hobbs.g)
+a1cg
+a1vm <- Rvmmin(start1, hobbs.f, hobbs.g)
+a1vm
+## No jacobian - use internal approximation
+a1cgn <- try(Rcgmin(start1, hobbs.f))
+a1cgn
+a1vmn <- try(Rvmmin(start1, hobbs.f))
+a1vmn
+# But 
+grfwd <- function(par, userfn, fbase=NULL, eps=1.0e-7, ...) {
+   # Forward different gradient approximation
+   if (is.null(fbase)) fbase <- userfn(par, ...)  # ensure we function value at par
+   df <- rep(NA, length(par))
+   teps <- eps * (abs(par) + eps)
+   for (i in 1:length(par)) {
+      dx <- par
+      dx[i] <- dx[i] + teps[i]
+      df[i] <- (userfn(dx, ...) - fbase)/teps[i]
+   }
+   df
+}
+a1vmn <- try(Rvmmin(start1, hobbs.f, gr="grfwd"))
+a1vmn
+# Bounds -- infeasible start
+# Note: These codes move start to nearest bound
+a1cg2i <- Rcgmin(start1, hobbs.f, hobbs.g, 
+    lower=c(b1=0, b2=0, b3=0), upper=c(b1=500, b2=100, b3=.25))
+a1cg2i
+a1vm2i <- Rvmmin(start1, hobbs.f, hobbs.g, 
+    lower=c(b1=0, b2=0, b3=0), upper=c(b1=500, b2=100, b3=.25))
+a1vm2i # Fails to get to solution!
+# Bounds -- feasible start
+a1cg2f <- Rcgmin(startf1, hobbs.f, hobbs.g, 
+    lower=c(b1=0, b2=0, b3=0), upper=c(b1=500, b2=100, b3=.25))
+a1cg2f
+a1vm2f <- Rvmmin(startf1, hobbs.f, hobbs.g, 
+    lower=c(b1=0, b2=0, b3=0), upper=c(b1=500, b2=100, b3=.25))
+a1vm2f # Gets there, but only just!
+# Mask b2
+a1cgm2 <- Rcgmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,0,1))
+a1cgm2
+a1vmm2 <- Rvmmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,0,1))
+a1vmm2
+
+# Mask b3
+a1cgm3 <- Rcgmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,1,0))
+a1cgm3
+a1vmm3 <- Rvmmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,1,0))
+a1vmm3
+
+# Mask all -- should fail
+a1cgma <- Rcgmin(start1, hobbs.f, hobbs.g, bdmsk=c(0,0,0))
+a1cgma
+a1vmma <- Rvmmin(start1, hobbs.f, hobbs.g, bdmsk=c(0,0,0))
+a1vmma
+
+# Bounds and mask
+ansmbm2 <- nlfb(startf1, hobbs.res, hobbs.jac, maskidx=c(2),
+      lower=c(0,0,0), upper=c(200, 60, .3))
+ansmbm2
+a1cgbm2 <- Rcgmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,0,1),
+       lower=c(0,0,0), upper=c(200, 60, .3))
+a1cgbm2
+a1vmbm2 <- Rvmmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,0,1),
+       lower=c(0,0,0), upper=c(200, 60, .3))
+a1vmbm2
+# Active bound
+a1cgm2x <- Rcgmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,0,1),
+       lower=c(0,0,0), upper=c(48, 60, .3))
+a1cgm2x
+a1vmm2x <- Rvmmin(start1, hobbs.f, hobbs.g, bdmsk=c(1,0,1),
+       lower=c(0,0,0), upper=c(48, 60, .3))
+a1vmm2x
+@
+
+
+
+\section{Brief example of \code{minpack.lm}}
+
+Recently Kate Mullen provided some capability for the package \pkg{minpack.lm} to
+include bounds constraints. I am particularly happy that this effort is proceeding,
+as there are significant differences in how \pkg{minpack.lm} and \pkg{nlmrt} are
+built and implemented. They can be expected to have different performance 
+characteristics on different problems. A lively dialogue between developers, and
+the opportunity to compare and check results can only improve the tools.
+
+The examples below are a very quick attempt to show how to run the Ratkowsky-Huet 
+problem with \code{nls.lm} from \pkg{minpack.lm}.
+
+<<chunk17, echo=TRUE>>=
+require(minpack.lm)
+anlslm <- nls.lm(ones, lower=rep(-1000,4), upper=rep(1000,4), jres, jjac, yield=pastured$yield, time=pastured$time)
+cat("anlslm from ones\n")
+print(strwrap(anlslm))
+anlslmh <- nls.lm(huetstart, lower=rep(-1000,4), upper=rep(1000,4), jres, jjac, yield=pastured$yield, time=pastured$time)
+cat("anlslmh from huetstart\n")
+print(strwrap(anlslmh))
+@
+
+
+\bibliography{nlpd}
+\bibliographystyle{amsplain}
+
+\end{document}
+

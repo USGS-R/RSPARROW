@@ -1,0 +1,72 @@
+\documentclass[a4paper]{article}
+
+%\VignetteIndexEntry{Venn Diagrams with gplots}
+
+\title{Venn Diagrams with \texttt{gplots}}
+\author{Steffen M{\"{o}}ller}
+
+\begin{document}
+
+\maketitle
+
+Venn diagrams\footnote{http://en.wikipedia.org/wiki/Venn\_diagram} 
+allow for a quick overview on the number of elements that multiple
+sets share. And when those elements are representing traits of
+real objects, like observations in biomedical sciences/marketing/...,
+then this may direct researchers to further investigations/decisions.
+
+The {\tt gplots} package provides Venn diagrams for up to five sets.
+The R code to produce the diagrams is not complicated. The plot
+function behaves alwas the same, depending only on the number of
+overlapping circles to draw. Its input is a table that is produced
+by another function. The function {\tt venn()} calls one after the
+other and is the only one to be seen by the user. The values shown
+are returned invisibly.
+
+The {\tt venn()} function accepts either a list of sets as an argument,
+or it takes a binary matrix, one column per set, indicating for every
+element, one per row, the membership with every set.
+
+The common form with overlapping circles only works with up to three
+sets, as seen here:
+\begin{center}
+<<fig=TRUE,echo=TRUE>>=
+library(gplots)
+venn( list(A=1:5,B=4:6,C=c(4,8:10)) )
+@
+\end{center}
+
+The names of columns or the list elements are the set names.
+To squeeze extra circles in, those circles need to become ellipses.
+This works for four sets
+\begin{center}
+<<fig=TRUE,echo=TRUE>>=
+v.table<-venn( list(A=1:5,B=4:6,C=c(4,8:10),D=c(4:12)) )
+print(v.table)
+@
+\end{center}
+
+and maybe even more impressively also for five.
+\begin{center}
+<<fig=TRUE,echo=FALSE>>=
+venn( list(A=1:5,B=4:6,C=c(4,8:10),D=c(4:12),E=c(2,4,6:9)) )
+@
+\end{center}
+
+The man page of {\it venn()} lists options to change the appearance of
+the plots, e.g., the names of the sets may be omitted and sizes changed.
+However, there is ample of opportunity to extend the functionality of
+this package.  To mind come
+
+\begin{itemize}
+\item more dimensions (next)
+\item colors
+\item variation of size of circles with the number of members the set has
+\item density plot rather than numbers, identification of individual entries
+\end{itemize}
+
+The prime personal interest is more in the increase of dimensions. Please
+send patches for features you are most interested in.
+
+\end{document}
+

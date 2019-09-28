@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Contours of a 2d density estimate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geom_density_2d {ggplot2}"><tr><td>geom_density_2d {ggplot2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Contours of a 2d density estimate</h2>
+
+<h3>Description</h3>
+
+<p>Perform a 2D kernel density estimation using <code><a href="../../MASS/html/kde2d.html">MASS::kde2d()</a></code> and
+display the results with contours. This can be useful for dealing with
+overplotting. This is a 2d version of <code><a href="geom_density.html">geom_density()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geom_density_2d(mapping = NULL, data = NULL, stat = "density2d",
+  position = "identity", ..., lineend = "butt", linejoin = "round",
+  linemitre = 10, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
+
+stat_density_2d(mapping = NULL, data = NULL, geom = "density_2d",
+  position = "identity", ..., contour = TRUE, n = 100, h = NULL,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code><a href="aes.html">aes()</a></code> or
+<code><a href="aes_.html">aes_()</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply <code>mapping</code> if there is no plot mapping.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code><a href="ggplot.html">ggplot()</a></code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+<code><a href="fortify.html">fortify()</a></code> for which variables will be created.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame</code>, and
+will be used as the layer data. A <code>function</code> can be created
+from a <code>formula</code> (e.g. <code>~ head(.x, 10)</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed on to <code><a href="layer.html">layer()</a></code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>colour = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td></tr>
+<tr valign="top"><td><code>lineend</code></td>
+<td>
+<p>Line end style (round, butt, square).</p>
+</td></tr>
+<tr valign="top"><td><code>linejoin</code></td>
+<td>
+<p>Line join style (round, mitre, bevel).</p>
+</td></tr>
+<tr valign="top"><td><code>linemitre</code></td>
+<td>
+<p>Line mitre limit (number greater than 1).</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p>
+</td></tr>
+<tr valign="top"><td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code><a href="borders.html">borders()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>geom, stat</code></td>
+<td>
+<p>Use to override the default connection between
+<code>geom_density_2d</code> and <code>stat_density_2d</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>contour</code></td>
+<td>
+<p>If <code>TRUE</code>, contour the results of the 2d density
+estimation</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of grid points in each direction</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>Bandwidth (vector of length two). If <code>NULL</code>, estimated
+using <code><a href="../../MASS/html/bandwidth.nrd.html">MASS::bandwidth.nrd()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Aesthetics</h3>
+
+<p><code>geom_density_2d()</code> understands the following aesthetics (required aesthetics are in bold):
+</p>
+
+<ul>
+<li> <p><strong><code>x</code></strong>
+</p>
+</li>
+<li> <p><strong><code>y</code></strong>
+</p>
+</li>
+<li> <p><code>alpha</code>
+</p>
+</li>
+<li> <p><code>colour</code>
+</p>
+</li>
+<li> <p><code>group</code>
+</p>
+</li>
+<li> <p><code>linetype</code>
+</p>
+</li>
+<li> <p><code>size</code>
+</p>
+</li></ul>
+
+<p>Learn more about setting these aesthetics in <code>vignette("ggplot2-specs")</code>.
+</p>
+
+
+<h3>Computed variables</h3>
+
+<p>Same as <code><a href="geom_contour.html">stat_contour()</a></code>
+</p>
+<p>With the addition of:
+</p>
+
+<dl>
+<dt>density</dt><dd><p>the density estimate</p>
+</dd>
+<dt>ndensity</dt><dd><p>density estimate, scaled to maximum of 1</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="geom_contour.html">geom_contour()</a></code> for information about how contours
+are drawn; <code><a href="geom_bin2d.html">geom_bin2d()</a></code> for another way of dealing with
+overplotting.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+m &lt;- ggplot(faithful, aes(x = eruptions, y = waiting)) +
+ geom_point() +
+ xlim(0.5, 6) +
+ ylim(40, 110)
+m + geom_density_2d()
+
+m + stat_density_2d(aes(fill = stat(level)), geom = "polygon")
+
+set.seed(4393)
+dsmall &lt;- diamonds[sample(nrow(diamonds), 1000), ]
+d &lt;- ggplot(dsmall, aes(x, y))
+# If you map an aesthetic to a categorical variable, you will get a
+# set of contours for each value of that variable
+d + geom_density_2d(aes(colour = cut))
+
+# Similarly, if you apply faceting to the plot, contours will be
+# drawn for each facet, but the levels will calculated across all facets
+d + stat_density_2d(aes(fill = stat(level)), geom = "polygon") +
+  facet_grid(. ~ cut) + scale_fill_viridis_c()
+# To override this behavior (for instace, to better visualize the density
+# within each facet), use stat(nlevel)
+d + stat_density_2d(aes(fill = stat(nlevel)), geom = "polygon") +
+  facet_grid(. ~ cut) + scale_fill_viridis_c()
+
+# If we turn contouring off, we can use use geoms like tiles:
+d + stat_density_2d(geom = "raster", aes(fill = stat(density)), contour = FALSE)
+# Or points:
+d + stat_density_2d(geom = "point", aes(size = stat(density)), n = 20, contour = FALSE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggplot2</em> version 3.2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,37 @@
+citHeader("To cite optimx in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Unifying Optimization Algorithms to Aid Software System Users: {optimx} for {R}",
+  author       = personList(as.person("John C. Nash"),
+                   as.person("Ravi Varadhan")),
+  journal      = "Journal of Statistical Software",
+  year         = "2011",
+  volume       = "43",
+  number       = "9",
+  pages        = "1--14",
+  url          = "http://www.jstatsoft.org/v43/i09/",
+
+  textVersion  =
+  paste("John C. Nash, Ravi Varadhan (2011).",
+        "Unifying Optimization Algorithms to Aid Software System Users: optimx for R.",
+        "Journal of Statistical Software, 43(9), 1-14.",
+        "URL http://www.jstatsoft.org/v43/i09/.")
+)
+
+citEntry(entry = "Article",
+  title        = "On Best Practice Optimization Methods in {R}",
+  author       = personList(as.person("John C. Nash")),
+  journal      = "Journal of Statistical Software",
+  year         = "2014",
+  volume       = "60",
+  number       = "2",
+  pages        = "1--14",
+  url          = "http://www.jstatsoft.org/v60/i02/",
+
+  textVersion  =
+  paste("John C. Nash (2014).",
+        "On Best Practice Optimization Methods in R.",
+        "Journal of Statistical Software, 60(2), 1-14.",
+        "URL http://www.jstatsoft.org/v60/i02/.")
+)
+

@@ -1,0 +1,78 @@
+---
+title: "Introduction to svGUI: Manage R GUIs in a central place"
+author: "Philippe Grosjean"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to svGUI}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+R is designed to be used in different ways. The "Command Line Interface" (CLI) is a first way to interact with R. However, R also supports various "Graphical User Interfaces" (GUI), like **RGui.exe** on Windows, **R.app** on MacOS, RStudio, etc. It also provides bridge to a few graphical toolkits or widgets, namely **Tk** and **Gtk2**. Other GUIs are build using these widgets, like **R Commander**. However, the different GUI items are not always collaborating well with each other, and it is sometimes hard to know which GUI is currently running in the R environment.
+
+Moreover, GUIs are sometimes criticized for leading to not reproducible analyses, because they imply user interaction. It is sometimes useful to be able to tune off GUI actions in a script, in order to make it run non-interactively, and in a reproducible way (providing you give a default value that can be used for the tests).
+
+**svGUI** solves these two problems by exposing information and status about running GUIs in R in a central place, and by allowing to by-pass GUI elements like modal dialog boxes on request, for one or all running GUIs. Here is how.
+
+
+# Central location for GUI information and status
+
+**svGUI** uses a 'gui' S3 object to store information about a GUI. This object is located on the search path^[All the 'gui' objects are stored in an environment called `SciViews:TempEnv` that is attached to the search path.]. It is basically a sub-classed environment that contains different objects. When loading **svGUI**, one default 'gui' object is created, named `.GUI`:
+
+```{r}
+library(svGUI)
+.GUI
+```
+
+This object contains various information about GUI items it uses (none for the moment):
+
+```{r}
+names(.GUI)
+```
+
+A frequently-used GUI item is a **modal dialog box**, a dialog box prompting for some data and that blocks the R script until it is dismissed. (see **svDialogs** for such **svGUI**'s compatible dialog boxes). For instance, an input box would prompt for your name. An **svGUI**-compatible dialog box will report its state, message and result in its corresponding 'gui' object at several occasions:
+
+1. When the dialog box is initialized,
+2. When the user changes something in the dialog box,
+3. When the dialog box is closed (either with the **OK** button, or perhaps, cancelled with a **Cancel** button),
+4. If, for some reasons, an error occurred,
+5. Finally, if the dialog box is **by-passed**, providing a default value instead.
+
+So, the state of the dialog box is accessible in our 'gui' object.
+
+Case 5 requires a little bit more of explanation, here under.
+
+
+# Inactivate modal dialog boxes
+
+**svGUI** gives full power to the end-user: he can decide to inactivate (by-pass) modal dialog boxes. So, in our example, the input box would not be displayed. Of course, the code must be designed to give a default value that is suitable for the rest of the process in that case, say, a generic name. It is the responsibility of the dialog box designer to provide a way to gracefully by-pass the dialog box.
+
+In order to tell that you don't want to be interrupted in your GUI, you just change the `gui_ask()` property to `FALSE`:
+
+```{r}
+gui_ask(.GUI)
+# Turn the ask property off, so that the GUI does not interrupt R any more
+gui_ask(.GUI) <- FALSE
+gui_ask(.GUI)
+```
+
+
+## GUI management and examples
+
+You  can create as many different 'gui' objects as you want. They can differ by the GUI widgets you use (set by its `widgets` property), or can be prohibited individually to interrupt R, using `gui_ask()`. Use `gui_list()` to get the list of all currently active GUIs.
+
+```{r}
+gui_add("tk_gui", widgets = "tcltk", ask = TRUE)
+gui_list()
+```
+
+Now, the 'gui' object does nothing by itself. It only centralizes key information about your GUI items. You must use (or design) **svGUI** compatible code to make something useful with it. _For a good example of a series of dialog boxes using the 'gui' object, take a look at the **svDialogs** package._

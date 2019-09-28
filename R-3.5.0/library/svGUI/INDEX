@@ -1,0 +1,7 @@
+dont_ask                Can we interrupt R to ask something to the user
+                        though the GUI?
+gui                     A GUI object.
+gui_add                 Creation and management of GUI objects.
+setUI                   Set a property in the UI (User Interface), or
+                        start an action.
+svGUI-package           SciViews - Manage GUIs in R

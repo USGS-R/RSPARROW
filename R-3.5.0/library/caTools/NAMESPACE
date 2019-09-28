@@ -1,0 +1,13 @@
+useDynLib("caTools")
+
+import(bitops)
+
+importFrom("grDevices", "col2rgb", "colorRampPalette", "gray", "rgb")
+importFrom("graphics", "abline", "legend", "lines", "plot", "title")
+importFrom("stats", "mad", "quantile", "runif", "runmed", "sd")
+importFrom("utils", "download.file", "read.table")
+
+# Export all names
+exportPattern(".")
+
+S3method("predict", "LogitBoost")

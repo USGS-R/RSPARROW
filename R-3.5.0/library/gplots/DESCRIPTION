@@ -1,0 +1,38 @@
+Package: gplots
+Title: Various R Programming Tools for Plotting Data
+Description: Various R programming tools for plotting data, including:
+  - calculating and plotting locally smoothed summary function as
+    ('bandplot', 'wapply'),
+  - enhanced versions of standard plots ('barplot2', 'boxplot2',
+    'heatmap.2', 'smartlegend'),
+  - manipulating colors ('col2hex', 'colorpanel', 'redgreen',
+    'greenred', 'bluered', 'redblue', 'rich.colors'),
+  - calculating and plotting two-dimensional data summaries ('ci2d',
+    'hist2d'),
+  - enhanced regression diagnostic plots ('lmplot2', 'residplot'),
+  - formula-enabled interface to 'stats::lowess' function ('lowess'),
+  - displaying textual data in plots ('textplot', 'sinkplot'),
+  - plotting a matrix where each cell contains a dot whose size
+    reflects the relative magnitude of the elements ('balloonplot'),
+  - plotting "Venn" diagrams ('venn'),
+  - displaying Open-Office style plots ('ooplot'),
+  - plotting multiple data on same region, with separate axes
+    ('overplot'),
+  - plotting means and confidence intervals ('plotCI', 'plotmeans'),
+  - spacing points in an x-y plot so they don't overlap ('space').
+Depends: R (>= 3.0)
+Imports: gtools, gdata, stats, caTools, KernSmooth
+Suggests: grid, MASS
+Version: 3.0.1.1
+Date: 2016-03-30
+Author: Gregory R. Warnes, Ben Bolker, Lodewijk Bonebakker, Robert
+	Gentleman, Wolfgang Huber Andy Liaw, Thomas Lumley, Martin
+	Maechler, Arni Magnusson, Steffen Moeller, Marc Schwartz, Bill
+	Venables
+Maintainer: Gregory R. Warnes <greg@warnes.net>
+License: GPL-2
+NeedsCompilation: no
+Packaged: 2019-01-27 14:55:38 UTC; hornik
+Repository: CRAN
+Date/Publication: 2019-01-27 16:00:39 UTC
+Built: R 3.5.3; ; 2019-08-09 01:20:07 UTC; windows

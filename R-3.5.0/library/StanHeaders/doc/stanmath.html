@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Stan Development Team" />
+
+<meta name="date" content="2019-06-13" />
+
+<title>Using the Stan Math C++ Library</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using the Stan Math C++ Library</h1>
+<h4 class="author"><em>Stan Development Team</em></h4>
+<h4 class="date"><em>2019-06-13</em></h4>
+
+
+
+<div id="using-the-stanheaders-package-from-other-r-packages" class="section level1">
+<h1>Using the <strong>StanHeaders</strong> Package from Other R Packages</h1>
+<p>The <strong>StanHeaders</strong> package contains no R functions. To use the Stan Math Library in other packages, it is often sufficient to specify</p>
+<pre><code>LinkingTo: StanHeaders (&gt;= 2.19.0)</code></pre>
+<p>in the DESCRIPTION file of another package and</p>
+<pre><code>CXX_STD = CXX14</code></pre>
+<p>in the src/Makevars and src/Makevars.win files. If, in addition, the other package needs to utilize the MCMC, optimization, variational inference, or parsing facilities of the Stan Library, then it is also necessary to include the <code>src</code> directory of <strong>StanHeaders</strong> in the other package’s <code>PKG_CPPFLAGS</code> in the src/Makevars and src/Makevars.win files with something like</p>
+<pre><code>STANHEADERS_SRC = $(shell &quot;$(R_HOME)/bin$(R_ARCH_BIN)/Rscript&quot; -e &quot;message()&quot; \
+  -e &quot;cat(system.file('include', 'src', package = 'StanHeaders', mustWork = TRUE))&quot; \
+  -e &quot;message()&quot; | grep &quot;StanHeaders&quot;)
+PKG_CPPFLAGS = -I&quot;$(STANHEADERS_SRC)&quot;</code></pre>
+<p>and put <code>GNU make</code> in the <code>SystemRequirements:</code> field of the package’s DESCRIPTION file. Finally, if integrating systems of stiff Ordinary Differential Equations, then you need to link to the shared library of StanHeaders as is shown below.</p>
+</div>
+<div id="using-higher-order-functions-in-the-stanheaders-package" class="section level1">
+<h1>Using Higher-Order Functions in the <strong>StanHeaders</strong> Package</h1>
+<p>This section will demonstrate how to use some of the C++ functions in the <strong>StanHeaders</strong> package.</p>
+<div id="derivatives-and-minimization" class="section level2">
+<h2>Derivatives and Minimization</h2>
+<p>The following is a toy example of using the Stan Math library via <code>Rcpp::sourceCpp</code>: to minimize the function <span class="math display">\[\left(\mathbf{x} - \mathbf{a}\right)^\top \left(\mathbf{x} - \mathbf{a}\right)\]</span> which has a global minimum when <span class="math inline">\(\mathbf{x} = \mathbf{a}\)</span>. To find this minimum with autodifferentiation, we need to define the objective function. Then, its gradient with respect to <span class="math inline">\(\mathbf{x}\)</span>, which we know is <span class="math inline">\(2\left(\mathbf{x} - \mathbf{a}\right)\)</span> in this case, can be calculated by autodifferentiation. At the optimum (or on the way to the optimum), we might want to evaluate the Hessian matrix, which we know is <span class="math inline">\(2\mathbf{I}\)</span>, but would need an additional function to evaluate it via autodifferentiation. Finally, one could reconceptualize the problem as solving a homogeneous system of equations where the gradient is set equal to a vector of zeros. The <code>stan::math::algebra_solver</code> function can solve such a system using autodifferentiation to obtain the Jacobian, which we know to be the identity matrix in this case.</p>
+<p>Here is C++ code that does all of the above, except for the part of finding the optimum, which is done using the R function <code>optim</code> below.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
+<span class="co">// [[Rcpp::depends(RcppEigen)]]</span>
+<span class="co">// [[Rcpp::depends(StanHeaders)]]</span>
+<span class="pp">#include </span><span class="im">&lt;stan/math/fwd/mat/fun/dot_self.hpp&gt;</span><span class="pp">    </span><span class="co">// stuff from fwd/ must come first</span>
+<span class="pp">#include </span><span class="im">&lt;stan/math/mix/mat/functor/hessian.hpp&gt;</span><span class="pp"> </span><span class="co">// then stuff from mix/ must come next</span>
+<span class="pp">#include </span><span class="im">&lt;stan/math.hpp&gt;</span><span class="pp">                         </span><span class="co">// finally pull in everything from rev/ &amp; prim/</span>
+<span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;RcppEigen.h&gt;</span>
+
+<span class="co">// [[Rcpp::plugins(cpp14)]]</span>
+
+<span class="co">/* Objective function */</span>
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> f(Eigen::VectorXd x, Eigen::VectorXd a) { <span class="co">// objective function in doubles</span>
+  <span class="kw">using</span> stan::math::dot_self;                  <span class="co">// dot_self() is a dot product with self</span>
+  <span class="cf">return</span> dot_self( (x - a).eval() );           <span class="co">// .eval() yields a Eigen::VectorXd</span>
+}
+
+<span class="co">/* Gradient */</span>
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> g(Eigen::VectorXd x, Eigen::VectorXd a) {  <span class="co">// gradient by AD using Stan</span>
+  <span class="dt">double</span> fx;
+  Eigen::VectorXd grad_fx;
+  <span class="kw">using</span> stan::math::dot_self;
+  stan::math::gradient([&amp;a](<span class="kw">auto</span> x) { <span class="cf">return</span> dot_self( (x - a).eval() ); },
+                       x, fx, grad_fx);
+  <span class="cf">return</span> grad_fx;
+}
+
+<span class="co">/* Hessian */</span>
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> H(Eigen::VectorXd x, Eigen::VectorXd a) { <span class="co">// Hessian by AD using Stan</span>
+  <span class="dt">double</span> fx;
+  Eigen::VectorXd grad_fx;
+  Eigen::MatrixXd H;
+  <span class="kw">using</span> stan::math::dot_self;
+  <span class="kw">using</span> stan::math::subtract; <span class="co">// necessary to get the type promotion correct</span>
+  stan::math::hessian([&amp;a](<span class="kw">auto</span> x) { <span class="cf">return</span> dot_self(subtract(x, a)); },
+                      x, fx, grad_fx, H);
+  <span class="cf">return</span> H;
+}
+
+<span class="co">/* Jacobian */</span>
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> J(Eigen::VectorXd x, Eigen::VectorXd a) { <span class="co">// not actually used</span>
+  Eigen::VectorXd fx;
+  Eigen::MatrixXd J;
+  <span class="kw">using</span> stan::math::dot_self;
+  stan::math::jacobian([&amp;a](<span class="kw">auto</span> x) {
+    <span class="cf">return</span> (<span class="dv">2</span> * (x - a)).eval();
+  }, x, fx, J);
+  <span class="cf">return</span> J;
+}
+
+<span class="kw">struct</span> equations_functor {
+  <span class="kw">template</span> &lt;<span class="kw">typename</span> T0, <span class="kw">typename</span> T1&gt;
+  <span class="kw">inline</span> Eigen::Matrix&lt;T0, Eigen::Dynamic, <span class="dv">1</span>&gt;
+  <span class="kw">operator</span>()(<span class="at">const</span> Eigen::Matrix&lt;T0, Eigen::Dynamic, <span class="dv">1</span>&gt;&amp; x,
+             <span class="at">const</span> Eigen::Matrix&lt;T1, Eigen::Dynamic, <span class="dv">1</span>&gt;&amp; theta,
+             <span class="at">const</span> <span class="bu">std::</span>vector&lt;<span class="dt">double</span>&gt;&amp; x_r, <span class="at">const</span> <span class="bu">std::</span>vector&lt;<span class="dt">int</span>&gt;&amp; x_i,
+             <span class="bu">std::</span>ostream* pstream__) <span class="at">const</span> {
+    <span class="cf">return</span> <span class="dv">2</span> * (x - stan::math::to_vector(x_r)).eval();
+  }
+};
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> solution(Eigen::VectorXd a, Eigen::VectorXd guess) {
+  Eigen::VectorXd theta;
+  <span class="kw">auto</span> x_r = stan::math::to_array_1d(a);
+  equations_functor f;
+  <span class="kw">auto</span> x = stan::math::algebra_solver(f, guess, theta, x_r, {});
+  <span class="cf">return</span> x;
+}</code></pre></div>
+<p>In this compiled RMarkdown document, the <strong>knitr</strong> package has exported functions <code>f</code>, <code>g</code>, <code>H</code>, <code>J</code> and <code>solution</code> (but not <code>equations_functor</code>) to R’s global environment using the <code>sourceCpp</code> function in the <strong>Rcpp</strong> package, so that they can now be called from R. Here we find the optimum starting from a random point in three dimensions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="kw">rnorm</span>(<span class="dv">3</span>), <span class="dt">fn =</span> f, <span class="dt">gr =</span> g, <span class="dt">a =</span> <span class="dv">1</span>:<span class="dv">3</span>, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>, <span class="dt">hessian =</span> <span class="ot">TRUE</span>)
+x$par
+<span class="co">#&gt; [1] 1 2 3</span>
+x$hessian
+<span class="co">#&gt;      [,1] [,2] [,3]</span>
+<span class="co">#&gt; [1,]    2    0    0</span>
+<span class="co">#&gt; [2,]    0    2    0</span>
+<span class="co">#&gt; [3,]    0    0    2</span>
+<span class="kw">H</span>(x$par, <span class="dt">a =</span> <span class="dv">1</span>:<span class="dv">3</span>)
+<span class="co">#&gt;      [,1] [,2] [,3]</span>
+<span class="co">#&gt; [1,]    2    0    0</span>
+<span class="co">#&gt; [2,]    0    2    0</span>
+<span class="co">#&gt; [3,]    0    0    2</span>
+<span class="kw">J</span>(x$par, <span class="dt">a =</span> <span class="dv">1</span>:<span class="dv">3</span>)
+<span class="co">#&gt;      [,1] [,2] [,3]</span>
+<span class="co">#&gt; [1,]    2    0    0</span>
+<span class="co">#&gt; [2,]    0    2    0</span>
+<span class="co">#&gt; [3,]    0    0    2</span>
+<span class="kw">solution</span>(<span class="dt">a =</span> <span class="dv">1</span>:<span class="dv">3</span>, <span class="dt">guess =</span> <span class="kw">rnorm</span>(<span class="dv">3</span>))
+<span class="co">#&gt; [1] 1 2 3</span></code></pre></div>
+</div>
+</div>
+<div id="integrals-and-ordinary-differential-equations" class="section level1">
+<h1>Integrals and Ordinary Differential Equations</h1>
+<p>The Stan Math library can do one-dimensional numerical integration and can solve stiff and non-stiff systems of differential equations, such as the harmonic oscillator example below. Solving stiff systems utilizes the CVODES package, which is included in <strong>StanHeaders</strong>, but requires linking against its shared library with the following R code.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">StanHeaders_pkg_libs &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="kw">ifelse</span>(.Platform$OS.type ==<span class="st"> &quot;windows&quot;</span>, <span class="st">&quot;libs&quot;</span>, <span class="st">&quot;lib&quot;</span>), 
+                                    .Platform$r_arch, <span class="dt">package =</span> <span class="st">&quot;StanHeaders&quot;</span>)
+<span class="kw">Sys.setenv</span>(<span class="dt">PKG_LIBS =</span> <span class="kw">paste</span>(<span class="kw">paste0</span>(<span class="st">&quot;-L&quot;</span>, <span class="kw">shQuote</span>(StanHeaders_pkg_libs)), <span class="st">&quot;-lStanHeaders&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
+<span class="co">// [[Rcpp::depends(RcppEigen)]]</span>
+<span class="co">// [[Rcpp::depends(StanHeaders)]]</span>
+<span class="pp">#include </span><span class="im">&lt;stan/math.hpp&gt;</span><span class="pp">                         </span><span class="co">// pulls in everything from rev/ and prim/</span>
+<span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;RcppEigen.h&gt;</span>
+
+<span class="co">// [[Rcpp::plugins(cpp14)]]</span>
+
+<span class="co">/* Definite integrals */</span>
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="dt">double</span> Cauchy(<span class="dt">double</span> scale) {
+  <span class="bu">std::</span>vector&lt;<span class="dt">double</span>&gt; theta;
+  <span class="kw">auto</span> half = stan::math::integrate_1d([](<span class="kw">auto</span> x, <span class="kw">auto</span> xc, <span class="kw">auto</span> theta,
+                                          <span class="kw">auto</span> x_r, <span class="kw">auto</span> x_i, <span class="kw">auto</span> msgs) {
+    <span class="cf">return</span> exp(stan::math::cauchy_lpdf(x, <span class="dv">0</span>, x_r[<span class="dv">0</span>]));
+  }, -scale, scale, theta, {scale}, {}, Rcpp::Rcout, <span class="fl">1e-7</span>);
+  <span class="cf">return</span> half * <span class="dv">2</span>; <span class="co">// should equal 1 for any positive scale</span>
+}
+
+<span class="co">/* Ordinary Differential Equations */</span>
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> nonstiff(Eigen::MatrixXd A, Eigen::VectorXd y0) {
+  <span class="kw">using</span> stan::math::integrate_ode_rk45;
+  <span class="kw">using</span> stan::math::to_vector;
+  <span class="kw">using</span> stan::math::to_array_1d;
+  <span class="bu">std::</span>vector&lt;<span class="dt">double</span>&gt; theta;
+  <span class="kw">auto</span> y = integrate_ode_rk45([&amp;A](<span class="kw">auto</span> t, <span class="kw">auto</span> y, 
+                                   <span class="kw">auto</span> theta, <span class="kw">auto</span> x_r, <span class="kw">auto</span> x_i, <span class="bu">std::</span>ostream *msgs) {
+    <span class="cf">return</span> to_array_1d( (A * to_vector(y)).eval() );
+  }, to_array_1d(y0), <span class="dv">0</span>, {<span class="dv">1</span>, <span class="dv">2</span>}, theta, {}, {});
+  <span class="cf">return</span> to_vector(y[<span class="dv">0</span>]) - stan::math::matrix_exp(A) * y0; <span class="co">// should be numerically zero</span>
+}
+
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> stiff(Eigen::MatrixXd A, Eigen::VectorXd y0) { <span class="co">// not actually stiff</span>
+  <span class="kw">using</span> stan::math::integrate_ode_bdf;              <span class="co">// but use the stiff solver anyways</span>
+  <span class="kw">using</span> stan::math::to_vector;
+  <span class="kw">using</span> stan::math::to_array_1d;
+  <span class="bu">std::</span>vector&lt;<span class="dt">double</span>&gt; theta;
+  <span class="kw">auto</span> y = integrate_ode_bdf([&amp;A](<span class="kw">auto</span> t, <span class="kw">auto</span> y, 
+                                  <span class="kw">auto</span> theta, <span class="kw">auto</span> x_r, <span class="kw">auto</span> x_i, <span class="bu">std::</span>ostream *msgs) {
+    <span class="cf">return</span> to_array_1d( (A * to_vector(y)).eval() );
+  }, to_array_1d(y0), <span class="dv">0</span>, {<span class="dv">1</span>, <span class="dv">2</span>}, theta, {}, {});
+  <span class="cf">return</span> to_vector(y[<span class="dv">0</span>]) - stan::math::matrix_exp(A) * y0; <span class="co">// should be numerically zero</span>
+}</code></pre></div>
+<p>Again, in this compiled RMarkdown document, the <strong>knitr</strong> package has exported the <code>Cauchy</code>, <code>nonstiff</code> and <code>stiff</code> functions to R’s global environment using the <code>sourceCpp</code> function in the <strong>Rcpp</strong> package so that they can be called from R.</p>
+<p>First, we numerically integrate the Cauchy PDF over its interquartile range — which has an area of <span class="math inline">\(\frac{1}{2}\)</span> — that we then double to verify that it is almost within machine precision of <span class="math inline">\(1\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(<span class="dv">1</span>, <span class="kw">Cauchy</span>(<span class="kw">rexp</span>(<span class="dv">1</span>)), <span class="dt">tol =</span> <span class="fl">1e-15</span>)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>Next, we consider the system of differential equations <span class="math display">\[\frac{d}{dt}\mathbf{y} = \mathbf{A}\mathbf{y}\]</span> where <span class="math inline">\(\mathbf{A}\)</span> is a square matrix such as that for a simple harmonic oscillator</p>
+<p><span class="math display">\[\mathbf{A} = \begin{bmatrix}0 &amp; 1 \\ -1 &amp; -\theta\end{bmatrix}\]</span> for <span class="math inline">\(\theta \in \left(0,1\right)\)</span>. The solution for <span class="math inline">\(\mathbf{y}_t = e^{t\mathbf{A}}\mathbf{y}_0\)</span> can be obtained via the matrix exponential function, which is available in the Stan Math Library, but it can also be obtained numerically using a fourth-order Runge-Kutta solver, which is appropriate for non-stiff systems of ODEs, such as this one. However, it is possible, albeit less efficient in this case, to use the backward-differentiation formula solver for stiff systems of ODEs. In both cases, we calculate the difference between the analytical solution and the numerical one, and the stiff version does produce somewhat better accuracy in this case.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>, -<span class="dv">1</span>, <span class="dv">1</span>, -<span class="kw">runif</span>(<span class="dv">1</span>)), <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)
+y0 &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">2</span>)
+<span class="kw">all.equal</span>(<span class="kw">nonstiff</span>(A, y0), <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">tol =</span> <span class="fl">1e-5</span>)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(   <span class="kw">stiff</span>(A, y0), <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">tol =</span> <span class="fl">1e-8</span>)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+<div id="map-and-parellelization" class="section level1">
+<h1>Map and Parellelization</h1>
+<p>The Stan Math Library includes the <code>map_rect</code> function, which applies a function to each element of rectangular arrays and returns a vector, making it a bit like a restricted version of R’s <code>sapply</code> function. However, <code>map_rect</code> can also be executed in parallel by defining the pre-processor directive <code>STAN_THREADS</code> and then setting the <code>STAN_NUM_THREADS</code> environmental variable to be the number of threads to use, as in</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.setenv</span>(<span class="dt">PKG_CXXFLAGS =</span> <span class="st">&quot;-DSTAN_THREADS&quot;</span>)
+<span class="kw">Sys.setenv</span>(<span class="dt">STAN_NUM_THREADS =</span> <span class="dv">2</span>) <span class="co"># specify -1 to use all available cores</span></code></pre></div>
+<p>Below is C++ code to test whether an integer is prime, using a rather brute-force algorithm and running it in parallel via <code>map_rect</code>.</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
+<span class="co">// [[Rcpp::depends(RcppEigen)]]</span>
+<span class="co">// [[Rcpp::depends(StanHeaders)]]</span>
+<span class="pp">#include </span><span class="im">&lt;stan/math.hpp&gt;</span><span class="pp">                         </span><span class="co">// pulls in everything from rev/ and prim/</span>
+<span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;RcppEigen.h&gt;</span>
+
+<span class="co">// [[Rcpp::plugins(cpp14)]]</span>
+
+<span class="co">// see https://en.wikipedia.org/wiki/Primality_test#Pseudocode</span>
+<span class="kw">struct</span> is_prime {
+  is_prime() {}
+  <span class="kw">template</span> &lt;<span class="kw">typename</span> T1, <span class="kw">typename</span> T2&gt;
+  <span class="kw">auto</span>
+  <span class="kw">operator</span>()(<span class="at">const</span> Eigen::Matrix&lt;T1, Eigen::Dynamic, <span class="dv">1</span>&gt;&amp; eta,
+             <span class="at">const</span> Eigen::Matrix&lt;T2, Eigen::Dynamic, <span class="dv">1</span>&gt;&amp; theta,
+             <span class="at">const</span> <span class="bu">std::</span>vector&lt;<span class="dt">double</span>&gt;&amp; x_r, <span class="at">const</span> <span class="bu">std::</span>vector&lt;<span class="dt">int</span>&gt;&amp; x_i,
+             <span class="bu">std::</span>ostream* msgs = <span class="dv">0</span>) <span class="at">const</span> {
+    Eigen::VectorXd res(<span class="dv">1</span>); <span class="co">// can only return double or var vectors</span>
+    <span class="dt">int</span> n = x_i[<span class="dv">0</span>];
+    <span class="cf">if</span> (n &lt;= <span class="dv">3</span>) {
+      res.coeffRef(<span class="dv">0</span>) = n &gt; <span class="dv">1</span>;
+      <span class="cf">return</span> res;
+    } <span class="cf">else</span> <span class="cf">if</span> ( (n % <span class="dv">2</span> == <span class="dv">0</span>) || (n % <span class="dv">3</span> == <span class="dv">0</span>) ) {
+      res.coeffRef(<span class="dv">0</span>) = <span class="kw">false</span>;
+      <span class="cf">return</span> res;
+    }
+    <span class="dt">int</span> i = <span class="dv">5</span>;
+    <span class="cf">while</span> (i * i &lt;= n) {
+      <span class="cf">if</span> ( (n % i == <span class="dv">0</span>) || (n % (i + <span class="dv">2</span>) == <span class="dv">0</span>) ) {
+        res.coeffRef(<span class="dv">0</span>) = <span class="kw">false</span>;
+        <span class="cf">return</span> res;
+      }
+      i += <span class="dv">6</span>;
+    }
+    res.coeffRef(<span class="dv">0</span>) = <span class="kw">true</span>;
+    <span class="cf">return</span> res;
+  }
+};
+
+<span class="co">/* parallelization */</span>
+<span class="co">// [[Rcpp::export]]</span>
+<span class="kw">auto</span> psapply(<span class="bu">std::</span>vector&lt;<span class="bu">std::</span>vector&lt;<span class="dt">int</span>&gt; &gt; n) {
+  <span class="bu">std::</span>vector&lt;Eigen::VectorXd&gt; eta(n.size()); <span class="co">// these all have to be the same size</span>
+  Eigen::VectorXd theta;
+  <span class="bu">std::</span>vector&lt;<span class="bu">std::</span>vector&lt;<span class="dt">double</span>&gt; &gt; x_d(n.size());
+  <span class="cf">return</span> stan::math::map_rect&lt;<span class="dv">0</span>, is_prime&gt;(theta, eta, x_d, n, &amp;Rcpp::Rcout);
+}</code></pre></div>
+<p>Since the signature for <code>n</code> is a <code>std::vector&lt;std::vector&lt;int&gt; &gt;</code>, we have to pass it from R as a list (which is converted to the outer <code>std::vector&lt;&gt;</code>) of integer vectors (which is converted to the inner <code>std::vector&lt;int&gt;</code>) that happen to be of size one in this case.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">odd &lt;-<span class="st"> </span><span class="kw">seq.int</span>(<span class="dt">from =</span> <span class="dv">2</span>^<span class="dv">25</span> -<span class="st"> </span><span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">2</span>^<span class="dv">26</span> -<span class="st"> </span><span class="dv">1</span>, <span class="dt">by =</span> <span class="dv">2</span>)
+<span class="kw">tail</span>(<span class="kw">psapply</span>(<span class="dt">n =</span> <span class="kw">as.list</span>(odd))) ==<span class="st"> </span><span class="dv">1</span> <span class="co"># check your process manager while this is running</span>
+<span class="co">#&gt; [1] FALSE FALSE FALSE  TRUE FALSE FALSE</span></code></pre></div>
+<p>Thus, <span class="math inline">\(2^{26} - 5 = 67,108,859\)</span> is a prime number.</p>
+</div>
+<div id="defining-a-stan-model-in-c" class="section level1">
+<h1>Defining a Stan Model in C++</h1>
+<p>The Stan <em>language</em> does not have much support for sparse matrices for a variety of reasons. Essentially the only applicable function is <code>csr_matrix_times_vector</code>, which pre-multiplies a vector by a sparse matrix in compressed row storage by taking as arguments its number of rows, columns, non-zero values, column indices of non-zero values, and locations where the non-zero values start in each row. While the <code>csr_matrix_times_vector</code> function could be used to implement the example below, we illustrate how to use the sparse data structures in the <strong>Matrix</strong> and <strong>RcppEigen</strong> packages in a Stan model written in C++, which could easily be extended to more complicated models with sparse data structures.</p>
+<p>Our C++ file for the log-likelihood of a linear model with a sparse design matrix reads as</p>
+<pre><code>#include &lt;stan/model/model_header.hpp&gt;
+#include &lt;Rcpp.h&gt;
+#include &lt;RcppEigen.h&gt;
+
+class sparselm_stan {
+
+public: // these would ordinarily be private in the C++ code generated by Stan
+  Eigen::Map&lt;Eigen::SparseMatrix&lt;double&gt; &gt; X;
+  Eigen::VectorXd y;
+
+  sparselm_stan(Eigen::Map&lt;Eigen::SparseMatrix&lt;double&gt; &gt; X, Eigen::VectorXd y) :
+    X(X), y(y) {}
+
+  template &lt;bool propto__ = false, bool jacobian__ = false, typename T__ = double&gt;
+  // propto__ is usually true but causes log_prob() to return 0 when called from R
+  // jacobian__ is usually true for MCMC but typically is false for optimization
+  T__ log_prob(std::vector&lt;T__&gt;&amp; params_r__) const {
+    using namespace stan::math;
+    T__ lp__(0.0);
+    accumulator&lt;T__&gt; lp_accum__;
+
+    // set up model parameters
+    std::vector&lt;int&gt; params_i__;
+    stan::io::reader&lt;T__&gt; in__(params_r__, params_i__);
+    auto beta = in__.vector_constrain(X.cols());
+    T__ sigma;
+    if (jacobian__) sigma = in__.scalar_lb_constrain(0, lp__);
+    else sigma = in__.scalar_lb_constrain(0);
+
+    // log-likelihood (should add priors)
+    lp_accum__.add(lp__);
+    lp_accum__.add(normal_lpdf&lt;propto__&gt;(y, (X * beta).eval(), sigma));
+    return lp_accum__.sum();
+  }
+
+  template &lt;bool propto__ = false, bool jacobian__ = false&gt;
+  std::vector&lt;double&gt; gradient(std::vector&lt;double&gt;&amp; params_r__) const {
+    // Calculate gradients using reverse-mode autodiff
+    // although you could do them analytically in this case
+
+    using std::vector;
+    using stan::math::var;
+    double lp;
+    std::vector&lt;double&gt; gradient;
+    try {
+      vector&lt;var&gt; ad_params_r(params_r__.size());
+      for (size_t i = 0; i &lt; params_r__.size(); ++i) {
+        var var_i(params_r__[i]);
+        ad_params_r[i] = var_i;
+      }
+      var adLogProb
+        = this-&gt;log_prob&lt;propto__, jacobian__&gt;(ad_params_r);
+      lp = adLogProb.val();
+      adLogProb.grad(ad_params_r, gradient);
+    } catch (const std::exception &amp;ex) {
+      stan::math::recover_memory();
+      throw;
+    }
+    stan::math::recover_memory();
+    return gradient;
+  }
+};</code></pre>
+<p>To use it from R, we call the <code>exposeClass</code> function in the <strong>Rcpp</strong> package with the necessary arguments and then call <code>sourceCpp</code> on the file it wrote in the temporary directory:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Rcpp)
+tf &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;Module.cpp&quot;</span>)
+<span class="kw">exposeClass</span>(<span class="st">&quot;sparselm_stan&quot;</span>,
+      <span class="dt">constructors =</span> <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;Eigen::Map&lt;Eigen::SparseMatrix&lt;double&gt; &gt;&quot;</span>, 
+                            <span class="st">&quot;Eigen::VectorXd&quot;</span>)),
+      <span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;y&quot;</span>),
+      <span class="dt">methods =</span> <span class="kw">c</span>(<span class="st">&quot;log_prob&lt;&gt;&quot;</span>, <span class="st">&quot;gradient&lt;&gt;&quot;</span>),
+      <span class="dt">rename =</span> <span class="kw">c</span>(<span class="dt">log_prob =</span> <span class="st">&quot;log_prob&lt;&gt;&quot;</span>, <span class="dt">gradient =</span> <span class="st">&quot;gradient&lt;&gt;&quot;</span>),
+      <span class="dt">header =</span> <span class="kw">c</span>(<span class="st">&quot;// [[Rcpp::depends(BH)]]&quot;</span>,
+                 <span class="st">&quot;// [[Rcpp::depends(RcppEigen)]]&quot;</span>,
+                 <span class="st">&quot;// [[Rcpp::depends(StanHeaders)]]&quot;</span>,
+                 <span class="st">&quot;// [[Rcpp::plugins(cpp14)]]&quot;</span>,
+                 <span class="kw">paste0</span>(<span class="st">&quot;#include &lt;&quot;</span>, <span class="kw">file.path</span>(<span class="kw">getwd</span>(), <span class="st">&quot;sparselm_stan.hpp&quot;</span>), <span class="st">&quot;&gt;&quot;</span>)),
+      <span class="dt">file =</span> tf,
+      <span class="dt">Rfile =</span> <span class="ot">FALSE</span>)
+<span class="kw">Sys.unsetenv</span>(<span class="st">&quot;PKG_CXXFLAGS&quot;</span>) <span class="co"># don't specify -DSTAN_THREADS if you are not using them</span>
+<span class="kw">Sys.setenv</span>(<span class="dt">PKG_CPPFLAGS =</span> <span class="kw">paste0</span>(<span class="st">&quot;-I&quot;</span>,
+                                 <span class="kw">system.file</span>(<span class="st">&quot;include&quot;</span>, <span class="st">&quot;src&quot;</span>, 
+                                             <span class="dt">package =</span> <span class="st">&quot;StanHeaders&quot;</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)))
+<span class="kw">sourceCpp</span>(tf)
+sparselm_stan
+<span class="co">#&gt; C++ class 'sparselm_stan' &lt;0x55fb63b6d6d0&gt;</span>
+<span class="co">#&gt; Constructors:</span>
+<span class="co">#&gt;     sparselm_stan(Eigen::Map&lt;Eigen::SparseMatrix&lt;double, 0, int&gt;, 0, Eigen::Stride&lt;0, 0&gt; &gt;, Eigen::Matrix&lt;double, -1, 1, 0, -1, 1&gt;)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Fields: </span>
+<span class="co">#&gt;     Eigen::Map&lt;Eigen::SparseMatrix&lt;double, 0, int&gt;, 0, Eigen::Stride&lt;0, 0&gt; &gt; X</span>
+<span class="co">#&gt;     Eigen::Matrix&lt;double, -1, 1, 0, -1, 1&gt; y</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Methods: </span>
+<span class="co">#&gt;      std::vector&lt;double, std::allocator&lt;double&gt; &gt; gradient(std::vector&lt;double, std::allocator&lt;double&gt; &gt;)  const </span>
+<span class="co">#&gt;            </span>
+<span class="co">#&gt;      double log_prob(std::vector&lt;double, std::allocator&lt;double&gt; &gt;)  const </span>
+<span class="co">#&gt; </span></code></pre></div>
+<p>At this point, we need a sparse design matrix and (dense) outcome vector to pass to the constructor. The former can be created with a variety of functions in the <strong>Matrix</strong> package, such as</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">a =</span> <span class="kw">gl</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">b =</span> <span class="kw">gl</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">12</span>))
+X &lt;-<span class="st"> </span>Matrix::<span class="kw">sparse.model.matrix</span>(~<span class="st"> </span>a +<span class="st"> </span>b, <span class="dt">data =</span> dd)
+X
+<span class="co">#&gt; 12 x 6 sparse Matrix of class &quot;dgCMatrix&quot;</span>
+<span class="co">#&gt;    (Intercept) a2 a3 b2 b3 b4</span>
+<span class="co">#&gt; 1            1  .  .  .  .  .</span>
+<span class="co">#&gt; 2            1  .  .  1  .  .</span>
+<span class="co">#&gt; 3            1  .  .  .  1  .</span>
+<span class="co">#&gt; 4            1  .  .  .  .  1</span>
+<span class="co">#&gt; 5            1  1  .  .  .  .</span>
+<span class="co">#&gt; 6            1  1  .  1  .  .</span>
+<span class="co">#&gt; 7            1  1  .  .  1  .</span>
+<span class="co">#&gt; 8            1  1  .  .  .  1</span>
+<span class="co">#&gt; 9            1  .  1  .  .  .</span>
+<span class="co">#&gt; 10           1  .  1  1  .  .</span>
+<span class="co">#&gt; 11           1  .  1  .  1  .</span>
+<span class="co">#&gt; 12           1  .  1  .  .  1</span></code></pre></div>
+<p>Finally, we call the <code>new</code> function in the <strong>methods</strong> package, which essentially calls our C++ constructor and provides an R interface to the instantiated object, which contains the <code>log_prob</code> and <code>gradient</code> methods we defined and can be called with arbitrary inputs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sm &lt;-<span class="st"> </span><span class="kw">new</span>(sparselm_stan, <span class="dt">X =</span> X, <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="kw">nrow</span>(X)))
+sm$<span class="kw">log_prob</span>(<span class="kw">c</span>(<span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)), <span class="dt">log_sigma =</span> <span class="kw">log</span>(pi)))
+<span class="co">#&gt; [1] -26.01577</span>
+<span class="kw">round</span>(sm$<span class="kw">gradient</span>(<span class="kw">c</span>(<span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)), <span class="dt">log_sigma =</span> <span class="kw">log</span>(pi))), <span class="dt">digits =</span> <span class="dv">4</span>)
+<span class="co">#&gt; [1] -2.1984 -1.0424 -0.5089 -0.4552 -0.6047 -0.8303 -6.6551</span></code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

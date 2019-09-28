@@ -1,0 +1,25 @@
+coef.nlmrt              Output model coefficients for nlmrt object.
+model2grfun             Generate a gradient function from a nonlinear
+                        model expression and a vector of named
+                        parameters.
+model2jacfun            Generate a Jacobian matrix function from a
+                        nonlinear model expression and a vector of
+                        named parameters.
+model2resfun            Generate a residual function from a nonlinear
+                        model expression and a vector of named
+                        parameters.
+model2ssfun             Generate a sum of squares objective function
+                        from a nonlinear model expression and a vector
+                        of named parameters.
+modgr                   Compute gradient from residuals and Jacobian.
+modss                   Compute gradient from residuals and Jacobian.
+nlfb                    Nash variant of Marquardt nonlinear least
+                        squares solution via qr linear solver.
+nlmrt-package           Tools for solving nonlinear least squares
+                        problems. UNDER DEVELOPMENT.
+nlxb                    Nash variant of Marquardt nonlinear least
+                        squares solution via qr linear solver.
+print.nlmrt             Print method for an object of class nlmrt.
+summary.nlmrt           Summary output for nlmrt object.
+wrapnls                 Nash variant of Marquardt nonlinear least
+                        squares solution via qr linear solver.

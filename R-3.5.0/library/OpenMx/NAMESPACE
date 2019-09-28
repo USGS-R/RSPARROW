@@ -1,0 +1,61 @@
+import(parallel)
+import(methods)
+import(MASS)
+import(digest)
+importFrom(Rcpp, Module)   # not used, just to import something
+importFrom(Matrix, nearPD)
+importFrom(utils, .DollarNames, installed.packages, packageVersion, read.table)
+importFrom(stats, cov, dnorm, na.fail, na.omit, optim, optimize, quantile,
+	   pchisq, pnorm, qchisq, qnorm, rnorm, runif, uniroot, var, sd)
+importFrom("stats", "coef", "rcauchy", simulate, "p.adjust", "p.adjust.methods", "vcov")
+importFrom("stats", "binomial", "glm", "median", "plogis", 'qlogis', "predict")
+
+useDynLib(OpenMx, .registration=TRUE)
+
+# basic functions in the OpenMx library
+exportPattern("^mx.+")
+
+# advanced functions in the OpenMx library
+exportPattern("^omx.+")
+
+# developer functions in the OpenMx library
+exportPattern("^imx.+")
+
+# matrix algebra functions exported by the library
+export(tr, "%&%", "%^%", rvectorize, cvectorize, vech, vechs, 'vechs<-',
+	diag2vec, vec2diag, eigenvec, eigenval, ieigenvec, 
+	ieigenval, vech2full, vechs2full, logm, expm, p2z, logp2z, lgamma1p, as.statusCode)
+
+# export S4 classes in the OpenMx library
+exportClassPattern("^.+Matrix")
+exportClassPattern("^Mx.+")
+exportClass("MxRAMModel")
+
+# export S4 methods in the OpenMx library
+exportMethods("[","[[", "$")
+exportMethods(nrow, ncol, length, names, dimnames, show, print)
+
+# export S3 methods in the OpenMx library
+S3method(print, summary.mxmodel)
+S3method(print, result.mxCompareMatrix)
+S3method(print, result.mxPower)
+S3method(logLik, MxModel)
+S3method(coef, MxModel)
+S3method(summary, MxModel)
+S3method(anova, MxModel)
+S3method(simulate, MxModel)
+S3method(confint, MxModel)
+S3method(vcov, MxModel)
+
+# Export S3 .DollarNames functions
+S3method(.DollarNames, MxModel)  # MxModel has a unique .DollarNames function
+S3method(.DollarNames, MxMatrix, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxAlgebra, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxCompute, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxData, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxBaseExpectation, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxBaseFitFunction, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxInterval, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxPath, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxThreshold, imxDefaultGetSlotDisplayNames)
+S3method(.DollarNames, MxJoin, imxDefaultGetSlotDisplayNames)

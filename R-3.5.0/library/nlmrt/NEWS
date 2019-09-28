@@ -1,0 +1,112 @@
+To do
+
+   o    1-sided model expressions -- easy to do, but needs to be done.
+
+   o    Origin of NaN's in bounded examples. Can they be avoided?
+
+   o    Handling of NaN in Jacfun
+
+   o    Fixup inst/examples/. Maybe create tests.
+
+   o    Option for numerical Jacobian -- control numJac = TRUE?, with
+	routine in nlmrt.R ?? elsewhere.
+
+   o    Way of using a "gradient" attribute when the model formula is
+        specified like  
+           y ~ SpecialFn(xx, zz)
+        which would allow functions not differentiable by deriv()
+
+   o    Weighted least squares example, especially in nlxb.
+
+   o    Issue when npar = 1
+
+
+Changes in nlmrt version 2016.3.2
+
+   o    An example from Gabor Grothendieck with 0 sumsquares
+        raised an error in summary.nlmrt() due to crossprod()
+        returning a 1x1 matrix rather than a scalar. Fixed with
+        the use of as.numeric().
+
+   o    NAMESPACE exported summary, print and coef methods replaced
+        with S3method() statements
+
+   o    DESCRIPTION updated to current standards
+
+   o    Minor tweak in vignette (encoding line)
+
+Changes in nlmrt version 2014-7.16
+
+   o    These were, unfortunately, not recorded here
+
+Changes in nlmrt version 2013-8.26
+
+   o    Relative offset convergence test (not exactly as in nls())
+        residual and jacobian in summary & print methods
+
+   o    coef() method in nlmrt.R so names carried through
+
+   o    summary() and print() cleanup
+
+   o    partial and minor documentation improvement
+
+Changes in nlmrt version 2013-8.10
+
+   o    fix line length issue in examples
+
+Changes in nlmrt version 2013-7.9
+
+   o    Added control list elements to .Rd files for nlxb and nlfb, 
+        with reference in wrapnls.
+
+   o    Put in a test for very small sum of squares in nlfb and nlxb.
+
+Changes in nlmrt version 2013-3.16
+
+   o    Result element coeffs changed to coefficients. 
+        This alters wrapnls.R code also.
+
+Changes in nlmrt version 2012-9.03
+
+   o    More features in summary().
+
+Changes in nlmrt version 2012-9.03
+
+   o    summary() for output from different functions.
+        Should display constraints if possible as per JNMWS codes.
+        Warnings / Notes fixed re: dependencies in vignette, methods.
+
+   o    Sort out display in vignette
+        Note warning "unstated dependencies in vignette"
+
+Changes in nlmrt version 2012-8.12
+
+   o    Bounds and masks examples in nlmrt-vignette.
+
+Changes in nlmrt version 2012-8.04
+   o    Vignette nlmrt-vignette updated.
+
+   o    Functions to convert expression to residual, Jacobian,
+        sum of squares and gradient functions (for use with optimx
+        or nlmrt:nlfb or minpack.lm:nls.lm
+
+   o    The examples in ./inst/examples/ are calling routines that
+        have been renamed. These have, I believe, been fixed.
+
+   o    nlfb() needs an explicit Jacobian function and needs a way
+        to compute numerical Jacobian if omitted. Fixed, I believe.
+
+Changes in nlmrt version 2012-6.01
+
+   o    Removed diagnostic printout of bdmsk in nlfb
+
+Changes in nlmrt version 2012-4.15 
+	   
+   o	Added nlfb to allow functions for residual and Jacobian.
+        These are developed from the expression for the residuals as
+	a model in nlxb. 
+
+   o	Bounds now in wrapnls.
+
+   o	Note misleading trace output in nls() runs with bounds.
+

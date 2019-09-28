@@ -1,0 +1,18 @@
+Package: gear
+Type: Package
+Title: Geostatistical Analysis in R
+Version: 0.1.4
+Date: 2019-06-14
+Author: Joshua French
+Maintainer: Joshua French <joshua.french@ucdenver.edu>
+Description: Implements common geostatistical methods in a clean, straightforward, efficient manner. The methods are discussed in Schabenberger and Gotway (2004, <ISBN:9781584883227>) and Waller and Gotway (2004, <ISBN:9780471387718>).  This package is a quasi-reboot of the 'SpatialTools' package.
+License: GPL (>= 2)
+Imports: sp, parallel, lattice, stats, optimx
+Suggests: testthat, gstat, geoR, spam, Matrix
+Encoding: UTF-8
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+Packaged: 2019-06-14 20:24:05 UTC; jfrench
+Repository: CRAN
+Date/Publication: 2019-06-14 22:50:14 UTC
+Built: R 3.5.3; ; 2019-08-09 02:22:53 UTC; windows

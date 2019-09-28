@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Rvmmin description, examples and tests</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Rvmmin description, examples and tests</h1>
+
+<p><strong>Rvmmin</strong> is an all-R version of the Fletcher-Nash variable
+metric nonlinear parameter optimization code of @Fletcher70
+as modified by @cnm79.</p>
+
+<p>This vignette is intended to show various features of the 
+package, so it is rather detailed and &ldquo;busy&rdquo;. However, it 
+is also hopefully helpful in showing how to use the method
+for more difficult problems. </p>
+
+<h2>Algorithm implementation</h2>
+
+<p>Fletcher&#39;s variable metric method attempts to mimic Newton&#39;s 
+iteration for function minimization approximately.</p>
+
+<p>Newton&#39;s method starts with an original set of parameters \(x_0\).
+At a given iteraion, which could be the first, we want to solve</p>
+
+<p>\[x_{k+1}  =  x_{k}  -   H^{-1} g\]</p>
+
+<p>where \(H\) is the Hessian and \(g\) is the gradient at \(x_k\). </p>
+
+<p>Newton&#39;s method is unattractive in general function minimization
+situations because </p>
+
+<ul>
+<li><p>evaluating the Hessian is generally time consuming and error
+prone;</p></li>
+<li><p>solving the equation 
+     \[H delta = -g\]
+(which is much less computational effort than inverting \(H\)), 
+is still a lot of work which needs to be carried out every
+iteration.</p></li>
+</ul>
+
+<p>While the base Newton algorithm is as given, generally we
+carry out some sort of line search along the search direction
+delta from the current iterate \(x_k\). Indeed, many otherwise
+highly educated workers try to implement it without paying 
+attention to safeguarding the iterations and ensuring appropriate
+progress towards a minimum.</p>
+
+<h2>Termination nuances</h2>
+
+<h3>Termination variation with control tolerances</h3>
+
+<p>Let us use the Chebyquad test problem in \(n\)=4 parameters with different controls <strong>eps</strong> and
+<strong>acctol</strong> and tabulate the results to explore how our results change with different values
+of these program control inputs. </p>
+
+<pre><code class="r">cyq.f &lt;- function (x) {
+  rv&lt;-cyq.res(x)
+  f&lt;-sum(rv*rv)
+}
+
+cyq.res &lt;- function (x) {
+# Fletcher&#39;s chebyquad function m = n -- residuals 
+   n&lt;-length(x)
+   res&lt;-rep(0,n) # initialize
+   for (i in 1:n) { #loop over resids
+     rr&lt;-0.0
+     for (k in 1:n) {
+  z7&lt;-1.0
+  z2&lt;-2.0*x[k]-1.0
+        z8&lt;-z2
+        j&lt;-1
+        while (j&lt;i) {
+            z6&lt;-z7
+            z7&lt;-z8
+            z8&lt;-2*z2*z7-z6 # recurrence to compute Chebyshev polynomial
+            j&lt;-j+1
+        } # end recurrence loop
+        rr&lt;-rr+z8
+      } # end loop on k
+      rr&lt;-rr/n
+      if (2*trunc(i/2) == i) { rr &lt;- rr + 1.0/(i*i - 1) }
+      res[i]&lt;-rr
+    } # end loop on i
+    res
+}
+
+cyq.jac&lt;- function (x) {
+#  Chebyquad Jacobian matrix
+   n&lt;-length(x)
+   cj&lt;-matrix(0.0, n, n)
+   for (i in 1:n) { # loop over rows
+     for (k in 1:n) { # loop over columns (parameters)
+       z5&lt;-0.0
+       cj[i,k]&lt;-2.0
+       z8&lt;-2.0*x[k]-1.0 
+       z2&lt;-z8
+       z7&lt;-1.0
+       j&lt;- 1
+       while (j&lt;i) { # recurrence loop
+         z4&lt;-z5
+         z5&lt;-cj[i,k]
+         cj[i,k]&lt;-4.0*z8+2.0*z2*z5-z4
+         z6&lt;-z7
+         z7&lt;-z8
+         z8&lt;-2.0*z2*z7-z6
+         j&lt;- j+1
+       } # end recurrence loop
+       cj[i,k]&lt;-cj[i,k]/n
+     } # end loop on k
+   } # end loop on i
+   cj
+}
+
+
+cyq.g &lt;- function (x) {
+   cj&lt;-cyq.jac(x)
+   rv&lt;-cyq.res(x)
+   gg&lt;- as.vector(2.0* rv %*% cj)
+}
+
+require(optimx)
+nn &lt;- 4
+xx0 &lt;- 1:nn
+xx0 &lt;- xx0 / (nn+1.0) # Initial value suggested by Fletcher
+
+# cat(&quot;aed\n&quot;)
+# aed &lt;- Rvmminu(xx0, cyq.f, cyq.g, control=list(trace=2, checkgrad=FALSE))
+# print(aed)
+#================================
+# Now build a table of results for different values of eps and acc
+veps &lt;- c(1e-3, 1e-5, 1e-7, 1e-9, 1e-11)
+vacc &lt;- c(.1, .01, .001, .0001, .00001, .000001)
+resdf &lt;- data.frame(eps=NA, acctol=NA, nf=NA, ng=NA, fval=NA, gnorm=NA)
+for (eps in veps) {
+  for (acctol in vacc) {
+    ans &lt;- Rvmminu(xx0, cyq.f, cyq.g, 
+          control=list(eps=eps, acctol=acctol, trace=0))
+    gn &lt;- as.numeric(crossprod(cyq.g(ans$par)))
+    resdf &lt;- rbind(resdf, 
+              c(eps, acctol, ans$counts[1], ans$counts[2], ans$value, gn))
+  }
+}
+resdf &lt;- resdf[-1,]
+# Display the function value found for different tolerances
+xtabs(formula = fval ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol         1e-11        1e-09        1e-07        1e-05        0.001
+##   1e-06 6.914089e-31 6.914089e-31 6.914089e-31 3.162416e-23 7.369618e-15
+##   1e-05 6.914089e-31 6.914089e-31 6.914089e-31 3.162416e-23 7.369618e-15
+##   1e-04 6.914089e-31 6.914089e-31 6.914089e-31 3.162416e-23 7.369618e-15
+##   0.001 6.914089e-31 6.914089e-31 6.914089e-31 3.162416e-23 7.369618e-15
+##   0.01  6.914089e-31 6.914089e-31 6.914089e-31 3.162416e-23 7.369618e-15
+##   0.1   6.914089e-31 6.914089e-31 6.914089e-31 3.162416e-23 7.369618e-15
+</code></pre>
+
+<pre><code class="r"># Display the gradient norm found for different tolerances
+xtabs(formula = gnorm ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol         1e-11        1e-09        1e-07        1e-05        0.001
+##   1e-06 3.724121e-29 3.724121e-29 3.724121e-29 1.729388e-21 1.025043e-13
+##   1e-05 3.724121e-29 3.724121e-29 3.724121e-29 1.729388e-21 1.025043e-13
+##   1e-04 3.724121e-29 3.724121e-29 3.724121e-29 1.729388e-21 1.025043e-13
+##   0.001 3.724121e-29 3.724121e-29 3.724121e-29 1.729388e-21 1.025043e-13
+##   0.01  3.724121e-29 3.724121e-29 3.724121e-29 1.729388e-21 1.025043e-13
+##   0.1   3.724121e-29 3.724121e-29 3.724121e-29 1.729388e-21 1.025043e-13
+</code></pre>
+
+<pre><code class="r"># Display the number of function evaluations used for different tolerances
+xtabs(formula = nf ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol  1e-11 1e-09 1e-07 1e-05 0.001
+##   1e-06    20    20    20    17    12
+##   1e-05    20    20    20    17    12
+##   1e-04    20    20    20    17    12
+##   0.001    20    20    20    17    12
+##   0.01     20    20    20    17    12
+##   0.1      20    20    20    17    12
+</code></pre>
+
+<pre><code class="r"># Display the number of gradient evaluations used for different tolerances
+xtabs(formula = ng ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol  1e-11 1e-09 1e-07 1e-05 0.001
+##   1e-06    15    15    15    12     9
+##   1e-05    15    15    15    12     9
+##   1e-04    15    15    15    12     9
+##   0.001    15    15    15    12     9
+##   0.01     15    15    15    12     9
+##   0.1      15    15    15    12     9
+</code></pre>
+
+<p>Here &ndash; and we caution that this is but a single instance of a single test problem &ndash; the 
+differences in results and level of effort to obtain them are regulated by the values
+of <code>eps</code> only. This control is used to judge the size of the gradient norm and the
+gradient projection on the search vector.</p>
+
+<h3>Problems of function scale</h3>
+
+<p>One of the more difficult aspects of termination decisions is that
+we need to decide when we have a &ldquo;nearly&rdquo; zero gradient. However, 
+this &ldquo;zero gradient&rdquo; is relative to the overall scale of the
+function. Let us see what happens when we consider solving a problem
+where the function scale is adjustable. Note that we multiply the
+constant sequence <code>yy</code> by <code>pi/4</code> to avoid integer values which may
+give results that are fortuitously better than may be normally found.</p>
+
+<pre><code class="r">sq&lt;-function(x, exfs=1){
+  nn&lt;-length(x)
+  yy&lt;-(1:nn)*pi/4
+  f&lt;-(10^exfs)*sum((yy-x)^2)
+  f
+}
+sq.g &lt;- function(x, exfs=1){
+  nn&lt;-length(x)
+  yy&lt;-(1:nn)*pi/4
+  gg&lt;- 2*(x - yy)*(10^exfs)
+}
+require(optimx)
+nn &lt;- 4
+xx0 &lt;- rep(pi, nn) # crude start
+
+# Now build a table of results for different values of eps and acc
+veps &lt;- c(1e-3, 1e-5, 1e-7, 1e-9, 1e-11)
+exfsi &lt;- 1:6
+resdf &lt;- data.frame(eps=NA, exfs=NA, nf=NA, ng=NA, fval=NA, gnorm=NA)
+for (eps in veps) {
+  for (exfs in exfsi) {
+    ans &lt;- Rvmminu(xx0, sq, sq.g, 
+                   control=list(eps=eps, trace=0), exfs=exfs)
+    gn &lt;- as.numeric(crossprod(sq.g(ans$par)))
+    resdf &lt;- rbind(resdf, 
+                   c(eps, exfs, ans$counts[1], ans$counts[2], ans$value, gn))
+  }
+}
+resdf &lt;- resdf[-1,]
+# Display the function value found for different tolerances
+xtabs(formula = fval ~ exfs + eps, data=resdf)
+</code></pre>
+
+<pre><code>##     eps
+## exfs        1e-11        1e-09        1e-07        1e-05        0.001
+##    1 6.125998e-29 6.125998e-29 6.125998e-29 2.001735e-28 2.001735e-28
+##    2 0.000000e+00 0.000000e+00 0.000000e+00 1.772768e-25 1.772768e-25
+##    3 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.210198e-22
+##    4 1.232595e-28 1.232595e-28 1.232595e-28 1.232595e-28 5.241000e-20
+##    5 4.930381e-27 4.930381e-27 4.930381e-27 4.930381e-27 4.930381e-27
+##    6 1.232595e-26 1.232595e-26 1.232595e-26 1.232595e-26 1.232595e-26
+</code></pre>
+
+<pre><code class="r"># Display the gradient norm found for different tolerances
+xtabs(formula = gnorm ~ exfs + eps, data=resdf)
+</code></pre>
+
+<pre><code>##     eps
+## exfs        1e-11        1e-09        1e-07        1e-05        0.001
+##    1 2.450399e-27 2.450399e-27 2.450399e-27 8.006938e-27 8.006938e-27
+##    2 0.000000e+00 0.000000e+00 0.000000e+00 7.091071e-25 7.091071e-25
+##    3 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 4.840792e-23
+##    4 4.930381e-30 4.930381e-30 4.930381e-30 4.930381e-30 2.096400e-21
+##    5 1.972152e-29 1.972152e-29 1.972152e-29 1.972152e-29 1.972152e-29
+##    6 4.930381e-30 4.930381e-30 4.930381e-30 4.930381e-30 4.930381e-30
+</code></pre>
+
+<pre><code class="r"># Display the number of function evaluations used for different tolerances
+xtabs(formula = nf ~ exfs + eps, data=resdf)
+</code></pre>
+
+<pre><code>##     eps
+## exfs 1e-11 1e-09 1e-07 1e-05 0.001
+##    1     9     9     9     5     5
+##    2    16    16    16     6     6
+##    3    22    22    22    22     8
+##    4    26    26    26    26     9
+##    5    30    30    30    30    30
+##    6    35    35    35    35    35
+</code></pre>
+
+<pre><code class="r"># Display the number of gradient evaluations used for different tolerances
+xtabs(formula = ng ~ exfs + eps, data=resdf)
+</code></pre>
+
+<pre><code>##     eps
+## exfs 1e-11 1e-09 1e-07 1e-05 0.001
+##    1     4     4     4     3     3
+##    2     7     7     7     3     3
+##    3     7     7     7     7     3
+##    4     7     7     7     7     3
+##    5     7     7     7     7     7
+##    6     7     7     7     7     7
+</code></pre>
+
+<p>The general tendency here is for the amount of work in terms of function 
+evaluations to rise with the function scale and with tighter (smaller) 
+test tolerances, while the quality of the solution is poorer with 
+larger scale and also larger (looser) tolerances. However, some exceptions
+can be seen, though the overall quality of solutions (function and gradient
+norm) is very good. Moreover, the number of gradient evaluations does not climb
+notably with the scale or inverse tolerance. </p>
+
+<h3>Problems of parameter scale</h3>
+
+<p>There are similar issues of parameter scaling. Let us look at very simple
+sum of squares function where we scale the parameters in a nasty way.</p>
+
+<pre><code class="r">ssq.f&lt;-function(x){
+   nn&lt;-length(x)
+   yy &lt;- 1:nn
+   f&lt;-sum((yy-x/10^yy)^2)
+   f
+}
+ssq.g &lt;- function(x){
+   nn&lt;-length(x)
+   yy&lt;-1:nn
+   gg&lt;- 2*(x/10^yy - yy)*(1/10^yy)
+}
+
+xy &lt;- c(1, 1/10, 1/100, 1/1000)
+# note: gradient was checked using numDeriv
+veps &lt;- c(1e-3, 1e-5, 1e-7, 1e-9, 1e-11)
+vacc &lt;- c(.1, .01, .001, .0001, .00001, .000001)
+resdf &lt;- data.frame(eps=NA, acctol=NA, nf=NA, ng=NA, fval=NA, gnorm=NA)
+for (eps in veps) {
+  for (acctol in vacc) {
+    ans &lt;- Rvmminu(xy, ssq.f, ssq.g, 
+          control=list(eps=eps, acctol=acctol, trace=0))
+    gn &lt;- as.numeric(crossprod(ssq.g(ans$par)))
+    resdf &lt;- rbind(resdf, 
+              c(eps, acctol, ans$counts[1], ans$counts[2], ans$value, gn))
+  }
+}
+resdf &lt;- resdf[-1,]
+# Display the function value found for different tolerances
+xtabs(formula = fval ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol         1e-11        1e-09        1e-07        1e-05        0.001
+##   1e-06 0.000000e+00 0.000000e+00 1.475416e-29 5.767419e-19 8.977439e-11
+##   1e-05 0.000000e+00 0.000000e+00 1.475416e-29 5.767419e-19 8.977439e-11
+##   1e-04 0.000000e+00 0.000000e+00 1.475416e-29 5.767419e-19 8.977439e-11
+##   0.001 0.000000e+00 0.000000e+00 1.475416e-29 5.767419e-19 8.977439e-11
+##   0.01  0.000000e+00 0.000000e+00 1.475416e-29 5.767419e-19 8.977439e-11
+##   0.1   0.000000e+00 0.000000e+00 1.475416e-29 5.767419e-19 8.977439e-11
+</code></pre>
+
+<pre><code class="r"># Display the gradient norm found for different tolerances
+xtabs(formula = gnorm ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol         1e-11        1e-09        1e-07        1e-05        0.001
+##   1e-06 0.000000e+00 0.000000e+00 7.783028e-33 3.430257e-23 3.473135e-14
+##   1e-05 0.000000e+00 0.000000e+00 7.783028e-33 3.430257e-23 3.473135e-14
+##   1e-04 0.000000e+00 0.000000e+00 7.783028e-33 3.430257e-23 3.473135e-14
+##   0.001 0.000000e+00 0.000000e+00 7.783028e-33 3.430257e-23 3.473135e-14
+##   0.01  0.000000e+00 0.000000e+00 7.783028e-33 3.430257e-23 3.473135e-14
+##   0.1   0.000000e+00 0.000000e+00 7.783028e-33 3.430257e-23 3.473135e-14
+</code></pre>
+
+<pre><code class="r"># Display the number of function evaluations used for different tolerances
+xtabs(formula = nf ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol  1e-11 1e-09 1e-07 1e-05 0.001
+##   1e-06    56    56    55    53    51
+##   1e-05    56    56    55    53    51
+##   1e-04    56    56    55    53    51
+##   0.001    56    56    55    53    51
+##   0.01     56    56    55    53    51
+##   0.1      56    56    55    53    51
+</code></pre>
+
+<pre><code class="r"># Display the number of gradient evaluations used for different tolerances
+xtabs(formula = ng ~ acctol + eps, data=resdf)
+</code></pre>
+
+<pre><code>##        eps
+## acctol  1e-11 1e-09 1e-07 1e-05 0.001
+##   1e-06    56    56    55    53    51
+##   1e-05    56    56    55    53    51
+##   1e-04    56    56    55    53    51
+##   0.001    56    56    55    53    51
+##   0.01     56    56    55    53    51
+##   0.1      56    56    55    53    51
+</code></pre>
+
+<p>The results above suggest that parameter scaling is not much of a problem. 
+Actually, these are the very best results I have found with any method for
+this problem, which is actually rather nasty. I suggest trying this problem
+on your favourite optimizer. Alternatively, use the package <code>optimr</code> and
+run the function <code>opm()</code> with <code>method=&quot;ALL&quot;</code>.</p>
+
+<h3>Weeds problem with random starts</h3>
+
+<p>This notorious problem (see @cnm79, page 120, @nlpor14, page 205, for details
+under the heading <strong>Hobbs Weeds problem</strong>) is small but generally difficult due
+to the possibility of bad scaling of both function and parameters and a 
+near-singular Hessian in the original parameterization.</p>
+
+<p>The Fletcher variable metric method can solve this problem
+quite well, though default termination settings should be overridden.
+It is important to ensure there are enough iterations to
+allow the method to &ldquo;grind&rdquo; at the problem. If one uses default 
+settings for maxit in optim:BFGS, then the success rate
+drops to less than 2/3 of cases tried below.</p>
+
+<p>Below we use 100 &ldquo;random&rdquo; starting points for both Rvmmin and the
+optim:BFGS minimizers (which should be, but are not quite, the same).</p>
+
+<pre><code class="r">## hobbstarts.R -- starting points for Hobbs problem 
+hobbs.f&lt;- function(x){ # # Hobbs weeds problem -- function
+    if (abs(12*x[3]) &gt; 500) { # check computability
+       fbad&lt;-.Machine$double.xmax
+       return(fbad)
+    }
+    res&lt;-hobbs.res(x)
+    f&lt;-sum(res*res)
+##    cat(&quot;fval =&quot;,f,&quot;\n&quot;)
+##    f
+}
+hobbs.res&lt;-function(x){ # Hobbs weeds problem -- residual
+# This variant uses looping
+    if(length(x) != 3) stop(&quot;hobbs.res -- parameter vector n!=3&quot;)
+    y&lt;-c(5.308, 7.24, 9.638, 12.866, 17.069, 23.192, 31.443, 
+         38.558, 50.156, 62.948, 75.995, 91.972)
+    t&lt;-1:12
+    if(abs(12*x[3])&gt;50) {
+       res&lt;-rep(Inf,12)
+    } else {
+       res&lt;-x[1]/(1+x[2]*exp(-x[3]*t)) - y
+    }
+}
+
+hobbs.jac&lt;-function(x){ # Jacobian of Hobbs weeds problem
+   jj&lt;-matrix(0.0, 12, 3)
+   t&lt;-1:12
+    yy&lt;-exp(-x[3]*t)
+    zz&lt;-1.0/(1+x[2]*yy)
+     jj[t,1] &lt;- zz
+     jj[t,2] &lt;- -x[1]*zz*zz*yy
+     jj[t,3] &lt;- x[1]*zz*zz*yy*x[2]*t
+   return(jj)
+}
+
+hobbs.g&lt;-function(x){ # gradient of Hobbs weeds problem
+    # NOT EFFICIENT TO CALL AGAIN
+    jj&lt;-hobbs.jac(x)
+    res&lt;-hobbs.res(x)
+    gg&lt;-as.vector(2.*t(jj) %*% res)
+    return(gg)
+}
+require(optimx)
+set.seed(12345)
+nrun&lt;-100
+sstart&lt;-matrix(runif(3*nrun, 0, 5), nrow=nrun, ncol=3)
+ustart&lt;-sstart %*% diag(c(100, 10, 0.1))
+nsuccR &lt;- 0
+nsuccO &lt;- 0
+vRvm &lt;- rep(NA, nrun)
+voptim &lt;- vRvm
+fRvm &lt;- vRvm
+gRvm &lt;- vRvm
+foptim &lt;- vRvm
+goptim &lt;- vRvm
+
+for (irun in 1:nrun) {
+  us &lt;- ustart[irun,]
+#  print(us)
+#  ans &lt;- Rvmminu(us, hobbs.f, hobbs.g, control=list(trace=1))
+#  ans &lt;- optim(us, hobbs.f, hobbs.g, method=&quot;BFGS&quot;)
+  ans &lt;- Rvmminu(us, hobbs.f, hobbs.g, control=list(trace=0))
+  ao &lt;- optim(us, hobbs.f, hobbs.g, method=&quot;BFGS&quot;, 
+               control=list(maxit=3000))
+# ensure does not max function out
+
+# cat(irun,&quot;  Rvmminu value =&quot;,ans$value,&quot;  optim:BFGS value=&quot;,ao$value,&quot;\n&quot;)
+  if (ans$value &lt; 2.5879) nsuccR &lt;- nsuccR + 1
+  if (ao$value &lt; 2.5879) nsuccO &lt;- nsuccO + 1
+#  tmp &lt;- readline()
+  vRvm[irun] &lt;- ans$value
+  voptim[irun] &lt;- ao$value
+  fRvm[irun] &lt;- ans$counts[1]
+  gRvm[irun] &lt;- ans$counts[2]
+  foptim[irun] &lt;- ao$counts[1]
+  goptim[irun] &lt;- ao$counts[2]
+
+}
+cat(&quot;Rvmminu: number of successes=&quot;,nsuccR,&quot;  propn=&quot;,nsuccR/nrun,&quot;\n&quot;)
+</code></pre>
+
+<pre><code>## Rvmminu: number of successes= 100   propn= 1
+</code></pre>
+
+<pre><code class="r">cat(&quot;optim:BFGS no. of successes=&quot;,nsuccO,&quot;  propn=&quot;,nsuccO/nrun,&quot;\n&quot;)
+</code></pre>
+
+<pre><code>## optim:BFGS no. of successes= 99   propn= 0.99
+</code></pre>
+
+<pre><code class="r">fgc &lt;- data.frame(fRvm, foptim, gRvm, goptim)
+summary(fgc)
+</code></pre>
+
+<pre><code>##       fRvm            foptim            gRvm            goptim     
+##  Min.   : 36.00   Min.   :  58.0   Min.   : 21.00   Min.   : 16.0  
+##  1st Qu.: 58.50   1st Qu.: 140.5   1st Qu.: 31.75   1st Qu.: 53.0  
+##  Median : 74.50   Median : 184.0   Median : 40.00   Median : 68.5  
+##  Mean   : 87.66   Mean   : 323.5   Mean   : 41.31   Mean   :131.2  
+##  3rd Qu.: 93.00   3rd Qu.: 453.5   3rd Qu.: 48.00   3rd Qu.:178.8  
+##  Max.   :871.00   Max.   :1427.0   Max.   :101.00   Max.   :610.0
+</code></pre>
+
+<p>From this summary, it appears that Rvmmin, on average, uses fewer gradient and
+function evaluations to achieve the desired result.</p>
+
+<p>For comparison, we now re-run the example with default settings for maxit in 
+optim:BFGS.</p>
+
+<pre><code class="r">nsuccR &lt;- 0
+nsuccO &lt;- 0
+for (irun in 1:nrun) {
+  us &lt;- ustart[irun,]
+#  print(us)
+#  ans &lt;- Rvmminu(us, hobbs.f, hobbs.g, control=list(trace=1))
+#  ans &lt;- optim(us, hobbs.f, hobbs.g, method=&quot;BFGS&quot;)
+  ans &lt;- Rvmminu(us, hobbs.f, hobbs.g, control=list(trace=0))
+  ao &lt;- optim(us, hobbs.f, hobbs.g, method=&quot;BFGS&quot;)
+# ensure does not max function out
+
+# cat(irun,&quot;  Rvmminu value =&quot;,ans$value,&quot;  optim:BFGS value=&quot;,ao$value,&quot;\n&quot;)
+  if (ans$value &lt; 2.5879) nsuccR &lt;- nsuccR + 1
+  if (ao$value &lt; 2.5879) nsuccO &lt;- nsuccO + 1
+#  tmp &lt;- readline()
+  vRvm[irun] &lt;- ans$value
+  voptim[irun] &lt;- ao$value
+  fRvm[irun] &lt;- ans$counts[1]
+  gRvm[irun] &lt;- ans$counts[2]
+  foptim[irun] &lt;- ao$counts[1]
+  goptim[irun] &lt;- ao$counts[2]
+
+}
+cat(&quot;Rvmminu: number of successes=&quot;,nsuccR,&quot;  propn=&quot;,nsuccR/nrun,&quot;\n&quot;)
+</code></pre>
+
+<pre><code>## Rvmminu: number of successes= 100   propn= 1
+</code></pre>
+
+<pre><code class="r">cat(&quot;optim:BFGS no. of successes=&quot;,nsuccO,&quot;  propn=&quot;,nsuccO/nrun,&quot;\n&quot;)
+</code></pre>
+
+<pre><code>## optim:BFGS no. of successes= 64   propn= 0.64
+</code></pre>
+
+<pre><code class="r">fgc &lt;- data.frame(fRvm, foptim, gRvm, goptim)
+summary(fgc)
+</code></pre>
+
+<pre><code>##       fRvm            foptim           gRvm            goptim      
+##  Min.   : 36.00   Min.   : 58.0   Min.   : 21.00   Min.   : 16.00  
+##  1st Qu.: 58.50   1st Qu.:140.5   1st Qu.: 31.75   1st Qu.: 53.00  
+##  Median : 74.50   Median :184.0   Median : 40.00   Median : 68.50  
+##  Mean   : 87.66   Mean   :184.0   Mean   : 41.31   Mean   : 71.73  
+##  3rd Qu.: 93.00   3rd Qu.:236.0   3rd Qu.: 48.00   3rd Qu.:100.00  
+##  Max.   :871.00   Max.   :425.0   Max.   :101.00   Max.   :100.00
+</code></pre>
+
+<h2>Bounds and masks</h2>
+
+<p>Let us make sure that Rvmminb is doing the right thing with 
+bounds and masks. (This is actually a test in the package.)</p>
+
+<h3>Bounds</h3>
+
+<pre><code class="r">bt.f&lt;-function(x){
+ sum(x*x)
+}
+
+bt.g&lt;-function(x){
+  gg&lt;-2.0*x
+}
+
+lower &lt;- c(0, 1, 2, 3, 4)
+upper &lt;- c(2, 3, 4, 5, 6)
+bdmsk &lt;- rep(1,5)
+xx &lt;- rep(0,5) # out of bounds
+ans &lt;- Rvmmin(xx, bt.f, bt.g, lower=lower, upper=upper, bdmsk=bdmsk)
+</code></pre>
+
+<pre><code>## Warning in Rvmmin(xx, bt.f, bt.g, lower = lower, upper = upper, bdmsk =
+## bdmsk): Parameter out of bounds has been moved to nearest bound
+</code></pre>
+
+<pre><code>## trace= 0
+</code></pre>
+
+<pre><code class="r">ans
+</code></pre>
+
+<pre><code>## $par
+## [1] 0 1 2 3 4
+## 
+## $value
+## [1] 30
+## 
+## $counts
+## function gradient 
+##        1        1 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## [1] &quot;Rvmminb appears to have converged&quot;
+## 
+## $bdmsk
+## [1]  1 -3 -3 -3 -3
+</code></pre>
+
+<h3>Masks</h3>
+
+<p>Here we fix one or more paramters and minimize over the rest.</p>
+
+<pre><code class="r">sq.f&lt;-function(x){
+   nn&lt;-length(x)
+   yy&lt;-1:nn
+   f&lt;-sum((yy-x)^2)
+   f
+}
+sq.g &lt;- function(x){
+   nn&lt;-length(x)
+   yy&lt;-1:nn
+   gg&lt;- 2*(x - yy)
+}
+
+xx0 &lt;- rep(pi,3)
+bdmsk &lt;- c(1, 0, 1) # Middle parameter fixed at pi
+cat(&quot;Check final function value (pi-2)^2 = &quot;, (pi-2)^2,&quot;\n&quot;)
+</code></pre>
+
+<pre><code>## Check final function value (pi-2)^2 =  1.303234
+</code></pre>
+
+<pre><code class="r">require(optimx)
+ans &lt;- Rvmmin(xx0, sq.f, sq.g, lower=-Inf, upper=Inf, bdmsk=bdmsk,
+               control=list(trace=2))
+</code></pre>
+
+<pre><code>## Bounds: nolower =  TRUE   noupper =  TRUE  bounds =  TRUE 
+## Gradient test with tolerance =  6.055454e-06 
+## Analytic gradient uses function  gr 
+## function at parameters =  5.909701  with attributes:
+## NULL
+## Compute analytic gradient
+## [1] 4.2831853 2.2831853 0.2831853
+## Compute numeric gradient
+## [1] 4.2831853 2.2831853 0.2831853
+## gradient test tolerance =  6.055454e-06   fval= 5.909701 
+##  compare to max(abs(gn-ga))/(1+abs(fval)) =  3.242827e-12 
+## admissible =  TRUE 
+## maskadded =  FALSE 
+## parchanged =  FALSE 
+## trace= 2 
+## Bounds: nolower =  FALSE   noupper =  FALSE  bounds =  TRUE 
+## Rvmminb -- J C Nash 2009-2015 - an R implementation of Alg 21
+## Problem of size n= 3   Dot arguments:
+## list()
+## Initial fn= 5.909701 
+## ig= 1   gnorm= 4.861975   Reset Inv. Hessian approx at ilast =  1 
+##   1   1   5.909701 
+## Gradproj = -18.42587 
+## reset steplength= 1 
+## *reset steplength= 0.2 
+## ig= 2   gnorm= 2.575522     3   2   2.961562 
+## Gradproj = -15.04576 
+## reset steplength= 1 
+## *reset steplength= 0.2 
+## ig= 3   gnorm= 0.23879     5   3   1.317489 
+## Gradproj = -0.02851034 
+## reset steplength= 1 
+## ig= 4   gnorm= 0   Small gradient norm
+## Seem to be done Rvmminb
+</code></pre>
+
+<pre><code class="r">ans
+</code></pre>
+
+<pre><code>## $par
+## [1] 1.000000 3.141593 3.000000
+## 
+## $value
+## [1] 1.303234
+## 
+## $counts
+## function gradient 
+##        6        4 
+## 
+## $convergence
+## [1] 2
+## 
+## $message
+## [1] &quot;Rvmminb appears to have converged&quot;
+## 
+## $bdmsk
+## [1] 1 0 1
+</code></pre>
+
+<pre><code class="r">ansnog &lt;- Rvmmin(xx0, sq.f, lower=-Inf, upper=Inf, bdmsk=bdmsk,
+               control=list(trace=2))
+</code></pre>
+
+<pre><code>## Bounds: nolower =  TRUE   noupper =  TRUE  bounds =  TRUE 
+## WARNING: forward gradient approximation being used
+## admissible =  TRUE 
+## maskadded =  FALSE 
+## parchanged =  FALSE 
+## trace= 2 
+## Bounds: nolower =  FALSE   noupper =  FALSE  bounds =  TRUE 
+## Rvmminb -- J C Nash 2009-2015 - an R implementation of Alg 21
+## Problem of size n= 3   Dot arguments:
+## list()
+## WARNING: using gradient approximation &#39; grfwd &#39;
+## Initial fn= 5.909701 
+## ig= 1   gnorm= 4.861976   Reset Inv. Hessian approx at ilast =  1 
+##   1   1   5.909701 
+## Gradproj = -18.42587 
+## reset steplength= 1 
+## *reset steplength= 0.2 
+## ig= 2   gnorm= 2.575522     3   2   2.961562 
+## Gradproj = -15.04576 
+## reset steplength= 1 
+## *reset steplength= 0.2 
+## ig= 3   gnorm= 0.23879     5   3   1.317489 
+## Gradproj = -0.02851034 
+## reset steplength= 1 
+## ig= 4   gnorm= 2.668644e-08     6   4   1.303234 
+## Gradproj = -4.446061e-16 
+## reset steplength= 1 
+## *reset steplength= 0.2 
+## *reset steplength= 0.04 
+## *reset steplength= 0.008 
+## *reset steplength= 0.0016 
+## *reset steplength= 0.00032 
+## *reset steplength= 6.4e-05 
+## *reset steplength= 1.28e-05 
+## *reset steplength= 2.56e-06 
+## *reset steplength= 5.12e-07 
+## *reset steplength= 1.024e-07 
+## Unchanged in step redn 
+## No acceptable point
+## Converged 
+## Seem to be done Rvmminb
+</code></pre>
+
+<pre><code class="r">ansnog
+</code></pre>
+
+<pre><code>## $par
+## [1] 1.000000 3.141593 3.000000
+## 
+## $value
+## [1] 1.303234
+## 
+## $counts
+## function gradient 
+##       16        4 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## [1] &quot;Rvmminb appears to have converged&quot;
+## 
+## $bdmsk
+## [1] 1 0 1
+</code></pre>
+
+<h2>References</h2>
+
+</body>
+
+</html>

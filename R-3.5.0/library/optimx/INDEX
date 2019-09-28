@@ -1,0 +1,71 @@
+Rcgmin                  An R implementation of a nonlinear conjugate
+                        gradient algorithm with the Dai / Yuan update
+                        and restart. Based on Nash (1979) Algorithm 22
+                        for its main structure.
+Rcgminb                 An R implementation of a bounded nonlinear
+                        conjugate gradient algorithm with the Dai /
+                        Yuan update and restart. Based on Nash (1979)
+                        Algorithm 22 for its main structure. CALL THIS
+                        VIA 'Rcgmin' AND DO NOT USE DIRECTLY.
+Rcgminu                 An R implementation of an unconstrained
+                        nonlinear conjugate gradient algorithm with the
+                        Dai / Yuan update and restart. Based on Nash
+                        (1979) Algorithm 22 for its main structure.
+                        CALL THIS VIA 'Rcgmin' AND DO NOT USE DIRECTLY.
+Rvmmin                  Variable metric nonlinear function
+                        minimization, driver.
+Rvmminb                 Variable metric nonlinear function minimization
+                        with bounds constraints
+Rvmminu                 Variable metric nonlinear function
+                        minimization, unconstrained
+axsearch                Perform axial search around a supposed minimum
+                        and provide diagnostics
+bmchk                   Check bounds and masks for parameter
+                        constraints used in nonlinear optimization
+bmstep                  Compute the maximum step along a search
+                        direction.
+checksolver             Test if requested solver is present
+coef<-                  Summarize opm object
+ctrldefault             set control defaults
+fnchk                   Run tests, where possible, on user objective
+                        function
+gHgen                   Generate gradient and Hessian for a function at
+                        given parameters.
+gHgenb                  Generate gradient and Hessian for a function at
+                        given parameters.
+grback                  Backward difference numerical gradient
+                        approximation.
+grcentral               Central difference numerical gradient
+                        approximation.
+grchk                   Run tests, where possible, on user objective
+                        function and (optionally) gradient and hessian
+grfwd                   Forward difference numerical gradient
+                        approximation.
+grnd                    A reorganization of the call to numDeriv grad()
+                        function.
+hesschk                 Run tests, where possible, on user objective
+                        function and (optionally) gradient and hessian
+hjn                     Compact R Implementation of Hooke and Jeeves
+                        Pattern Search Optimization
+kktchk                  Check Kuhn Karush Tucker conditions for a
+                        supposed function minimum
+multistart              General-purpose optimization - multiple starts
+opm                     General-purpose optimization
+optchk                  General-purpose optimization
+optimr                  General-purpose optimization
+optimx                  General-purpose optimization
+optimx-package          A replacement and extension of the optim()
+                        function, plus various optimization tools
+polyopt                 General-purpose optimization - sequential
+                        application of methods
+proptimr                Compact display of an 'optimr()' result object
+scalechk                Check the scale of the initial parameters and
+                        bounds input to an optimization code used in
+                        nonlinear optimization
+snewton                 Safeguarded Newton methods for function
+                        minimization using R functions.
+summary.optimx          Summarize optimx object
+tn                      Truncated Newton minimization of an
+                        unconstrained function.
+tnbc                    Truncated Newton function minimization with
+                        bounds constraints

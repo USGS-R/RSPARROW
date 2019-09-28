@@ -1,0 +1,132 @@
+routine,description
+accumulateIncrArea,"Accumulates incremental area for `accum_elements` variables, expressed in areal units. Function can only be run after replaceData1Names.R has been executed. Uses reach navigation data."
+addVars,"Tests for sparrowNames found in parameters.csv, but not in dataDictionary.csv or design_matrix.csv. Edits dataDictionary.csv and/or design_matrix.csv adding missing sparrowNames and opens dataDictionary.csv, design_matrix.csv and userModifyData.R for edit."
+allowRemoveRow,"Function to edit context menu for rhandsontable hottables in shiny ap, so that the first row cannot be deleted."
+applyUserModify,"reads `userModifyData.R` control file as text, unpacks all variables in the data1 file and applies user modifications, creates the `subdata` object for use in all model execution statements"
+areColors,Tests color strings and indicate whether invalid (not supported by R) color designations have been found
+assignIncremSiteIDs,Assigns the nearest downstream site ID (staidseq variable based on staid variable) to reaches in the incremental areas between monitoring sites by climbing network structure (reaches sorted by HYDSEQ)
+calcClassLandusePercent,"Calculates the land use percentages for the total drainage area for each reach, based on the user selected land uses given by the class_landuse control setting, followed by a subsetting of the reaches by the class_landuse_percent control setting."
+calcDemtareaClass,Obtains monitoring station classification (deciles) based on total drainage area for each site
+calcHeadflag,Calculates the system variable headflag (translated from SAS hydseq code)
+calcIncremLandUse,Calculates the land-use percentages for the incremental drainage areas of the monitoring sites for use in decile diagnostics
+calcTermflag,"Calculates the system variable termflag, based on reach navigation variables"
+checkAnyMissingSubdataVars,Identifies REQUIRED system variables and parameter variables with any missing or zero values and prints a warning in the console
+checkBinaryMaps,Checks if binary mapping objects exist and loads binary files
+checkClassificationVars,"Checks for missing or zero values in classification variables in section 5 of the control script. If missing and/or zeros are found, a critical error has been found and program execution will terminate."
+checkData1NavigationVars,"Checks for excessively large integer values (maximum>1M) for the sparrowNames `waterid`, `tnode`, `fnode`, `hydseq` to avoid array storage problems in R and Fortran subroutines. Exceedence of the threshold causes a renumbering of the 'waterid' and node numbers."
+checkDrainageareaErrors,"Executes drainage area checks for newly computed areas, based on the if_verify_demtarea control setting (section 2 of the control script). If any differences are found between the user's original data for Total Drainage Area vs. Total Drainage Area calculated by RSPARROW, a plot of user's original data for Total Drainage Area vs. Total Drainage Area calculated by RSPARROW is output. For the control setting if_verify_demtarea_maps<-""yes"", maps are output of `demtarea` and `hydseq` for unmatched areas as a ratio of RSPARROW calculated:original. A CSV file is output of all differences found to ~/estimate/(run_id)_diagnostic_darea_mismatches.csv."
+checkDupVarnames,Checks for duplicate `sparrowNames` in the dataDictionary.csv file and outputs list of duplicates as message in console window
+checkMissingData1Vars,Identifies REQUIRED system variables with all missing/zero values in the `data1.csv` file and adds missing variables to the file with all NA values. Outputs a printed warning for users and a list of missing variables as a message in console.
+checkMissingSubdataVars,Identifies REQUIRED system variables and user selected parameters with all missing/zero values in `subdata` and outputs a list of variables with all missing values as message in console.
+checkingMissingVars,check for missing variables in the variable lists specified by `types`
+compileALL,Compiles all user input from the shiny session in the namespace of the map being generated into a single list object.
+compileInput,Shiny server function that updates compiles input from namespace indicated in callModule function call
+controlFileTasksModel,"Executes all model tasks after checks have been performed, including execution of model estimation, diagnostics, prediction, scenarios, and mapping"
+convertHotTables,Converts rhandsontable hottables from Shiny into regular dataframes and cosmetic mapping settings to regular list objects in the shiny input list
+copyPriorModelFiles,"Copies the previously executed model control files into the top level user's results directory. RSPARROW is terminated after files are copied and the copied control script, sparrow_control.R, is opened in Rstudio."
+correlationMatrix,Calculates summary metrics and bivariate correlations between user-selected variables in `subdata` for incremental areas of monitoring sites and for all reaches. Outputs (run_id)_explvars_correlations.txt and (run_id)_explvars_correlations.pdf files.
+createDataMatrix,"Creates the R `DataMatrix.list` object, containing five data elements that are used to estimate the model and produce model predictions."
+createDirs,creates all model subdirectories for file output
+createInitialDataDictionary,"Creates a new dataDictionary.csv file based on the column names of `data1.csv`, adds missing, REQUIRED, and FIXED variables with `data1UserName==""NA""`, and opens the new dataDictionary.csv file for the user to edit. RSPARROW execution will be terminated once the dataDictionary.csv file is created."
+createInitialParameterControls,Creates parameters.csv file and design_matrix.csv based on the `varType` column of the dataDictionary.csv file. Opens the new parameters.csv and design_matrix.csv files for edit. RSPARROW execution is terminated.
+createInteractiveChoices,Generates list of prediction metrics for user to select to plot in RShiny based on modeled parameters
+createMasterDataDictionary,Compiles all archived dataDictionary.csv files in the user's results directory by `run_id` from the earliest date forward. The master_dataDictionary.csv file is saved to the upper level of the user's results directory.
+createRTables,Creates user input tables to be converted into hottables in Rshiny.
+createSubdataSorted,"Creates a subset of `data1`, called `subdata`, sorted by `hydseq` , based on the application of the control setting 'filter_data1_conditions'. The 'subdata' object is used in model estimation, prediction, mapping, and other functions. "
+createVerifyReachAttr,"Calculates REQUIRED system reach attributes for reaches with `fnode>0`, `tnode>0` and `termflag!=3`from `calculate_reach_attribute_list` control setting and verifies `demtarea` if `if_verify_demtarea<-""yes""`"
+dataInputPrep,"Imports data1.csv and dataDictionary.csv files, checks for duplicate `sparrowNames`, replaces `data1UserNames` with `sparrowNames` in the `data1` object, checksreach navigation variables for large integers and/or all missing values, creates and/or verifies navigation variables and `demtarea`, saves `data1` and `data_names` (dataDictionary.csv import object) objects as binary file in top level of results (input_data_fileName)_priorImport, and saves `data_names` and `data1` to `.GlobalEnv`"
+deleteFiles,"Deletes all files from estimate, predict, maps, and scenarios subdirectories.  Subroutine is only called when model estimation is requested via the control settings if_estimate<-""yes"" or if_estimate_simulation<-""yes""."
+diagnosticMaps,Creates diagnostic maps of residuals and site attributes and saves them to ~/estimate/(run_id)_diagnostic_plots.pdf.
+diagnosticPlotsNLLS,"Creates diagnostic plots and maps output to ~/estimate/(run_id)_diagnostic_plots.pdf, and saves residual maps as shape files."
+diagnosticPlotsValidate,"Creates diagnostic plots and maps for validation sites output to ~/estimate/(run_id)_validation_plots.pdf, and saves residual maps as shape files."
+diagnosticSensitivity,Calculates the parameter sensitivities (change in load predictions for a a 1% unit change in the explanatory variables). Outputs plots to ~/estimate/(run_id)_diagnostic_sensitivity.pdf. Outputs `sensitivities.list` as binary file to ~/estimate/(run_id)_sensitivities.list.
+diagnosticSpatialAutoCorr,Generates diagnostics for spatial dependence (autocorrelation) in the model residuals. SiteIDs are determined from hydseq sorted file to ensure consistency in hydrologic distance and other ID ordering across programs. Outputs plots to ~/estimate/(run_id)_diagnostic_spatialautocor.pdf. Outputs Morans I stats to ~/estimate/(run_id)_diagnostic_spatialautocor.txt. Outputs Morans I stats to ~/estimate/summaryCSV/(run_id)_EuclideanMoransI.csv
+dropFunc,Shiny ui function creates drop down button with SelectAll and ClearAll Buttons and a multi-select list of variables in the designated category. Only applied in Batch mode.
+eigensort,Sorts eigenvectors and eigenvalues in decreasing order.
+errorOccurred,Terminates program if an error occures in any routine. Error message is printed to the console.
+estimate,"Executes all model tasks related to model estimation, diagnostics plotting and mapping, parameter sensitivities, validation diagnostics, and the output of tabular summary metrics."
+estimateBootstraps,"Executes all model tasks related to obtaining model estimation uncertainties using parametric bootstrap methods, for the control setting if_boot_estimate<-""yes""."
+estimateFeval,"SPARROW NonLinear Least Squares (NLLS) function for optimizing the model fit to the observations for the calibration sites, based on use of conditioned predictions of load. The function accumulates loads in the reach network according to the user's model specification, making comparisons of the conditioned predictions of  load to the actual loads at monitored reaches to return a vector of weighted residuals (difference between the actual and predicted loads). Monitoring load substitution is performed (ifadjust=1). "
+estimateFevalNoadj,"Accumulates loads in the reach network according to the user's model specification, making comparisons of the unconditioned predictions of  load to the actual loads for monitored (calibration site) reaches to return a vector of weighted residuals (difference between the actual and predicted loads). No monitoring load substitution is performed (ifadjust=0). "
+estimateNLLSmetrics,"Computes all model performance and other summary metrics and diagnostics for the estimated model for calibration sites, as reported in the ~/estimate/(run_id)_summary.txt file. "
+estimateNLLStable,Outputs all model performance and other summary metrics and diagnostics for the estimated model for calibration and validates sites to the ~/estimate/(run_id)_summary.txt file. 
+estimateOptimize,Executes the SPARROW NLLS model estimation via calls to the 'nlfb' NLMRT library optimization function and the 'jacobian' function. 
+executeRSPARROW,Runs manageDirVars functions and then proceeds with model excution either in regular mode or batch mode
+executionTree,Function to trace all function and routine executions from the `startRoutine` forward and either print a data.tree of the executions or output a data.table with executions and line numbers of executions
+findCodeStr,"find all instances where a given routine is executed, determine all arguments for a given routine, find all routines that use a given control setting or functional argument, or determine all locations within the system a given string occurs"
+findControlFiles,checks to make sure all necessary control files are present in the results directory
+findMinMaxLatLon,"Identifies the minimum and maximum values of the calibration station latitudes and longitudes, which is output to the Console, and used where the control settings 'lat_limit' and 'lon_limit' are equal to 'NA'"
+fixDupLatLons,Adds a small random increment of decimal degrees to the latitude and longitude for monitoring sites with duplicate values.
+generateInputLists,creates lists of control settings for group input into functions
+getCharSett,list of all character type control settings
+getNumSett,list of all numeric type control settings
+getOptionSett,list of all control settings with specified optional values
+getShortSett,list of all control settings that should have a length of 1
+getSpecialSett,list of settings that require additional testing and the test that should be run
+getVarList,list of all fixed and required variables with explanations
+getYesNoSett,list of all yes/no control settings
+goShinyPlot,function to execute plots in shiny
+handsOnMod,shiny module to create rshandsontables
+handsOnUI,shiny ui to setup place for rhandsontable
+hydseq,"Creates values for the REQUIRED system variables specified in the 'calculate_reach_attribute_list' control setting, including  'hydseq', 'headflag',  and/or 'demtarea'. "
+hydseqTerm,flags all reaches upstream of the designated target reaches for execution of source reduction scenarios
+importCSVcontrol,Imports csv control file and checks/corrects the number of columns used by the 'syncVarNames' function. 
+isScriptSaved,outputs question to the console asking if the current sparrow_control.R file has been saved and stopping execution until the user indicates that it has been saved
+makePaths,creates all internal path variables for file input/output
+mapBreaks,Creates mapping color breakpoints. 
+mapSiteAttributes,function to execute site attribute mapping
+modelCompare,function to compare groups of models to the current model using the output from 'estimate/summaryCSV' directory
+named.list,Supports the creation of a list object by specifying unquoted variable names in the argument list.
+openDesign,opens the design_matrix.csv control file for edit
+openParameters,opens the parameters.csv control file for edit
+openVarnames,opens the dataDictionary.csv control file for edit
+outputSettings,outputs archived list of all control settings
+predict,"Calculates all conditioned and unconditioned model predictions for reaches for the control setting if_predict<-""yes"". "
+predictBoot,"Calculates all conditioned and unconditioned model predictions for reaches for each bootstrap iteration, for the control setting if_boot_predict<-""yes"". "
+predictBootsOutCSV,Outputs the bootstrap predictions to CSV files. 
+predictBootstraps,"Executes all model tasks related to obtaining model prediction uncertainties using parametric bootstrap methods, for the control setting if_boot_predict<-""yes""."
+predictMaps,executes prediction and source reduction scenario stream and catchment mapping
+predictOutCSV,Outputs the standard predictions to CSV files. 
+predictScenarios,"Executes tasks for the management source-change scenarios, including generating load predictions for the scenario, saving the predictions to the 'predictScenarios.list', and executing the mapping function 'predictMaps'."
+predictScenariosOutCSV,Outputs the scenario load predictions to CSV files. 
+predictScenariosPrep,Sets up source reduction scenario applying change factors to specified areas
+predictSensitivity,"Supports the calculation of parameter sensitivities, executed by the 'diagnosticSensitivity' function, by calculating the unconditioned predictions for an individual parameter."
+predictSummaryOutCSV,"Calculates and outputs to the ~/estimate/(run_id)_summary_predictions.csv file the percentile summaries of reach predictions of load, yield, concentration, and delivery fraction for the control settings if_estimate<-""yes"" and if_predict<-""yes"", and outputs percentile summaries for the yields  by predominant land-use type specified in the 'class_landuse' control setting."
+readData,Reads the users input data (either .csv or binary format)
+readDesignMatrix,Reads the land-to-water and source interaction matrix in the 'design_matrix.csv' file. 
+readParameters,Reads the 'parameters.csv' file.
+readVarnames,Reads the 'dataDictionary.csv' file.
+removeObjects,Removes objects from the global environment if the object exists. Warnings are suppressed.
+replaceData1Names,replaces data1UserNames with sparrowNames in the data1 object from the dataDictionary.csv control file
+replaceNAs,Replaces all NAs with 0's. Output is saved to parent.frame().
+runShiny,runs shiny app on previously executed RSPARROW model
+selectAll,Shiny server function updates variable drop down list selecting all variable choices in selected namespace given by 'category'
+selectCalibrationSites,"Identifies the calibration sites based on the 'calsites' indicator variable, filters the sites according to user control setttings (section 3 of control script), and assigns a unique sequence number to the sites."
+selectDesignMatrix,"Creates the 'dlvdsgn' matrix for use in model estimation and prediction, based on the user-selected model parameters. "
+selectParmValues,"Creates the 'SelParmValues' object with the user-selected parameter attributes and performs consistency checks on the initial, minimum, and maximum values of the parameters. "
+selectValidationSites,Identifies the validation sites according to user-specified control settings (section 6 of the control script). 
+setMapDefaults,Sets default values for any missing required mapping settings and assigns default value to global environment.
+setNLLSWeights,"Assigns the user-defined weights to the system variable 'weight', used to execute a weighted NLLS model estimation. Also calculates the variable 'tiarea' (sum of the
+incremental drainage area of reaches located between monitoring sites), used to calculate weighting expressions based on the size of the intervening areas between sites."
+setupMaps,A preprocessor to read shape files and store objects
+shapeFunc,Shiny ui function applies Shiny conditional panel to show option to output to ERSI shapefile if Batch mode is selected
+shinyErrorTrap,"tests for invalid user inputs in the shiny app and pops up a custom error message, shiny map execution is halted"
+shinyMap2,"Modular Shiny app that allows the user to interactively generate Stream, Catchment, and Site Attribute maps, as well as execute Source Change Scenarios Uses libraries shiny, sp, data.table, maptools, rgdal, shinyWidgets, stringr, and rhandsontable Uses subroutines: setup routines : createInteractiveChoices, createInteractiveScenarioChoices, createRTables, UIs : streamCatch, shinySiteAttr, shinyScenarios MODS : compileALL, selectAll, updateVariable, shinyScenariosMod, goShinyPlot"
+shinyScenarios,shiny ui for source change scenario mapping
+shinyScenariosMod,shiny module for source change scenario mapping
+shinySiteAttr,Shiny ui function generates user selections for Site Attribute Mapping Uses subroutines: dropFunc.
+sourceRedFunc,create source change functions from rhandsontables in shiny app
+startEndmodifySubdata,"if userModifyData.R is not run, this function creates the subdata object and stops execution if any missing class_landuse found"
+startModelRun,executes sparrowSetup and sparrowExecution functions
+streamCatch,Shiny ui function generates user selections for Stream and Catchment Mapping Uses subroutines: dropFunc.
+sumIncremAttributes,"Sums the specified attribute over the incremental area of the calibration sites, based on the unique station sequence number for each reach (staidseq).   [NOTE THAT THE FUNCTION ARGUMENTS COULD USE EDITING TO USE THE UNIQUE NAMES RATHER THAN GENERIC NAMES)"
+syncVarNames,Updates the 'dataDictionary.csv' varType column with the user designated parmTypes from the 'parameters.csv' file.
+testCosmetic,test for invalid user inputs in map settings rhandsontables in shiny app
+testRedTbl,test for invalid user inputs in source reduction scenario rhandsontables in shiny app
+testSettings,test for invalid user inputs in shiny app
+unPackList,creates individual variables from list objects and places them in the `parent.frame()` environment
+updateVariable,Shiny server function updates variable drop down list according to the user's selection of mapping variable type and outputs the definition of the variable in Shiny namespace = 'nsStreamCatch'
+validateFevalNoadj,"Accumulates loads in the reach network according to the user's model specification, making comparisons of the unconditioned predictions of  load to the actual loads for monitored (validation site) reaches to return a vector of weighted residuals (difference between the actual and predicted loads). No monitoring load substitution is performed (ifadjust=0). "
+validateMetrics,"Computes all model performance and other summary metrics and diagnostics for the estimated model for the validation sites, as reported in the ~/estimate/(run_id)_summary.txt file. "
+validCosmetic,highlights invalid user inputs in the map settings rhandsontables in the shiny app
+verifyDemtarea,"Performs a consistency check on values for the total drainage area system variable, 'demtarea', based on the 'if_verify_demtarea' control setting (section 2 of the control script). The check compares values of the newly-created 'demtarea' (using the 'hydseq.R' function) with user-supplied values of 'demtarea', and outputs the results to CSV and PDF files."

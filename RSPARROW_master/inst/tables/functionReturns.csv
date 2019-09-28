@@ -1,0 +1,145 @@
+routine,returns,description
+accumulateIncrArea,AreaRch, data.frame containing waterid and `accum_elements`
+addVars,NA,NA
+allowRemoveRow,NA,NA
+applyUserModify,subdata, data.frame with all user designated modifications from userModifyData.R
+areColors,testCol, logical TRUE/FALSE indicating whether or not invalid color strings were found
+assignIncremSiteIDs,rchstaid, integer vector site IDs assigned contiguously to upstream incremental reaches
+batchGeoLines,NA,NA
+batchlineShape,NA,NA
+batchMaps,NA,NA
+batchpolyShape,NA,NA
+batchRun,NA,NA
+calcClassLandusePercent,percentClassLanduse, data.frame with calculated percentages by land use
+calcDemtareaClass,demtarea.class, a numeric vector indicating decile class labeled with the total 
+calcHeadflag,outdata, data.frame with waterid and headflag
+calcIncremLandUse,df, data.frame incremental land-use percentages calculated by class_landuse
+calcTermflag,outdata, data.frame with waterid and termflag
+checkAnyMissingSubdataVars,NA,NA
+checkBinaryMaps,fileLoaded, logical TRUE/FALSE indicating whether or not file is loaded
+checkClassificationVars,NA,NA
+checkData1NavigationVars,data1, data1 input file as dataframe with large interger values replaced and hydseq 
+checkDrainageareaErrors,NA,NA
+checkDupVarnames,NA,NA
+checkMissingData1Vars,data1, data1 input data.frame with missing variables added
+checkMissingSubdataVars,NA,NA
+checkingMissingVars,missing,"list of number of missing variables `k`, names of variables with missing values `datalstMissingdata` and the type of variable list with missing values"
+compileALL,out, list object of all user input within the namespace of the type of map being 
+compileInput,NA,NA
+controlFileTasksModel,runTimes," named list of run times for bootstrap estimation, bootstrap prediction, mapping, and estimate.list"
+convertHotTables,outshinyInput, the compiled Shiny Input list with hottables as dataframes and 
+copyPriorModelFiles,NA,NA
+correlationMatrix,outchar, named list Cor.ExplanVars.list
+createDataMatrix,DataMatrix.list," list containing objects `dataNames` (Names of the data matrix columns),"
+createDirs,complete, TRUE/FALSE logical indicating whether or not function ran successfully
+createInitialDataDictionary,NA,NA
+createInitialParameterControls,NA,NA
+createInteractiveChoices,Choices," data.frame of parameter metrics by type (""Load Predictions"", ""Yield "
+createInteractiveScenarioChoices,NA,NA
+createMasterDataDictionary,NA,NA
+createRTables,out, list containing all user input tables for the Rshiny app.
+createSubdataSorted,subdata, data.frame used in model execution
+createVerifyReachAttr,data1, data.frame with calculated reach attributes replaced
+dataInputPrep,NA,NA
+deleteFiles,NA,NA
+diagnosticMaps,NA,NA
+diagnosticPlotsNLLS,NA,NA
+diagnosticPlotsValidate,NA,NA
+diagnosticSensitivity,NA,NA
+diagnosticSpatialAutoCorr,NA,NA
+dropFunc,NA,NA
+eigensort,eigenout, list object with eigenvalues and vectors sorted in decreasing order
+errorOccurred,NA,NA
+estimate,estimate.list,named list of summary metrics and diagnostic output. For more details see documentation section 5.2.4
+estimateBootstraps,BootResults,"data archive using the control setting `if_boot_estimate <- ""yes""` for use in subsequent execution of parametric bootstrap predictions. For more details see documenation Section 5.2.6.2."
+estimateFeval,e,vector of weighted residuals
+estimateFevalNoadj,e,vector of weighted residuals
+estimateNLLSmetrics,estimate.metrics.list,named list of summary metrics. For more details see documentation section 5.2.4
+estimateNLLStable,NA,NA
+estimateOptimize,sparrowEsts,list object contained in estimate.list `if_estimate<-'yes'`.  For more details see documentation Section 5.2.4.4.
+estimateWeightedErrors,NA,NA
+executeRSPARROW,NA,NA
+executionTree,traceProgram,data.table of all function/routine executions and line number of executions after the `startRoutine`
+findCodeStr,NA,NA
+findControlFiles,NA,NA
+findMinMaxLatLon,sitegeolimits,named list of minimum and maximum values of the calibration station latitudes and longitudes
+findScriptName,NA,NA
+fixDupLatLons,x,latitude or longitude vector with small random increment added to duplicate latitudes and longitudes
+generateInputLists,NA,NA
+getCharSett,charSettings,list of all character type control settings
+getNumSett,numericSettings,list of all numeric type control settings
+getOptionSett,optionSettings,list of all control settings with specified optional values
+getShortSett,shortSettings,list of all control settings that should have a length of 1
+getSpecialSett,specialSettings,list of settings that require additional testing and the test that should be run
+getVarList,varOUT,list of all fixed and required variables with explanations
+getYesNoSett,yesNoSettings,list of all yes/no control settings
+goShinyPlot,NA,NA
+handsOnMod,NA,NA
+handsOnUI,NA,NA
+hydseq,out,input data file with RSPARROW calculated hydseq values
+hydseqTerm,data1,input data file with RSPARROW calculated hydseq values for the reaches upstream of the designated target reach for source reduction scenarios
+importCSVcontrol,data,data object imported from csv control file
+installPackages,NA,NA
+interactiveBatchRun,NA,NA
+isScriptSaved,saved,1 indicated that the sparrow_control.R file has been saved or 2 indicated that it has not been saved and execution should be halted
+makePaths,NA,NA
+mapBreaks,outBrks,named list of iprob and brks for mapping
+mapSiteAttributes,NA,NA
+modelCompare,NA,NA
+named.list,NA,NA
+openDesign,NA,NA
+openParameters,NA,NA
+openVarnames,NA,NA
+outputSettings,settings,data.frame of all user control file settings and setting values
+pkgInstall,NA,NA
+predict,predict.list,"archive with all load and yield prediction variables to provide for the efficient access and use of predictions in subsequent execution of the parametric
+bootstrap predictions and uncertainties, mapping, and scenario evaluations.  For more details see documentation Section 5.3.1.5"
+predictBoot,predictBoots.list,contains parametric bootstrap predictions for load and yield. For more details see documentation Section 5.3.2.3
+predictBootsOutCSV,NA,NA
+predictBootstraps,predictBoots.list,contains parametric bootstrap predictions for load and yield. For more details see documentation Section 5.3.2.3
+predictMaps,NA,NA
+predictOutCSV,NA,NA
+predictScenarios,NA,NA
+predictScenariosOutCSV,NA,NA
+predictScenariosPrep,scenarioPrep.list,"list of source change scenario setup control settings, data with change factors applied, and the scenarioFlag indicating the scenario mapping area"
+predictSensitivity,pload_total,nonadjusted total load
+predictSummaryOutCSV,NA,NA
+readData,data1,input data (data1)
+readDesignMatrix,dmatrixin,imported object from design_matrix.csv
+readParameters,betavalues,data.frame of model parameters from parameters.csv
+read_dataDictionary,data_names,data.frame of variable metadata from data_Dictionary.csv file
+removeObjects,NA,NA
+replaceData1Names,data1,input data (data1) with data1UserNames replaced with sparrowNames
+replaceNAs,NA,NA
+runRsparrow,NA,NA
+runShiny,NA,NA
+selectAll,NA,NA
+selectCalibrationSites,Csites.list,list output from `selectCalibrationSites.R` modified in `startModelRun.R`
+selectDesignMatrix,dlvdsgn,design matrix imported from design_matrix.csv for selected parameters
+selectParmValues,SelParmValues,"selected parameters from parameters.csv using condition `ifelse((parmMax > 0 | (parmType==""DELIVF"" & parmMax>=0)) & (parmMin<parmMax) & ((parmType==""SOURCE"" & parmMin>=0) | parmType!=""SOURCE"")`"
+selectValidationSites,Vsites.list,named list of sites for validation
+setMapDefaults,NA,NA
+setNLLSWeights,Csites.weights.list,regression weights as proportional to incremental area size
+setupMaps,NA,NA
+shapeFunc,NA,NA
+shinyErrorTrap,errMsg,character string custom message indicating invalid entries in the shiny app
+shinyMap2,outshinyInput, the Shiny Input list with hottables as dataframes and cosmetic mapping settings as list objects
+shinyScenarios,NA,NA
+shinyScenariosMod,NA,NA
+shinySiteAttr,NA,NA
+sourceRedFunc,out,named list of source change functions based on user input to rhandsontables in shiny app
+startEndmodifySubdata,subdata,data.frame input data (subdata)
+startModelRun,NA,NA
+streamCatch,NA,NA
+sumIncremAttributes,siteiarea,dataframe with summed attribute
+syncVarNames,NA,NA
+testCosmetic,out,named list with bad cosmetic mapping settings and rownumbers for invalid user inputs to map settings tables in the shiny app
+testRedTbl,out,named list with bad source change scenario settings and rownumbers for invalid user inputs to rhandsontables in the shiny app
+testSettings,NA,NA
+unPackList,NA,NA
+updateVariable,NA,NA
+validateFevalNoadj,e,vector of weighted residuals
+validateMetrics,validate.metrics.list,named list including the vANOVA.list and vMdiagnostics.list
+validCosmetic,NA,NA
+validSetting,NA,NA
+verifyDemtarea,NA,NA

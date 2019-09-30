@@ -9,93 +9,62 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This is where we will put an introduction to the `RSPARROW` package in general terms.
+# Introduction
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-[comment]: <> (This is a comment, it will not be included the "#" indicates a section title, different levels of titles can be specified by more "##")
-#Loading RSPARROW
+This vignette provides a general summary of RSPARROW and guidance on the setup and execution of the system. 
 
-Start by loading the package. Since this is not a real package we cannot call library(SPARROW) here.
+RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output. Users operate the system within RStudio from a single control script that accesses the supporting input files and functions.
 
-```{r, eval=FALSE}
-  ############################
-  ### 1. SET MAIN PATHNAME ###
-  ############################
+The RSPARROW documentation describes the steps necessary to estimate the static version of the model. Static SPARROW models provide reach-level predictions (and uncertainties) of the long-term mean annual water-quality loads and flow-weighted concentrations. The predictions also include the shares of the load attributable to individual upstream sources and predictions of the mass quantities of the total load and individual sources that are delivered to downstream water bodies.
 
-path_main <- "S:/R_SPARROW/R_SPARROW_master"
-
-#results, data, and gis directories should be in the same folder at the same level
-results_directoryName<-"results"
-data_directoryName<-"mydata"
-gis_directoryName<-"gis"
-
-  ###############################
-  ### 2. Load the R functions ###
-  ###############################
-  
-  # Install required packages
-  #   this is a one time process unless a new version of R is installed
-  #   packages previously installed by user will be skipped
-
-  if_install_packages<-"no"
-     #run these 3 lines together to install packages
-     source(paste(path_main,"/R/installPackages.R",sep=""))
-     installPackages(if_install_packages)
-  
-  # Load RSPARROW functions (These 2 lines should ALWAYS be run together)
-     suppressWarnings(remove(list=c("saved","runScript","run2","runRsparrow")))
-     devtools::load_all(path_main,recompile = FALSE) 
-```
-
-#Setting up control files
-
-Here we can put description of the control files.  If this becomes a real package then we can include data and instruct the user to load it and even use it as default for the primary function.  We can also display data.
-
-##Example parameters file
-```{r,echo=FALSE}
-structure(list(sparrowNames = c("point", "ndep", "MANC_N", "FARM_N", 
-"Fixation", "ldrainden", "PPT30MEAN", "meanTemp", "tiles_perc", 
-"soil_CLAYAVE", "rchdecay1", "rchdecay2", "rchdecay3", "iresload"
-), description = c("Municipal/industrial point source ", "Atmospheric deposition N (wet only)", 
-"Livestock manure N", "Fertilizer N use", "Cropland area (fixation-related)", 
-"Drainage density (km/km2)", "Precipitation (annual mean)", "Air temperature (annual mean)", 
-"Tile drainage (fraction of area)", "Soil clay content (fraction of area)", 
-"Small stream decay (mean Q<1.13 m3/s)", "Medium stream decay (1.13 m3/s < mean Q < 1.93 m3/s)", 
-"Large stream decay (mean Q > 1.93 m3/s)", "Reservoir decay (areal hydr. Load)"
-), parmUnits = c("fraction, dimensionless", "fraction, dimensionless", 
-"fraction, dimensionless", "fraction, dimensionless", "kg/ha/yr", 
-"dimensionless", "mm/yr", "degrees C.", "dimensionless", "dimensionless", 
-"per day travel time", "per day travel time", "per day travel time", 
-"meters/year"), parmInit = c(0.5, 0.1, 0.1, 0.1, 1, 0.1, 0.01, 
-0.01, 1, 0.01, 0.1, 0.1, 0.1, 1), parmMin = c(0, 0, 0, 0, 0, 
--10000, -10000, -10000, -10000, -10000, 0, 0, 0, 0), parmMax = c(1000, 
-1000, 1000, 1000, 1000, 10000, 10000, 10000, 10000, 10000, 1000, 
-1000, 0, 20), parmType = c("SOURCE", "SOURCE", "SOURCE", "SOURCE", 
-"SOURCE", "DELIVF", "DELIVF", "DELIVF", "DELIVF", "DELIVF", "STRM", 
-"STRM", "STRM", "RESV"), parmScale = c(10, 10, 10, 10, 1, 10, 
-100, 100, 1, 100, 1, 1, 1, 1), parmConstant = c(0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 0, 0, 0, 0), parmCorrGroup = c(0, 1, 1, 0, 0, 
-1, 1, 0, 1, 1, 0, 0, 0, 0)), .Names = c("sparrowNames", "description", 
-"parmUnits", "parmInit", "parmMin", "parmMax", "parmType", "parmScale", 
-"parmConstant", "parmCorrGroup"), class = "data.frame", row.names = c(NA, 
--14L))
-```
-
-This is how we include a code chunk. Used documented function as example.
-
-```{r, eval=FALSE}
-x<-c(1,2,3)
-y<-c(NA,4,5)
-replaceNAs(named.list(x,y))
-```
+Users are directed to download the documentation from <https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/inst/doc/RSPARROW_docV1.0.pdf>. This provides a complete guide to the installation and use of RSPARROW, including the steps needed to create and interpret SPARROW models. 
 
 
-You can also embed plots, for example:
+# Installation of RSPARROW
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+**Download RSPARROW from the USGS R repository:**  https://code.usgs.gov/water/stats/RSPARROW. This includes scripts, functions, and supporting documentation and tutorials.  
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+See Chapter 1.3 of the documentation for information on the RSPARROW directory structure and contents.  
+
+**Three directories contain the contents of RSPARROW** (The figure below shows the contents of the RSPARROW directories as installed on a user's computer):
+
+1. **RSPARROW_master**:  Includes functions, sourced files (DLLs), meta-data, and documentation vignettes. The directory contents should not be modified by users; no other sub-directories should be created in this directory on a user's computer. **The documentation, with clickable links in the PDF table of contents, is located in the ["RSPARROW_master/inst/doc"](https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/inst/doc/RSPARROW_v1.0.pdf) sub-directory.** 
+
+2. **UserTutorial**:  Contains the SPARROW total nitrogen models that are used for the tutorials presented in Chapter 6 of the documentation. 
+
+    * The *"results"* sub-directory contains a control script, input control files to execute the SPARROW model, and sub-directories for the tutorial models. The control script executes a predetermined sequence of function calls, governed by user settings in the control script. Separate execution of RSPARROW library functions by users (e.g., to estimate models or generate predictions and maps) is not supported. 
+    
+    * The directory structure and contents for the tutorial model, including the control scipt and input control files, can be used as a template to guide the setup and execution of user developed models.  
+
+3. **R-3.5.0**:  Contains the recommended 3.5.0 version of R, with pre-installed RSPARROW library dependencies. The R library dependencies have been tested for compatibility with RSPARROW. More recent R versions (>3.5.0) may operate with RSPARROW, once the required package dependencies are installed, but full compatibility of these R versions with RSPARROW is not guaranteed. The R-3.5.0 directory should be located separately from the RSPARROW master and User Directories, such as parallel to a user's other versions of R.
+
+
+
+# Setup and execution of a SPARROW model in RSPARROW
+
+See the documentation Chapter 4.1 ("Overview of the *sparrow_control.R* script settings") and 4.2 ("Executing the control script in RStudio") for details on getting started with RSPARROW. Chapter 4.2 gives information on finding a copy of the control script, a list of five major steps for executing RSPARROW, and a detailed checklist for the setup and testing of system settings, control files, and new models. 
+
+The tutorial models described in Chapter 6 also provide an illustration of how to build a SPARROW model, starting with a simple specification and adding variables to construct a more complex model. The descriptions of the models include helpful summaries of the model output and interpretations of the model results. 
+
+
+# Reporting bugs
+
+Please consider reporting bugs and asking questions on the GitHub Issues page: <https://github.com/USGS-R/RSPARROW/issues>
+
+
+# Citation for the RSPARROW Software Release
+
+Alexander, Richard B., and Gorman Sanisaca, Lillian. (2019). [RSPARROW: An R system for SPARROW modeling](https://code.usgs.gov/water/stats/RSPARROW) [Software release]. U.S. Geological Survey. DOI: https://doi.org/10.5066/P9UAZ6FO 
+
+
+# Code of Conduct
+
+We want to encourage a warm, welcoming, and safe environment for contributing to this project. See the [code of conduct](https://github.com/USGS-R/toxEval/blob/master/CONDUCT.md) for more information.
+
+
+# Disclaimer
+
+This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.
+
+Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government. 
+

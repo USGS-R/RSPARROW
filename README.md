@@ -1,4 +1,4 @@
-RSPARROW <img src="RSPARROW_master/inst/doc/figures_readme/Rlogo.png" alt="RSPARROW" height="1px" align="right" />
+RSPARROW <img src="RSPARROW_master/inst/doc/figures_readme/Rlogo.png" alt="RSPARROW" height="120px" align="right" />
 ----------
 
 RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output. Users operate the system within RStudio from a single control script that accesses the supporting input files and functions.
@@ -8,7 +8,7 @@ RSPARROW is a system of R scripts and functions for executing and evaluating SPA
 The [RSPARROW documentation](https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/inst/doc/RSPARROW_docV1.0.pdf) describes the steps necessary to estimate the static version of the model. The static model provides reach-level predictions (and uncertainties) of the long-term mean annual water-quality loads, yields, and flow-weighted concentrations. The predictions also include the shares of the load attributable to individual upstream sources and predictions of the mass quantities of the total load and individual sources that are delivered to downstream water bodies.
 
 
-<img src="RSPARROW_master/inst/doc/figures_readme/tutorial_figures_shiny1.jpg" alt="RSPARROW" height="1px" align="right" />
+<img src="RSPARROW_master/inst/doc/figures_readme/tutorial_figures_shiny1.jpg" alt="RSPARROW" height="750px" align="right" />
 
 ### Features 
 
@@ -48,7 +48,7 @@ RSPARROW requires a 64-bit processor on a Windows platform. There are no minimum
 
 2. Execution of the control script with the setting `if_install_packages<-"yes"` (located in section 12 of the control script) will install RSPARROW library dependencies with the user's current version of R. Note that previously installed packages will not be re-installed by this command. Users should be attentive to any warnings or errors that occur during execution of this installation by the control script. The setting should be turned off (`if_install_packages<-"no"`) in subsequent executions of the control script once all packages have been installed. RSPARROW will not execute until all dependencies have been installed and the control setting `if_install_packages<-"no"` is specified.
 
-<img src="RSPARROW_master/inst/doc/figures/FigDirectory1.jpg" alt="RSPARROW" height="1px" align="right" />
+<img src="RSPARROW_master/inst/doc/figures/FigDirectory1.jpg" alt="RSPARROW" height="700px" align="right" />
 
 
 ### Reporting bugs

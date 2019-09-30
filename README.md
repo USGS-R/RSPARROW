@@ -1,4 +1,4 @@
-RSPARROW <img src="RSPARROW_master/inst/doc/figures_readme/Rlogo.png" alt="RSPARROW" height="120px" align="right" />
+RSPARROW <img src="RSPARROW_master/inst/doc/figures_readme/Rlogo.png" alt="RSPARROW" height="110px" align="right" />
 ----------
 
 RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output. Users operate the system within RStudio from a single control script that accesses the supporting input files and functions.
@@ -48,7 +48,7 @@ RSPARROW requires a 64-bit processor on a Windows platform. There are no minimum
 
 2. Execution of the control script with the setting `if_install_packages<-"yes"` (located in section 12 of the control script) will install RSPARROW library dependencies with the user's current version of R. Note that previously installed packages will not be re-installed by this command. Users should be attentive to any warnings or errors that occur during execution of this installation by the control script. The setting should be turned off (`if_install_packages<-"no"`) in subsequent executions of the control script once all packages have been installed. RSPARROW will not execute until all dependencies have been installed and the control setting `if_install_packages<-"no"` is specified.
 
-<img src="RSPARROW_master/inst/doc/figures_readme/FigDirectory1.jpg" alt="RSPARROW" height="750px" align="right" />
+<img src="RSPARROW_master/inst/doc/figures_readme/FigDirectory1.jpg" alt="RSPARROW" height="550px" align="right" />
 
 
 ### Reporting bugs

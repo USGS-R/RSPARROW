@@ -1,6 +1,6 @@
 ---
 title: "SPARROW"
-author: "Richard Alexander and Lillian Gorman-Sanisaca"
+author: "Richard Alexander and Lillian Gorman Sanisaca"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: pdf_document
 vignette: >

@@ -13,14 +13,14 @@ code.json
       "licenses": [
         {
           "name": "Public Domain, CC0-1.0",
-          "URL": "https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/LICENSE.note"
+          "URL": "https://code.usgs.gov/water/stats/RSPARROW/LICENSE.md"
         }
       ]
     },
 
     "homepageURL": "https://code.usgs.gov/water/stats/RSPARROW",
     "downloadURL": "https://code.usgs.gov/water/stats/RSPARROW/-/archive/v1.0.0/RSPARROW-v1.0.0.zip",
-    "disclaimerURL": "https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/DISCLAIMER.md",
+    "disclaimerURL": "https://code.usgs.gov/water/stats/RSPARROW/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/water/water/stats/RSPARROW.git",
     "vcs": "git",
 

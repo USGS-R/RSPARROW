@@ -1,7 +1,7 @@
 RSPARROW <img src="RSPARROW_master/inst/doc/figures_readme/Rlogo.png" alt="RSPARROW" height="110px" align="right" />
 ----------
 
-RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output. Users operate the system within RStudio from a single control script that accesses the supporting input files and functions.
+RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output. Users operate the system within RStudio from a single control script that accesses the supporting input files and functions. Only minimal knowledge of R is required to use the system.
 
 [SPARROW (SPAtially Referenced Regressions on Watershed attributes)](https://pubs.usgs.gov/fs/2009/3019/pdf/fs_2009_3019.pdf) is a spatially explicit, hybrid (statistical and mechanistic) water-quality model developed by the USGS. The model has been used to quantify the sources and transport of contaminants in watersheds of widely varying sizes, from catchment to continental scales. SPARROW includes three major process components that explain spatial variability in stream water quality:  (1) contaminant source generation, (2) land-to-water delivery, and (3) stream and reservoir transport and decay. The non-linear and mechanistic structure of the model includes mass balance constraints and non-conservative transport components. This includes factors that control the attenuation and delivery of contaminants to streams via surficial and subsurface pathways and the removal of contaminants in streams and reservoirs, according to first-order decay kinetics. SPARROW is structured as a network of one-dimensional stream segments and their contributing drainage areas. 
 
@@ -12,11 +12,11 @@ The [RSPARROW documentation](https://code.usgs.gov/water/stats/RSPARROW/RSPARROW
 
 ### Features 
 
-* R functions and scripts, coded according to standardized open-source R protocols, promote work environment efficiencies that encourage the collaborative development of sharable SPARROW methods and functions. Use of the USGS R and GitHub repositories ensures standardized methods of storage, maintenance, documentation, and retrieval of R functions and control scripts. A description of the RSPARROW design elements (Chapter 7 of the documentation) provides an informative guide for experienced R users and developers. Custom string search tools are also provided to developers to ensure that functional dependencies and variable attributes can be readily identified in the RSPARROW library to support the collaborative development of the software.
+* R functions and scripts, coded according to standardized open-source R protocols, promote work environment efficiencies that encourage the collaborative development of sharable SPARROW methods and functions. Use of the USGS GitLab and GitHub repositories ensures standardized methods of storage, maintenance, documentation, and retrieval of R functions and control scripts. A description of the RSPARROW design elements (Chapter 7 of the documentation) provides an informative guide for experienced R users and developers. Custom string search tools are also provided to developers to ensure that functional dependencies and variable attributes can be readily identified in the RSPARROW library to support the collaborative development of the software.
 
 * Diagnostic plots and metrics, prediction output, and mapping capabilities enable evaluations of model performance and access to a large set of model prediction metrics. This includes user-controlled options for mapping explanatory and response data and model predictions by monitoring sites, stream reaches and catchments. These capabilities are enhanced by use of a data dictionary as a master respository of the system and user-defined variable names and attributes. Users also have the option to sequester monitoring (validation) sites to independently assess model performance.
 
-* An R Shiny interactive mapper allows users to map SPARROW predictions and geographic data by stream reach, catchment, and monitoring site location and to interactively define and execute source-change scenarios in a decision-support tool. The decision-support tool allows users to evaluate the effects of hypothetical changes in contaminant source inputs on downstream water-quality loads and concentrations. The tool executes source-change scenarios for user-defined watershed and reach locations, source types, and change magnitudes, with the water-quality effects reported in tabular and mapped output. Scenarios are applicable to modeled sources with inputs expressed in units of mass (e.g., fertilizers) or area (land use/cover). The interactive mapper provides a batch-mode option to support production of multiple maps in a single execution for model applications to large watersheds that require longer execution times. 
+* An R Shiny interactive mapper allows users to map SPARROW predictions and geographic data by stream reach, catchment, and monitoring site location and automatically enables a Decision Support System (DSS) for evaluating the effects of hypothetical changes in contaminant source inputs on downstream water-quality loads and concentrations. The DSS executes source-change scenarios for user-defined watershed and reach locations, source types, and change magnitudes, with the water-quality effects reported in tabular and mapped output. Scenarios are applicable to modeled sources with inputs expressed in units of mass (e.g., fertilizers) or area (land use/cover). The interactive mapper provides a batch-mode option to support production of multiple maps in a single execution for model applications to large watersheds that require longer execution times. 
 
 These features extend the capabilities provided in the [SAS SPARROW](https://pubs.usgs.gov/tm/2006/tm6b3/) software. 
 
@@ -28,7 +28,7 @@ RSPARROW requires a 64-bit processor on a Windows platform. There are no minimum
 
 ### Software Installation and Directory Structure
 
-**Download RSPARROW from the USGS R repository:**  https://code.usgs.gov/water/stats/RSPARROW. This includes scripts, functions, and supporting documentation and tutorials.  
+**Download RSPARROW from the USGS GitLab repository:**  https://code.usgs.gov/water/stats/RSPARROW. This includes scripts, functions, and supporting documentation and tutorials.  
 
 **Three directories contain the contents of RSPARROW** (The figure below shows the contents of the RSPARROW directories as installed on a user's computer):
 
@@ -53,7 +53,7 @@ RSPARROW requires a 64-bit processor on a Windows platform. There are no minimum
 
 ### Reporting bugs
 
-Please consider reporting bugs and asking questions on the GitHub Issues page: <https://github.com/USGS-R/RSPARROW/issues>
+Please consider reporting bugs and asking questions on the GitHub Issues page: <https://github.com/USGS-R/RSPARROW/issues>.
 
 Follow `@USGS_R` on Twitter for updates on USGS R packages:
 
@@ -87,4 +87,13 @@ We want to encourage a warm, welcoming, and safe environment for contributing to
 This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.
 
 Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government. 
+
+
+### License
+
+See the license agreement here: <https://code.usgs.gov/water/stats/RSPARROW/LICENSE.md>.
+
+The R-3.5.0 libraries and code are distributed in the RSPARROW software release in compliance with the licensing agreements in the "GNU Affero General Public License" version 3 [<https://www.r-project.org/Licenses/AGPL-3>]. The R libraries contained in the R-3.5.0 version distributed with RSPARROW have not been modified by the USGS and include the most current versions of the R libraries available for download prior to July 25, 2019.  
+
+
 

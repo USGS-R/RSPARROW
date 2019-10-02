@@ -22,7 +22,7 @@ Users are directed to download the documentation from <https://code.usgs.gov/wat
 
 # Installation of RSPARROW
 
-**Download RSPARROW from the USGS R repository:**  https://code.usgs.gov/water/stats/RSPARROW. This includes scripts, functions, and supporting documentation and tutorials.  
+**Download RSPARROW from the USGS GitLab repository:**  https://code.usgs.gov/water/stats/RSPARROW. This includes scripts, functions, and supporting documentation and tutorials.  
 
 See Chapter 1.3 of the documentation for information on the RSPARROW directory structure and contents.  
 

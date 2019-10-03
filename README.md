@@ -93,7 +93,7 @@ Any use of trade, firm, or product names is for descriptive purposes only and do
 
 See the license agreement here: <https://code.usgs.gov/water/stats/RSPARROW/LICENSE.md>.
 
-The R-3.5.0 libraries and code are distributed in the RSPARROW software release in compliance with the licensing agreements in the "GNU Affero General Public License" version 3 [<https://www.r-project.org/Licenses/AGPL-3>]. The R libraries contained in the R-3.5.0 version distributed with RSPARROW have not been modified by the USGS and include the most current versions of the R libraries available for download prior to July 25, 2019.  
+The R-3.5.0 libraries and code are distributed in the RSPARROW software release in compliance with the licensing agreements in the "MIT License" [<https://www.r-project.org/Licenses/MIT>]. The R libraries contained in the R-3.5.0 version distributed with RSPARROW have not been modified by the USGS and include the most current versions of the R libraries available for download prior to August 12, 2019.  
 
 
 

@@ -5,7 +5,7 @@ RSPARROW is a system of R scripts and functions for executing and evaluating SPA
 
 [SPARROW (SPAtially Referenced Regressions on Watershed attributes)](https://pubs.usgs.gov/fs/2009/3019/pdf/fs_2009_3019.pdf) is a spatially explicit, hybrid (statistical and mechanistic) water-quality model developed by the USGS. The model has been used to quantify the sources and transport of contaminants in watersheds of widely varying sizes, from catchment to continental scales. SPARROW includes three major process components that explain spatial variability in stream water quality:  (1) contaminant source generation, (2) land-to-water delivery, and (3) stream and reservoir transport and decay. The non-linear and mechanistic structure of the model includes mass balance constraints and non-conservative transport components. This includes factors that control the attenuation and delivery of contaminants to streams via surficial and subsurface pathways and the removal of contaminants in streams and reservoirs, according to first-order decay kinetics. SPARROW is structured as a network of one-dimensional stream segments and their contributing drainage areas. 
 
-The [RSPARROW documentation](https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/inst/doc/RSPARROW_docV1.0.pdf) describes the steps necessary to estimate the static version of the model. The static model provides reach-level predictions (and uncertainties) of the long-term mean annual water-quality loads, yields, and flow-weighted concentrations. The predictions also include the shares of the load attributable to individual upstream sources and predictions of the mass quantities of the total load and individual sources that are delivered to downstream water bodies.
+The [RSPARROW documentation](https://code.usgs.gov/water/stats/RSPARROW/blob/master/RSPARROW_master/inst/doc/RSPARROW_docV1.0.pdf) describes the steps necessary to estimate the static version of the model. The static model provides reach-level predictions (and uncertainties) of the long-term mean annual water-quality loads, yields, and flow-weighted concentrations. The predictions also include the shares of the load attributable to individual upstream sources and predictions of the mass quantities of the total load and individual sources that are delivered to downstream water bodies.
 
 
 <img src="RSPARROW_master/inst/doc/figures_readme/tutorial_figures_shiny1.jpg" alt="RSPARROW" height="750px" align="right" />
@@ -32,7 +32,7 @@ RSPARROW requires a 64-bit processor on a Windows platform. There are no minimum
 
 **Three directories contain the contents of RSPARROW** (The figure below shows the contents of the RSPARROW directories as installed on a user's computer):
 
-1. **RSPARROW_master**:  Includes functions, sourced files (DLLs), meta-data, and documentation vignettes. The directory contents should not be modified by users; no other sub-directories should be created in this directory on a user's computer. **The documentation, with clickable links in the PDF table of contents, is located in the ["RSPARROW_master/inst/doc"](https://code.usgs.gov/water/stats/RSPARROW/RSPARROW_master/inst/doc/RSPARROW_v1.0.pdf) sub-directory.** 
+1. **RSPARROW_master**:  Includes functions, sourced files (DLLs), meta-data, and documentation vignettes. The directory contents should not be modified by users; no other sub-directories should be created in this directory on a user's computer. **The documentation, with clickable links in the PDF table of contents, is located in the ["RSPARROW_master/inst/doc"](https://code.usgs.gov/water/stats/RSPARROW/blob/master/RSPARROW_master/inst/doc/RSPARROW_v1.0.pdf) sub-directory.** 
 
 2. **UserTutorial**:  Contains the SPARROW total nitrogen models that are used for the tutorials presented in Chapter 6 of the documentation. 
 
@@ -91,7 +91,7 @@ Any use of trade, firm, or product names is for descriptive purposes only and do
 
 ### License
 
-See the license agreement here: <https://code.usgs.gov/water/stats/RSPARROW/LICENSE.md>.
+See the license agreement here: <https://code.usgs.gov/water/stats/RSPARROW/blob/master/LICENSE.md>.
 
 The R-3.5.0 libraries and code are distributed in the RSPARROW software release in compliance with the licensing agreements in the "MIT License" [<https://www.r-project.org/Licenses/MIT>]. The R libraries contained in the R-3.5.0 version distributed with RSPARROW have not been modified by the USGS and include the most current versions of the R libraries available for download prior to August 12, 2019.  
 

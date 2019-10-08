@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="fgdc_classic.xsl"?>
+<metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://water.usgs.gov/GIS/metadata/usgswrd/fgdc-std-001-1998.xsd">
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>Richard B. Alexander and Lillian Gorman Sanisaca</origin>
+				<pubdate>2019</pubdate>
+				<title>RSPARROW: An R system for SPARROW modeling</title>
+				<edition>Version 1.0 (September 30, 2019) </edition>
+				<geoform>Surface water model</geoform>
+				<pubinfo>
+					<pubplace>Reston, VA, USA</pubplace>
+					<publish>U.S. Geological Survey</publish>
+				</pubinfo>
+				<onlink>https://doi.org/10.5066/P9UAZ6FO</onlink>
+				<lworkcit>
+					<citeinfo>
+						<origin>Richard B. Alexander and Lillian Gorman-Sanisaca</origin>
+						<pubdate>2019</pubdate>
+						<title>RSPARROW: An R system for SPARROW modeling</title>
+						<geoform>Software Release on GitHub</geoform>
+						<serinfo>
+							<sername>SPARROW Software Release on GitHub</sername>
+							<issue>Version 1.0</issue>
+						</serinfo>
+						<pubinfo>
+							<pubplace>Reston, VA  USA</pubplace>
+							<publish>GItHub</publish>
+						</pubinfo>
+						<onlink>https://code.usgs.gov/water/stats/rsparrow</onlink>
+					</citeinfo>
+				</lworkcit>
+				
+			</citeinfo>
+		</citation>
+		<descript>
+			<abstract>RSPARROW is an open-source system of R scripts and functions for executing and evaluating SPARROW
+models, with output generated in graphical, map, and tabular forms. Users operate the system in
+RStudio from a single R control script that manages access to the supporting input files and 
+functions. The documentation describes the steps necessary to estimate the static version of the
+model. Static SPARROW models provide reach-level predictions (and uncertainties) of the long-term
+mean annual water-quality loads and flow-weighted concentrations. The predictions also include the 
+shares of the load attributable to individual upstream sources and predictions of the mass 
+quantities of the total load and individual sources that are delivered to downstream water bodies.
+RSPARROW is downloadable from the USGS GitHub repository (https://code.usgs.gov/water/stats/rsparrow) and 
+includes R scripts, functions, and supporting information (e.g., documentation, tutorials, R libraries).
+The R functions and scripts, coded according to standardized open-source R protocols with supporting
+documentation of the design elements and developer search tools, promote work environment efficiencies 
+that encourage the collaborative development of sharable SPARROW methods and functions.</abstract>
+
+			<purpose>The objective was to create an open-source R version of the software for developing and executing 
+SPARROW static water-quality models, including the use of GitHub to ensure standardized methods 
+of  storage, maintenance, documentation, and retrieval of the R functions and control scripts. </purpose>
+
+			<supplinf>Support is provided for the proper use of the software and the correction of errors in the software
+data release. Users are encouraged to review the documentation provided at the GitHub repository 
+(https://code.usgs.gov/water/stats/rsparrow) to understand the purpose, construction, and limitations of the 
+modeling software. The software and tutorial models will execute successfully only if the original 
+directory structure is correctly installed, with appropriate use of the settings in the R control 
+script (sparrow_control.R). Instructions for the original directory structure and the setup and 
+execution of the tutorial models is included in this data release and described in the summary 
+information provided in the readme.txt ASCII file, which can be downloaded as part of this data 
+release.</supplinf>
+
+		</descript>
+		<timeperd>
+			<timeinfo>
+				<rngdates>
+					<begdate>20190930</begdate>
+					<enddate>20190930</enddate>
+				</rngdates>
+			</timeinfo>
+			<current>publication date</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>Not planned</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc>-124.8</westbc>
+				<eastbc>-66.8</eastbc>
+				<northbc>49.3</northbc>
+				<southbc>24.3</southbc>
+			</bounding>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>USGS Thesaurus</themekt>
+				<themekey>usgssurfacewatermodel</themekey>
+				<themekey>SPARROW</themekey>
+				<themekey>Surfacewater</themekey>
+				<themekey>InlandWaters</themekey>
+				<themekey>Surfacewater Model</themekey>
+				<themekey>Groundwater and surface-water interaction</themekey>
+			</theme>
+			<theme>
+				<themekt>ISO 19115 Topic Category</themekt>
+				<themekey>geoscientificInformation</themekey>
+				<themekey>inlandWaters</themekey>
+				<themekey>environment</themekey>
+			</theme>
+			<place>
+				<placekt>Geographic Names Information System (GNIS)</placekt>
+				<placekey>Conterminous United States</placekey>
+			</place>
+		</keywords>
+		<accconst>None. Acknowledgement of the U.S. Geological Survey would be appreciated in products derived from this data release.</accconst>
+		<useconst>none</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntperp>
+					<cntper>Lillian Gorman Sanisaca</cntper>
+					<cntorg>U.S. Geological Survey</cntorg>
+				</cntperp>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>5522 Research Park Drive</address>
+					<city>Catonsville</city>
+					<state>MD</state>
+					<postal>21228</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>443-498-5546</cntvoice>
+				<cntemail>lgormansanisaca@usgs.gov</cntemail>
+			</cntinfo>
+		</ptcontac>
+		<browse>
+			<browsen>https://water.usgs.gov/GIS/browse/RSPARROW_directory.jpg</browsen>
+			<browsed>A graphic representation of RSPARROW</browsed>
+			<browset>.jpg</browset>
+		</browse>
+		<datacred>U.S. Geological Survey</datacred>
+		
+		<secinfo>
+			<secsys>None</secsys>
+			<secclass>Unclassified</secclass>
+			<sechandl>None</sechandl>
+		</secinfo>
+		
+		<crossref>
+			<citeinfo>
+			<origin>Gregory E. Schwarz</origin>
+			<origin>Anne B. Hoos</origin>
+			<origin>Richard B. Alexander</origin>
+			<origin>Richard A. Smith</origin>
+			<pubdate>2006</pubdate>
+			<title>The SPARROW surface water-quality model: Theory, application, and user documentation</title>
+				<geoform>Publication</geoform>
+				<serinfo>
+					<sername>Techniques and Methods Report</sername>
+					<issue>Book 6, Chapter B3</issue>
+				</serinfo>
+				<pubinfo>
+					<pubplace>Reston, VA, USA</pubplace>
+					<publish>U.S. Geological Survey</publish>
+				</pubinfo>
+				<onlink>https://pubs.er.usgs.gov/publication/tm6B3</onlink>
+			</citeinfo>
+		</crossref>
+		
+	</idinfo>
+	<dataqual>
+		<attracc>
+			<attraccr>The RSPARROW code and statistical procedures were developed according to methods described in the documentation (https://code.usgs.gov/water/stats/rsparrow).</attraccr>
+		</attracc>
+		<logic>Formal logical accuracy tests were conducted by comparing the results of RSPARROW with those reported by SAS SPARROW for the tutorial SPARROW model that is included in the documentation (see model 8) </logic>
+		<complete>Data set is considered complete for the information presented, as described in the abstract. 
+Users are advised to read the associated documentation (https://code.usgs.gov/water/stats/rsparrow) for additional details.</complete>
+		<posacc>
+			<horizpa>
+				<horizpar>No formal positional accuracy tests were conducted</horizpar>
+			</horizpa>
+			<vertacc>
+				<vertaccr>No formal positional accuracy tests were conducted</vertaccr>
+			</vertacc>
+		</posacc>
+		<lineage>
+			<procstep>
+				<procdesc>The process used to develop the RSPARROW code is fully described in the documentation (https://code.usgs.gov/water/stats/rsparrow).</procdesc>
+				<procdate>2019</procdate>
+			</procstep>
+		</lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct>point</direct>
+		
+		<ptvctinf>
+			<sdtsterm>
+				<sdtstype>Point</sdtstype>
+				<ptvctcnt>1,778</ptvctcnt>
+			</sdtsterm>
+			<sdtsterm>
+				<sdtstype>String</sdtstype>
+				<ptvctcnt>2</ptvctcnt>
+			</sdtsterm>
+			<sdtsterm>
+				<sdtstype>GT-polygon composed of chains</sdtstype>
+				<ptvctcnt>2</ptvctcnt>
+			</sdtsterm>
+		</ptvctinf>
+		
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<planar>
+				<mapproj>
+					<mapprojn>Albers Conical Equal Area</mapprojn>
+					<albers>
+						<stdparll>29.5</stdparll>
+						<stdparll>45.5</stdparll>
+						<longcm>-114.0</longcm>
+						<latprjo>23.0</latprjo>
+						<feast>0.0</feast>
+						<fnorth>0.0</fnorth>
+					</albers>
+				</mapproj>
+				
+				<planci>
+					<plance>coordinate pair</plance>
+					<coordrep>
+						<absres>1.0</absres>
+						<ordres>1.0</ordres>
+					</coordrep>
+					<plandu>meters</plandu>
+				</planci>
+				
+			</planar>
+		</horizsys>
+		<vertdef>
+			<altsys>
+				<altdatum>North American Vertical Datum of 1988</altdatum>
+				<altres>1.0</altres>
+				<altunits>meters</altunits>
+				<altenc>Attribute values</altenc>
+			</altsys>
+		</vertdef>
+	</spref>
+	<eainfo>
+	
+		<detailed>
+			<enttyp>
+				<enttypl>The process used to develop the RSPARROW code and statistical procedures is fully described in the documentation (https://code.usgs.gov/water/stats/rsparrow)</enttypl>
+				<enttypd>Point attribute</enttypd>
+				<enttypds>U.S. Geological Survey</enttypds>
+			</enttyp>
+			
+			<attr>
+				<attrlabl>modelComparison_name</attrlabl>
+				<attrdef></attrdef>
+				<attrdefs>https://code.usgs.gov/water/stats/rsparrow</attrdefs>
+				<attrdomv>
+					<edom>
+						<edomv>data</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>estimate</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>maps</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>predict</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>scenarios</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>batchSessionsInfo</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>				
+				
+				<attrdomv>
+					<edom>
+						<edomv>summaryCSV</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>				
+				
+				<attrdomv>
+					<edom>
+						<edomv>SiteAttributes</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>Catchment</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>
+				
+				<attrdomv>
+					<edom>
+						<edomv>Stream</edomv>
+						<edomvd>Reach-level attribute data required for RSPARROW model calibration and prediction.</edomvd>
+						<edomvds>https://code.usgs.gov/water/stats/rsparrow</edomvds>
+					</edom>
+				</attrdomv>				
+				
+			</attr>
+			
+		</detailed>
+		<overview>
+			<eaover>RSPARROW: An R system for SPARROW modeling</eaover>
+			<eadetcit>https://code.usgs.gov/water/stats/rsparrow</eadetcit>
+		</overview>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntperp>
+					<cntper>Ask USGS -- Water Webserver Team</cntper>
+					<cntorg>U.S. Geological Survey</cntorg>
+				</cntperp>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<address>445 National Center</address>
+					<city>Reston</city>
+					<state>Virginia</state>
+					<postal>20192</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>1-888-275-8747 (1-888-ASK-USGS)</cntvoice>
+				<cntemail>https://water.usgs.gov/user_feedback_form.html</cntemail>
+			</cntinfo>
+		</distrib>
+		<distliab>The data have been approved for release by the U.S. Geological Survey (USGS). 
+Although the data have been subjected to rigorous review and are substantially 
+complete, the USGS reserves the right to revise the data pursuant to further 
+analysis and review. Furthermore, the data are released on the condition that 
+neither the USGS nor the U.S. Government shall be held liable for any damages 
+resulting from authorized or unauthorized use. 
+		
+Although the data, software, and related material have been processed successfully 
+on a computer system at the USGS, no warranty expressed or implied is made 
+regarding the display or utility of the data for other purposes, nor on all computer 
+systems, nor shall the act of distribution constitute any such warranty. The USGS 
+or the U.S. Government shall not be held liable for improper or incorrect use of the 
+data described and/or contained herein. Any use of trade, product, or firm names 
+is for descriptive purposes only and does not imply endorsement by the U.S. 
+Government.</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>RSPARROW</formname>
+					<formvern>1.0</formvern>
+					<formspec>URL link to the USGS RSPARROW GitHub repository</formspec>
+					<formcont>This URL link provides access to all files necessary to setup and execute SPARROW models and interpret results.</formcont>
+					<transize>114.9</transize>
+				</digtinfo>
+				<digtopt>
+					<onlinopt>
+						<computer>
+							<networka>
+								<networkr>https://code.usgs.gov/water/stats/rsparrow</networkr>
+							</networka>
+						</computer>
+					</onlinopt>
+				</digtopt>
+			</digform>
+			<fees>None</fees>
+		</stdorder>
+	</distinfo>
+	<metainfo>
+		<metd>20190225</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>U.S. Geological Survey</cntorg>
+				</cntorgp>
+				<cntpos>Ask USGS -- Water Webserver Team</cntpos>
+				<cntaddr>
+					<addrtype>mailing</addrtype>
+					<address>445 National Center</address>
+					<city>Reston</city>
+					<state>VA</state>
+					<postal>20192</postal>
+				</cntaddr>
+				<cntvoice>1-888-275-8747 (1-888-ASK-USGS)</cntvoice>
+				<cntemail>https://answers.usgs.gov/cgi-bin/gsanswers?pemail=h2oteam&amp;subject=GIS+Dataset+rSPARROW_2019</cntemail>
+			</cntinfo>
+		</metc>
+		<metstdn>FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv>FGDC-STD-001-1998</metstdv>
+	</metainfo>
+</metadata>

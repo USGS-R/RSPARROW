@@ -13,8 +13,7 @@ Depends:
     methods
 Imports:
     numDeriv,
-    nlmrt,
-    spdep,
+    nlmrt,    
     stringr,
     gear,
     gplots,

@@ -606,7 +606,7 @@
   gis_directoryName<-"gis"
 
   #Select current run_id for the model
-  run_id<-"Model8"
+  run_id<-"Model6"
   
   # Load previous model settings into active control script
   #  Specify name of old model to copy into results directory for edit and run

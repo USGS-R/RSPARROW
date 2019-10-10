@@ -57,7 +57,7 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   
   
   filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep="")
-  pdf(file=filename,font="Helvetica")
+  pdf(file=filename,font="Helvetica",paper="special")
   
   ################################    
   #map site attributes
@@ -68,6 +68,7 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   par(mfrow=c(1,1)) 
   if (!is.na(map_siteAttributes.list) & existGeoLines==TRUE){
     strExplanation<-paste("
+      Output is presented for the following sections:\n
       -Calibration Site Maps for User-Selected Attributes\n
       -Model Estimation Performance Diagnostics\n
       -Model Simulation Performance Diagnostics\n
@@ -75,17 +76,19 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
        for the Calibration Sites")
   }else if (existGeoLines==TRUE){
     strExplanation<-paste("
+      Output is presented for the following sections:\n
       -Model Estimation Performance Diagnostics\n
       -Model Simulation Performance Diagnostics\n
       -Maps of Model Residuals and Observed to Predicted Ratios 
        for the Calibration Sites")   
   }else{
     strExplanation<-paste("
+      Output is presented for the following sections:\n
       -Model Estimation Performance Diagnostics\n
       -Model Simulation Performance Diagnostics")
   }
   gplots::textplot(strExplanation,valign="top", cex=0.8, halign="left")
-  title(main=paste(run_id,"_diagnostic_plots.pdf Document Contents",sep=""))
+  title(main=paste(run_id,"_diagnostic_plots.pdf \n Document Contents",sep=""))
   
   if(existGeoLines==TRUE) { 
     
@@ -130,34 +133,36 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   #add text explanation 11.3.17
   par(mfrow=c(1,1))
   strExplanation<-paste("
-  Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These 
-  predictions provide the most accurate reach predictions for use in calibrating the model. 
-  The associated residuals and observed to predicted ratios shown in the following section 
-  provide the most relevant measures of the accuracy of the model fit to observed loads. \n
-  The diagnostic plots include:
-  -Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. 
-     predicted loads and yields
-  -Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile
-     plot of standardized residuals, and plot of squared residuals vs. predicted loads
-  -Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads
-  -Plots of the observed to predicted ratio vs. the area-weighted mean values of the 
-     user-selected explanatory variables for the incremental areas between calibration sites
-     (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered 
-     for 'parmCorrGroup' column in the 'parameters.csv' file)
-  -Boxplots of the observed to predicted loads vs. the decile classes of the total drainage 
-     area for the calibration sites
-  -Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified 
-     by users in the 'classvar' control setting (e.g., HUC-4)
-  -Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable 
-     specified by users in the 'class_landuse' control setting, with the land-use classes 
-     expressed as a percentage of the incremental drainage area extending from the calibration 
-     site to the nearest upstream site locations.
-  -Four-plot panels reported separately for each of the contiguous spatial classes specified 
-     for the first variable entry for the 'classvar[1]' control setting. The panels include:
-     observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted 
-     loads, and log residuals vs. predicted yields ")
+        Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. 
+        These predictions provide the most accurate reach predictions for use in calibrating 
+        the model. The associated residuals and observed to predicted ratios shown in the 
+        following section provide the most relevant measures of the accuracy of the model fit 
+        to observed loads. \n
+        The diagnostic plots include:
+        -Four-plot panel for observed vs. predicted for loads and yields, and log residuals 
+          vs. predicted loads and yields\n
+        -Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
+          quantile plot of standardized residuals, and plot of squared residuals vs. predicted 
+          loads\n
+        -Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads\n
+        -Plots of the observed to predicted ratio vs. the area-weighted mean values of the 
+          user-selected explanatory variables for the incremental areas between calibration 
+          sites (output only if control setting if_corrExplanVars<-'yes' selected and a value 
+          of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)\n
+        -Boxplots of the observed to predicted loads vs. the decile classes of the total 
+          drainage area for the calibration sites\n
+        -Boxplots of the observed to predicted loads vs. the contiguous spatial classes 
+          specified by users in the 'classvar' control setting (e.g., HUC-4)\n
+        -Boxplots of the observed to predicted loads vs. the deciles of the land-use class 
+          variable specified by users in the 'class_landuse' control setting, with the 
+          land-use classes expressed as a percentage of the incremental drainage area 
+          extending from the calibration site to the nearest upstream site locations\n
+        -Four-plot panels reported separately for each of the contiguous spatial classes 
+          specified for the first variable entry for the 'classvar[1]' control setting. The 
+          panels include:  observed vs. predicted loads, observed vs. predicted yields, log 
+          residuals vs. predicted loads, and log residuals vs. predicted yields ")
   
-  gplots::textplot(strExplanation,valign="top", cex=0.7)
+  gplots::textplot(strExplanation,valign="top", cex=0.7, halign="left")
   title("Model Estimation Performance Diagnostics")
   
   # observed vs predicted 
@@ -347,35 +352,36 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   #add text explanation 11.3.17
   par(mfrow=c(1,1))
   strExplanation<-paste("
-  Diagnostics are based on the use of unconditioned predictions (i.e., predictions 
-  that are not adjusted for monitoring loads). These predictions (and the associated 
-  residuals and observed to predicted ratios shown in the following section) provide 
-  the best measure of the predictive skill of the estimated model in simulation mode. 
-  The simulated predictions are computed using mean coefficients from the NLLS model 
-  estimated with monitoring-adjusted (conditioned) predictions. \n
-  The diagnostic plots include:
-  -Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. 
-     predicted loads and yields
-  -Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile
-     plot of standardized residuals, and plot of squared residuals vs. predicted loads
-  -Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads
-  -Plots of the observed to predicted ratio vs. the area-weighted mean values of the 
-     user-selected explanatory variables for the incremental areas between calibration sites
-     (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered 
-     for 'parmCorrGroup' column in the 'parameters.csv' file)
-  -Boxplots of the observed to predicted loads vs. the decile classes of the total drainage 
-     area for the calibration sites
-  -Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified 
-     by users in the 'classvar' control setting (e.g., HUC-4)
-  -Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable 
-     specified by users in the 'class_landuse' control setting, with the land-use classes 
-     expressed as a percentage of the incremental drainage area extending from the calibration 
-     site to the nearest upstream site locations.
-  -Four-plot panels reported separately for each of the contiguous spatial classes specified 
-     for the first variable entry for the 'classvar[1]' control setting. The panels include:
-     observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted 
-     loads, and log residuals vs. predicted yields ")
-  gplots::textplot(strExplanation,valign="top", cex=0.7)
+        Diagnostics are based on the use of unconditioned predictions (i.e., predictions 
+        that are not adjusted for monitoring loads). These predictions (and the associated 
+        residuals and observed to predicted ratios shown in the following section) provide 
+        the best measure of the predictive skill of the estimated model in simulation mode. 
+        The simulated predictions are computed using mean coefficients from the NLLS model 
+        estimated with monitoring-adjusted (conditioned) predictions. \n
+        The diagnostic plots include:
+        -Four-plot panel for observed vs. predicted for loads and yields, and log residuals 
+           vs. predicted loads and yields
+        -Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
+           quantile plot of standardized residuals, and plot of squared residuals vs. 
+           predicted loads\n
+        -Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads\n
+        -Plots of the observed to predicted ratio vs. the area-weighted mean values of the 
+           user-selected explanatory variables for the incremental areas between calibration 
+           sites (output only if control setting if_corrExplanVars<-'yes' selected and a value 
+           of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)\n
+        -Boxplots of the observed to predicted loads vs. the decile classes of the total 
+           drainage area for the calibration sites\n
+        -Boxplots of the observed to predicted loads vs. the contiguous spatial classes 
+           specified by users in the 'classvar' control setting (e.g., HUC-4)\n
+        -Boxplots of the observed to predicted loads vs. the deciles of the land-use class 
+           variable specified by users in the 'class_landuse' control setting, with the 
+           land-use classes expressed as a percentage of the incremental drainage area 
+           extending from the calibration site to the nearest upstream site locations\n
+        -Four-plot panels reported separately for each of the contiguous spatial classes 
+           specified for the first variable entry for the 'classvar[1]' control setting. 
+           The panels include:  observed vs. predicted loads, observed vs. predicted yields, 
+           log residuals vs. predicted loads, and log residuals vs. predicted yields ")
+  gplots::textplot(strExplanation,valign="top", cex=0.7, halign="left")
   title("Model Simulation Performance Diagnostics")
   
   # Full spatial domain
@@ -518,13 +524,17 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
     #add text explanation 11.3.17
     par(mfrow=c(1,1))
     strExplanation<-paste("
-  The maps include:
-  -Log residuals, based on monitoring conditioned predictions (i.e., model estimation residuals)
-  -Log residuals, based on the unconditioned predictions (i.e., model simulation residuals)
-  -Standardized residuals based on the monitoring conditioned predictions
-  -Ratio of observed to predicted loads for the conditioned predictions (i.e., model estimation ratio)
-  -Ratio of observed to predicted load for the unconditioned predictions (i.e., model simulation ratio) ")
-    gplots::textplot(strExplanation,valign="top", cex=0.7)
+        The maps include:
+        -Log residuals, based on monitoring conditioned predictions 
+           (i.e., Model Estimation Log Residuals)\n
+        -Log residuals, based on the unconditioned predictions 
+           (i.e., Model Simulation Log Residuals)\n
+        -Standardized residuals based on the monitoring conditioned predictions\n
+        -Ratio of observed to predicted loads for the conditioned predictions 
+           (i.e., Model Estimation Ratio)\n
+        -Ratio of observed to predicted load for the unconditioned predictions 
+           (i.e., Model Simulation Ratio) ")
+    gplots::textplot(strExplanation,valign="top", cex=0.7, halign="left")
     title("Maps of Model Residuals and Observed to Predicted Ratios\n for the Calibration Sites")
     
     mapdata <- data.frame(xlat,xlon,Resids,ratio.obs.pred)

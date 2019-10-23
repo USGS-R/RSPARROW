@@ -17,7 +17,7 @@
     },
 
     "homepageURL": "https://code.usgs.gov/water/stats/RSPARROW",
-    "downloadURL": "https://code.usgs.gov/water/stats/RSPARROW/-/archive/v1.0.0/RSPARROW-v1.0.0.zip",
+    "downloadURL": "https://code.usgs.gov/water/stats/RSPARROW/-/archive/v1.0.1/RSPARROW-v1.0.1.zip",
     "disclaimerURL": "https://code.usgs.gov/water/stats/RSPARROW/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/water/stats/RSPARROW.git",
     "vcs": "git",

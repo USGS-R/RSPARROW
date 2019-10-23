@@ -265,7 +265,7 @@ shinyMap2<-function(
         }
       })
       #interactive plot
-      output$plotOne  <- renderPlot({
+      #output$plotOne  <- renderPlot({
         p<-eventReactive(input$goPlot, {
           
           #test bad Settings
@@ -311,13 +311,21 @@ shinyMap2<-function(
                       #batchError
                       batch_mode,
                       RSPARROW_errorOption)
-        })()
+        })
         
-      })#end renderplot
       
+        #})#end renderplot
+        
+        observe({
+        output$plotOne  <- renderPlot({
+          p()
+        })#end renderplot
+        })
+        
       #pdf output
-      observeEvent(input$savePDF, {
-        #test bad Settings
+      #observeEvent(input$savePDF, {
+        p2<-eventReactive(input$savePDF, {
+          #test bad Settings
         badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
         names(badSettings)<-c("Setting","CurrentValue","Type","Test")
         errMsg<-NA
@@ -359,10 +367,16 @@ shinyMap2<-function(
                     #batchError
                     batch_mode,
                     RSPARROW_errorOption)
-      })#end pdf output
+      })#end save plot p2
+        
+        observe({
+          p2()
+        })
+        
       
       #batchplot
-      observeEvent(input$batchPlot, {
+        p3<-eventReactive(input$batchPlot, {
+     # observeEvent(input$batchPlot, {
         #test bad Settings
         badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
         names(badSettings)<-c("Setting","CurrentValue","Type","Test")
@@ -405,7 +419,12 @@ shinyMap2<-function(
                     #batchError
                     batch_mode,
                     RSPARROW_errorOption)
-      })#end batch plot
+      })#end batch plot p3
+        
+        observe({
+          p3()
+        })
+        
       session$onSessionEnded(function() {
         stopApp()
       }) 

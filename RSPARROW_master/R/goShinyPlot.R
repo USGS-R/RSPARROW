@@ -236,7 +236,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           "lineShapeName","lineWaterid",
           #iinteractiveSiteAttr
           "sitedata", "LineShapeGeo",
-          "estimate.list","Mdiagnostics.list",
+          "estimate.list",#"Mdiagnostics.list",
           #interactiveScenarios
           "scenario.input.list","if_predict","JacobResults",
           "ConcFactor","DataMatrix.list","estimate.input.list",
@@ -252,7 +252,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           "lineShapeName","lineWaterid",
           #iinteractiveSiteAttr
           "sitedata", "LineShapeGeo",
-          "estimate.list","Mdiagnostics.list",
+          "estimate.list",#"Mdiagnostics.list",
           #interactiveScenarios
           "scenario.input.list","if_predict","JacobResults",
           "ConcFactor","DataMatrix.list","estimate.input.list",

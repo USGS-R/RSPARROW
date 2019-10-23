@@ -110,6 +110,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
   #output siteAttr shapefile
   
   if (inputShiny$shapeFile=="yes"){
+    load(paste0(path_results,"estimate",.Platform$file.sep,run_id,"_Mdiagnostics.list"))
     xlat<-Mdiagnostics.list$xlat
     xlon<-Mdiagnostics.list$xlon
     map_siteAttributes.list<-as.character(inputShiny$attrCheck)

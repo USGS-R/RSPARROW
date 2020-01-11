@@ -46,7 +46,7 @@ checkMissingSubdataVars <- function(subdata,betavalues,file.output.list,batch_mo
       if (i %in% c(getVarList()$reqNames,xlnames)){
         msgText<-paste(" \nERROR: THIS REQUIRED VARIABLE FROM \n",problemFile,
                        " \nHAS ALL MISSING OR ZERO VALUES IN SUBDATA:",i,"\n \nRUN EXECUTION TERMINATED.\n ",sep="")
-        
+        message(msgText)
         errorOccurred("checkMissingSubdataVars.R",batch_mode)
       }else{
         msgText<-paste(" \nWARNING: THIS REQUIRED VARIABLE FROM \n",problemFile,

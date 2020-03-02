@@ -8,7 +8,7 @@
 
 
 
-startEndmodifySubdata<-function(data_names,class_landuse){
+startEndmodifySubdata<-function(data_names,class_landuse, data1){
   
   
   #check for missing landuse class
@@ -22,6 +22,6 @@ startEndmodifySubdata<-function(data_names,class_landuse){
   
   
   
-  return(subdata)
+  return(data1)
   
 }#end function

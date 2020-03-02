@@ -176,7 +176,7 @@ startModelRun<-function(file.output.list,
     
     
   }else{
-    startEndmodifySubdata(data_names,class_landuse)
+    subdata<-startEndmodifySubdata(data_names,class_landuse, data1)
   }
   assign("subdata",subdata,envir = .GlobalEnv)
   

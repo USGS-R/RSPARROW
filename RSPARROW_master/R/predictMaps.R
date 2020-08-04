@@ -99,7 +99,7 @@ predictMaps<-function(#Rshiny
         #test numeric
         testvar<-subdata[,which(names(subdata)==l)]
         testNum<-class(testvar)
-        if (testNum!="numeric"){
+        if (testNum!="numeric" & any(unique(as.numeric(testvar)-testvar)!=0)){
           testList<-testList[which(testList!=l)]
           noMaplist<-c(noMaplist,l)
           message(paste0("\n \nWARNING : MAPPING VARIABLE ", l, " NOT NUMERIC MAPPING NOT COMPLETED."))
@@ -273,10 +273,10 @@ predictMaps<-function(#Rshiny
     }else{
       testmaster<-scenario_map_list
     }
-    
+    master_map_list2<-master_map_list
     if (length(testmaster)!=0){
       for (k in 1:length(master_map_list)) {
-        
+
         # Load matrix
         icolumn<-0
         if (exists("oparmlist")){
@@ -377,6 +377,9 @@ predictMaps<-function(#Rshiny
             }
           }
         }
+        variable<-master_map_list[k]
+
+        
         if(icolumn > 0) {
           
           
@@ -556,7 +559,11 @@ predictMaps<-function(#Rshiny
           nlty <-rep(1,nintervals[k])
           nlwd <- rep(lineWidth,nintervals[k])
           
-        }
+        
+        }else{
+            master_map_list2<-master_map_list2[which(master_map_list2!=master_map_list[k])]
+
+          }
         
         if(mapgo.list[k] > 0){
           
@@ -566,15 +573,18 @@ predictMaps<-function(#Rshiny
           eval(parse(text=mapvarname))
           
         }
+       
       } # end variable loop
       
       #------------------------------------------------------------#     
       
-      
+      master_map_list<-master_map_list2
+
       # merge selected variables to the shape file\
       if ((paste(output_map_type,collapse="") %in% c("stream","both") & Rshiny==FALSE) | 
           (Rshiny==TRUE & input$mapType=="Stream" & mapScenarios==FALSE) | 
           (Rshiny==TRUE & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios==TRUE)){
+
         commonvar <- lineWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
@@ -593,7 +603,9 @@ predictMaps<-function(#Rshiny
         }
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
+          eval(parse(text = paste0("testNA$",master_map_list[k],"<-length(vvar[which(is.na(vvar))])")))
           testNAvar<-eval(parse(text = paste0("testNA$",master_map_list[k])))
+
           if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0){
             #set up colors
             if (mapScenarios==FALSE){
@@ -642,7 +654,7 @@ predictMaps<-function(#Rshiny
             xtext <- paste("sp::plot(lineShape,col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
             eval(parse(text=xtext))
           } else {
-            xtext <- paste("sp::plot(lineShape,col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+            xtext <- paste("sp::plot(lineShape,col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground)",sep="")
             eval(parse(text=xtext))
           }
           if (mapScenarios==FALSE){

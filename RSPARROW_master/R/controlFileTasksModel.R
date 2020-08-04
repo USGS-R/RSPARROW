@@ -347,6 +347,8 @@ controlFileTasksModel <- function(# pathnames
   
   
   input<-list(variable="",scLoadCheck="",batch="",scYieldCheck="",domain="",selectReaches="",sourcesCheck="",factors="")
+
+  if (exists("estimate.list") & !is.null(estimate.list)){
   predictScenarios(#Rshiny
     input,NA, output_map_type,FALSE,
     #regular
@@ -362,7 +364,7 @@ controlFileTasksModel <- function(# pathnames
     mapping.input.list,
     batch_mode,
     RSPARROW_errorOption)
-  
+  }
   
   ##########################################
   

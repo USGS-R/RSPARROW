@@ -244,6 +244,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                             RSPARROW_errorOption)
               
               #add to run shiny independently
+              if(exists("estimate.list")){
               shinyArgs<-named.list(file.output.list,map_uncertainties,BootUncertainties,
                                     data_names,mapping.input.list,
                                     #predict.list,
@@ -260,7 +261,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                                     batch_mode)
               
               save(shinyArgs, file= paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))
-              
+              }
               #remove unnecessary objects from workspace
               removeObjects(c("run2","saved","runScript","runRsparrow","dmatrixin","map_uncertainties"))
               

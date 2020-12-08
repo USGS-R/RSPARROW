@@ -2,6 +2,7 @@ parameter,description
 accum_elements,character vector indicating variables to be selected for incremental area accumulation
 accum_names,character vector of final names for accumlated data
 activeFile,character string path to sparrow_control.R file at currently top level of user's results directory
+add_plotlyVars,character vector indicating user selected variables to add to plot hover text
 add_vars,"additional variables specified by the setting `add_vars` to be included in prediction, yield, and residuals csv and shape files"
 AEstimate,parameter estimates (original or adjusted by 1 percent)
 allMetrics,"character string of all load, yield, uncertainty, and data dictionary variables to map in shiny batch mode"
@@ -22,6 +23,7 @@ bootcorrection,"numeric vector equal to `estimate.list$JacobResults$mean_exp_wei
 bootcorrectionR,value of 1
 BootResults,"data archive using the control setting `if_boot_estimate <- ""yes""` for use in subsequent execution of parametric bootstrap predictions. For more details see documenation Section 5.2.6.2."
 BootUncertainties,"Uncertainty values if available, if uncertainty analysis was not run NA"
+break1,list of all legend breaks for prediction maps
 button,character string indicating which button was clicked by the user in the shiny app
 calculate_reach_attribute_list,list of attributes to calculate
 calsites,calibration site indicator (NA or 0 = not selected; 1=selected)
@@ -33,6 +35,7 @@ class_landuse,character vector of class_landuses from sparrow_control.R
 class_landuse_percent,numeric vector of percentages to apply to class_landuses from sparrow_control
 classvar,character vector of user specified spatially contiguous discrete classification variables from sparrow_control.  First element is reach classification variable.
 colors,character vector of colors used in mapping with the number of colors indicating the number of breaks in the legend
+commonvar,string indicating the column to join the map data and the shapefile
 compare_models,character string control setting indicated the run_ids of preivously run model to which the current model is to be compared
 compareData,data.frame of reach verification attributes to compare with the users data1 file
 ConcFactor,"the concentration conversion factor, computed as Concentration = load / discharge * ConcFactor"
@@ -57,20 +60,24 @@ df,betavalues - list of parameters from parameters.csv
 DF,rhandsontable for cosmetic mapping settings in the shiny app
 diagnosticPlotPointSize,numeric control setting giving scaling factor for points in diagnostic maps
 diagnosticPlotPointStyle,numeric control setting giving pch value to set point style in diagnostic maps
+digits,number of decimal places to include in axis labels
 dlvdsgn,design matrix imported from design_matrix.csv
 dmatrixin,imported object from design_matrix.csv
 eigs,object containing eigenvalues and vectors from the base R `eigen()` function
-enable_interactiveMaps,yes/no control setting indicating whether shiny app should be triggered at the end of the run
+enable_ShinyApp,yes/no control setting indicating whether shiny app should be triggered at the end of the run
+enable_plotlyMaps,yes/no control setting indicating whether maps shoul dbe interactively generated plotly objects
 errMsg,character string custom message indicating invalid entries in the shiny app
 ErrorOccured,"yes/no indicating if a previous error has occured.  Function is only run if `ErrorOccured==""no""`"
 estimate.input.list,"named list of sparrow_control settings: ifHess, s_offset, NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars"
 estimate.list,list output from `estimate.R`
 excludeList,character string vector of functions/routines to exclude in executionTree even if function/routine in includeTypes
+existGeoLines,TRUE/FALSE indicating whether the Geolines shape file is present
 existPredict,logical TRUE/FALSE whether predict.list is available in shiny environment
 exitRun,TRUE/FALSE states whether code should terminate
 file.output.list,list of control settings and relative paths used for input and output of external files.  Created by `generateInputList.R`
 file_sum,user specified run_id
 filein,path to input file in csv format
+filename,character string indicating output html file name
 filter_data1_conditions,User specified additional DATA1 variables (and conditions) to be used to filter reaches from sparrow_control
 fnode,reach from (upstream) node
 GeoLines,Optional geospatial shape file for overlay of lines on output maps
@@ -104,21 +111,32 @@ iseed,User specified initial seed for the bootstraps from sparrow_control
 iteration,integer indicating the variable's location in the master_map_list
 JacobResults,list output of Jacobian first-order partial derivatives of the model residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see documentation Section 5.2.4.5.
 jsrcvar,`DataMatrix.list$data.index.list$jsrcvar`  to be used in source reduction scenario setup. For more details see documentation Section 5.2.3.1
+k,numeric index for current map
 labelstr,character string giving the labels associated user inputs in the shiny app
 lat_limit,User specified geographic units minimum/maximum latitude limits for mapping of Residuals and prediction maps
+latLon,numeric vector of latitude or longitude values
+legend,TRUE/FALSE indicated whether legend should be included
+lineShape,shapefile containing either streamlines or catchment polygons for plotly stream and catchment maps
 LineShapeGeo,character string control settting indicating which binary map file to load for the Geolines background layer
 lineWidth,numeric control setting used as a scaling factor of the line width in stream maps
 listColumns,a named list of variables in which to replace NAs.
 lists,list of variables to unpack into the `parent.frame()`
 lon_limit,User specified geographic units minimum/maximum longitude limits for mapping of Residuals and prediction maps
+markerText,"character string starting plotly markerText (example: `markerText<-""~paste('</br> ',master_map_list[k],' :', round(mapdataname,predictionClassRounding)""`)"
 map.list,"character string indicating whether over/under predictions (""threshold"") are to be mapped or all predictions (""all""). Value c(""threshold"",""all"")"
+map.vars.list,character vector indicating which checkDrainageErrors maps to generate
 map_uncertainties,"Vector of user selected uncertainty parameters to map, if uncertainty analysis was not run NA"
 mapColumn,character string indicating column of data to be mapped
 mapdata,"input data.frame with lat, long, and column to be mapped"
+mapData,data.frame of data to be plotted
+mapdataname,character string indicating column of data to be mapped
 mapping.input.list,"Named list of sparrow_control settings for mapping: lat_limit, lon_limit, master_map_list, lineShapeName, lineWaterid, polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, convertShapeToBinary.list, map_siteAttributes.list, residual_map_breakpoints, site_mapPointScale, if_verify_demtarea_maps"
 mapScenarios,TRUE/FALSE indicating whether source change scenario mapping is being run
 mapSetting,"setting in control file that user sets to use to load the binary map (`lineShapeName`, `polyShapeName`, or `LineShapeGeo`)"
 mapType,"character string indicating type of map (prediction, siteAttr, scenario)"
+mapunits.list,vector of units for mapping variables
+mapvarname,vector with map data by color
+Mcolors,vector of map colors for prediction maps
 Mdiagnostics.list,list output containing summary variables for calibration sites from `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see documentation Section 5.2.4.7.
 min.sites.list,"named list of control settings `minimum_headwater_site_area`, `minimum_reaches_separating_sites`, `minimum_site_incremental_area`"
 minimum_reaches_separating_sites,number indicating the minimum number of reaches separating sites
@@ -126,7 +144,10 @@ minnum,user selected minimum number of reaches between sites
 modelComparison_name,character string control setting that gives the name of the model comparision being executed
 NAMES,column names for required columns
 NLLS_weights,character string control setting to select regression weights
+nlty,numeric vector for line types
+nlwd,numeric vector for line widths
 nreaches,number of reaches
+nticks,number of tickmarks on axis
 numsites,number of sites selected for calibration
 old_run_id,character string indicating the archived model subdirectory containing control files to be copied
 output,shiny list object for session output
@@ -134,12 +155,25 @@ output_map_type,"character string control setting to identify type of map(s) to 
 outputERSImaps,"4 part yes/no vector control setting indicating whether shapefiles for stream, catchment, residuals, and/or site attribute maps are output"
 outputType,character string indicating whether to output a data.table of the exectutionTree or print a data.tree.  Select 'data.table' or 'data.tree'.  Default value is 'data.tree'
 parentObj,"list of parent objects that `lists` are part of, if NA no parent object"
+path_checkDrainageareaErrorsChild,character string of normalized path to checkDrainageareaErrorsChild.Rmd
 path_data,path to users data directory
+path_diagnosticClassLandChild,character string normalized path to diagnosticClassLandChild.Rmd
+path_diagnosticClassvarChild,character string normalized path to diagnosticClassvarChild.Rmd
+path_diagnosticContiguousChild,character string normalized path to diagnosticContiguousChild.Rmd
+path_diagnosticCorrChild,character string normalized path to diagnosticCorrChild.Rmd
+path_diagnosticDiagMapChild,character string normalized path to diagnosticDiagMapChild.Rmd
+path_diagnosticMapAttrChild,character string normalized path to diagnosticMapAttrChild.Rmd
+path_diagnosticSensParamChild,character string normalized path to diagnosticSensParamChild.Rmd
 path_gis,path to users gis data
 path_main,character string path to RSPARROW_master directory
 path_master,character string path to RSPARROW_master directory.  Internally reset to 'RSPARROW_master/R/' subdirectory
+path_masterFormat,character string normalized path to RSPARROW master program
+path_PastResults,character string path to previously generated results including run_id subdirectory
 path_results,path to results model subdirectory
+path_shinyBrowser,"character string path to browser executible, if NA defualt browser will be used"
 path_user,"character string path to RSPARROW user directory containing results, data, and gis subdirectories"
+plotTitle,character string for title of plot
+plotShape,"shapefile used to generate prediction map, either lineShape for stream maps or polyShape for catchment maps"
 pre_run_id,run_id for the prior model residuals used by `estimateWeightedErrors.R` executed in `userModifyData.R`
 predict.list,"archive with all load and yield prediction variables to provide for the efficient access and use of predictions in subsequent execution of the parametric
 bootstrap predictions and uncertainties, mapping, and scenario evaluations.  For more details see documentation Section 5.3.1.5"
@@ -150,6 +184,7 @@ predictionLegendSize,numeric control setting used as a scaling factor for the le
 predictionMapBackground,character string control setting used to set background color of prediction maps
 predictionMapColors,user specified  character string of mapping color breakpoints
 predictionTitleSize,numeric control setting used as a scaling factor for the title size on prediction maps
+predictMapType,character string indicating whether stream or catchment maps are to be generated
 predictScenarios.list,"an archive with key scenario control settings and the load and yield prediction variables that are output from the execution of a source-change scenario
 evaluation. For more details see documentation Section 5.5.9"
 pruneTree,number of execution levels to include in the execution tree
@@ -170,12 +205,14 @@ results_directoryName,character string indicating the users results subdirectory
 returnData,TRUE/FALSE indicated whether the data checked for missing values should be returned as part of the `missing` list output
 rowNum,rownumbers of invalid settings in the rhandsontables in the shiny app
 Rshiny,TRUE/FALSE indicating whether routine is being run from the Shiny app
+RSPARROW_errorOption,yes/no control setting indicating where the RPSARROW_errorOption should be applied
 run_id,character string control setting indicating the current model name
 save,TRUE/FALSE indicating whether control setting values are to be saved to a csv file
 saved,binary value indicated whether the user has saved all changes to the `sparrow_control.R` file
 scenario.input.list,list of control settings related to source change scenarios
 scenario_map_list,character vector of load and yield metrics to map in the source change scenario
 scenario_name,User specified name of source reduction scenario from sparrow_control.  Used to create directory for source reduction scenario results.
+scenarioCoefficients,user specified model coefficients for the scenario
 scenarioFlag,binary vector indicating whether a reach is included in the source reduction scenario
 scenarioMapColors,"character vector control setting of colors to use in source change scenario maps, number of colors is equal to number of breakpoints.  First color indicates no change area."
 scenarioRtables,named list of rhandsontables used as initial values for shiny app
@@ -187,6 +224,7 @@ session,active shiny session
 settingNames,names of all control settings
 settings,named list of all control settings
 settingValues,user input values for all control settings
+showPlotGrid,yes/no setting controlling whether gridlines are displayed
 shinyInput,compiled Shiny input selections
 site_mapPointScale,User specified scaling factor for points
 siteAttr_mapPointSize,numeric control setting giving scaling factor for points in site attribute maps
@@ -196,9 +234,10 @@ siteAttrColors,"character vector control setting of colors to use in site attrib
 siteAttrLegendSize,numeric control setting used as a scaling factor for the legend size on site attribute maps
 siteAttrMapBackground,character string control setting used to set background color of site attribute maps
 siteAttrTitleSize,numeric control setting used as a scaling factor for the title size on site attribute maps
-sitedata,"Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`"
+sitedata,"Sites selected for calibration using `subdata[(subdata$depvar > 0 & subdata$calsites==1), ]`. The object contains the dataDictionary ‘sparrowNames’ variables, with records sorted in hydrological (upstream to downstream) order  (see the documentation Chapter sub-section 5.1.2 for details)"
 sitedata.demtarea.class,Total drainage area classification variable for calibration sites.
 sitedata.landuse,Land use for incremental basins for diagnostics.
+sourceData,data.frame with additional variables to be added to plot data for hover text
 sparrowEsts,list object contained in estimate.list `if_estimate<-'yes'`.  For more details see documentation Section 5.2.4.4.
 srcvar,`SelParmValues$srcvar` to be used in source reduction scenario setup. For more details see documentation Section 5.2.3.2
 staid,reach site IDs (non-zero for reaches with selected monitoring sites)
@@ -210,19 +249,31 @@ strTitle,character string for plot title
 strType,"type of string search, 'routine' indicates that all instances of a routine (str) being executed will be found, 'args' indicates that all function arguments for the routine (str) are found, 'setting' indicates that all functions that use the setting (str) as an argument are found, and 'all' indicates that all instances of the str should be found"
 subdata,data.frame input data (subdata)
 testDir,"subdirectory in the results directory with the current run_id.  If this directory exists it will be overwritten, if the user indicates 'yes' to the question in the console"
+title_name,character vector of plot titles for checkDrainageErrors maps
 tnode,reach to (downstream) node
 treeLimit,number of lines to print in data.tree
 types,character vector of names of variable lists to check for missing values
 unitAttr,character string indicating the unit of the attribute being mapped by `mapSiteAttributes.R`
+validation,TRUE/FALSE indicating whether validation or diagnostic plots are to be generated
 vANOVA.list,list output of  model performance-related variables for the validation sites from `validateMetrics.R` contained in the estimate.list object. For more details see documentation Section 5.2.4.15 
 vdepvar,variable `subdata$vdepvar`
 vMdiagnostics.list,list output containing summary variables for validation sites from `validateMetrics.R` contained in the estimate.list object.  For more details see documentation Section 5.2.4.14.
-vsitedata,"sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`"
+vsitedata,"sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0  & subdata$calsites==1), ]`"
 vsitedata.demtarea.class,Total drainage area classification variable for validation sites.
 vsitedata.landuse,Land use for incremental basins for diagnostics for validation sites.
 Vsites.list,named list of sites for validation
 vvar,mapping variable as vector
 waterid,reach ID number
-x,numeric vector of latitude or longitude values
+x,data to plot on x-axis
+xLabs,vector of labels for x-axis
+xminTick,numeric value indicating lowest value on x-axis
 xrun_id,current model run_id used by `estimateWeightedErrors.R` executed in `userModifyData.R`
+xTitle,character string for x-axis title
+xZeroLine,TRUE/FALSE indicating whether zeroline should be included on x-axis
+y,data to plot on y-axis
 yieldFactor,"numeric control setting to specify the yield conversion factor, computed as `Yield = load / demtarea * yieldFactor`"
+ymin,minimum numeric value to include in data plotted on y-axis
+ymax,maximum numeric value to include in data plotted on y-axis
+ymaxTick,maximum value for y-axis labels
+yTitle,character string for y-axis title
+yZeroLine,TRUE/FALSE indicating whether zeroline should be included on y-axis

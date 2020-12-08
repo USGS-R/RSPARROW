@@ -6,6 +6,9 @@
 #'             \\item unPackList.R
 #'             \\item ptnoder.for\} \\cr
 #'@param AEstimate parameter estimates (original or adjusted by 1 percent)
+#'@param estimate.list list output from `estimate.R`
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
@@ -124,8 +127,8 @@ predictSensitivity <- function(AEstimate,estimate.list,DataMatrix.list,SelParmVa
   
   for (j in 1:length(jsrcvar)) {  
     ddliv <- as.matrix((ddliv2[,j] * data[,jsrcvar[j]]) * beta1[,jbsrcvar[j]] ) 
-    assign(paste("pload_inc_",Parmnames[j],sep=""),as.vector(ddliv))   # create variable 'pload_inc_(source name)'
-    srclist_inc[j] <- paste("pload_inc_",Parmnames[j],sep="")
+    assign(paste0("pload_inc_",Parmnames[j]),as.vector(ddliv))   # create variable 'pload_inc_(source name)'
+    srclist_inc[j] <- paste0("pload_inc_",Parmnames[j])
   }
   
   ####################################################

@@ -4,6 +4,8 @@
 #'            file.  \\cr \\cr
 #'Executed By: estimate.R \\cr
 #'Executes Routines: unPackList.R \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
@@ -13,18 +15,36 @@
 #'       Jacobian diagnostics and 0 `if_estimate_simulation<-'yes'` indicating no calculation of Jacobian diagnostics
 #'@param classvar character vector of user specified spatially contiguous discrete 
 #'       classification variables from sparrow_control.  First element is reach classification variable.
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param numsites number of sites selected for calibration
+#'@param ANOVA.list list output of  model performance-related variables for the calibration sites 
+#'                  from `estimateNLLSmetrics.R` contained in the estimate.list object. For more 
+#'                  details see documentation Section 5.2.4.8
 #'@param JacobResults list output of Jacobian first-order partial derivatives of the model 
 #'       residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
 #'       documentation Section 5.2.4.5.
 #'@param HesResults list output of Hessian second-order standard errors 
-#'       `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see documentation Section 5.2.4.6
+#'       `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
+#'       documentation Section 5.2.4.6
 #'@param sparrowEsts list object contained in estimate.list `if_estimate<-'yes'`.  For more 
 #'       details see documentation Section 5.2.4.4.
+#'@param Mdiagnostics.list list output containing summary variables for calibration sites from 
+#'                         `estimateNLLSmetrics.R` contained in the estimate.list object.  For 
+#'                         more details see documentation Section 5.2.4.7.
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
 #'@param if_validate yes/no indicating whether or not validation is run
+#'@param vANOVA.list list output of  model performance-related variables for the validation sites 
+#'                   from `validateMetrics.R` contained in the estimate.list object. For more details 
+#'                   see documentation Section 5.2.4.15
+#'@param vMdiagnostics.list list output containing summary variables for validation sites from 
+#'                          `validateMetrics.R` contained in the estimate.list object.  For more 
+#'                          details see documentation Section 5.2.4.14.
 #'@param betavalues data.frame of model parameters from parameters.csv
-
+#'@param Csites.weights.list regression weights as proportional to incremental area size
 
 
 estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulation,ifHess,if_sparrowEsts,
@@ -39,9 +59,9 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA)) 
   
-  filename <- paste(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt",sep="")
-  dir.create(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",sep=""))
-  fileCSV<-paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep,sep="")
+  filename <- paste0(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt")
+  dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV"))
+  fileCSV<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep)
   sink(file=filename,split="FALSE",append=FALSE)
   
   # create global variable from lists
@@ -86,9 +106,9 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   
   print(outcharfun("SPARROW NLLS MODEL SUMMARY"))
   
-  print(outcharfun(paste("MODEL NAME: ",run_id,sep="")))
+  print(outcharfun(paste0("MODEL NAME: ",run_id)))
   
-  print(outcharfun(paste("FILE PATH: ",filename,sep="")))
+  print(outcharfun(paste0("FILE PATH: ",filename)))
   
   print(space)
   dd <- data.frame(mobs,npar,DF,SSE,MSE,RMSE,RSQ,RSQ_ADJ,RSQ_YLD,PBias)
@@ -100,7 +120,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   if (if_estimate == 'yes') {
     print(outcharfun("MODEL ESTIMATION PERFORMANCE (Monitoring-Adjusted Predictions)"))
     print(dd)
-    fileout<-paste(fileCSV,"ModelPerformanceMonitoringAdj.csv",sep="")
+    fileout<-paste0(fileCSV,"ModelPerformanceMonitoringAdj.csv")
     fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   }
@@ -111,7 +131,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   row.names(dd) <- ch
   print(outcharfun("MODEL SIMULATION PERFORMANCE (Simulated Predictions)"))
   print(dd)
-  fileout<-paste(fileCSV,"ModelPerformanceNoMonitoringAdj.csv",sep="")
+  fileout<-paste0(fileCSV,"ModelPerformanceNoMonitoringAdj.csv")
   fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
@@ -132,7 +152,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     row.names(dd) <- ch
     print(outcharfun("MODEL VALIDATION PERFORMANCE (Simulated Predictions)"))
     print(dd)
-    fileout<-paste(fileCSV,"ModelValidationNoMontinoringAdj.csv",sep="")
+    fileout<-paste0(fileCSV,"ModelValidationNoMontinoringAdj.csv")
     fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   }
@@ -152,7 +172,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   }
   row.names(dd) <- ch
   print(dd,right=FALSE)
-  fileout<-paste(fileCSV,"ParameterSummary.csv",sep="")
+  fileout<-paste0(fileCSV,"ParameterSummary.csv")
   fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
@@ -163,12 +183,12 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   # options for weighted SPARROW optimization
   if(NLLS_weights=="lnload") {     
     writeLines("\n   The model was estimated with a weighted error variance. The weights are proportional \n     to the log predicted load to account for heteroscedasticity.")
-    x <- paste("\n   NLLS_weights control setting = ",NLLS_weights,sep="")
+    x <- paste0("\n   NLLS_weights control setting = ",NLLS_weights)
     writeLines(x)
   }
   if(NLLS_weights=="user") {    
     writeLines("\n   The model was estimated with a weighted error variance. The weights are assigned by the user, expressed as the \n     reciprocal of the variance proportional to user-selected variables.")
-    x <- paste("\n   NLLS_weights control setting = ",NLLS_weights,sep="")
+    x <- paste0("\n   NLLS_weights control setting = ",NLLS_weights)
     writeLines(x)
   }
   
@@ -200,7 +220,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
       }
       row.names(ddJ) <- ch
       print(ddJ,right=FALSE)
-      fileout<-paste(fileCSV,"ParameterEstimates.csv",sep="")
+      fileout<-paste0(fileCSV,"ParameterEstimates.csv")
       fwrite(ddJ,file=fileout,row.names=F,append=F,quote=T,showProgress = FALSE,
              dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
       print(space)
@@ -222,7 +242,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
       row.names(dd) <- ch
       print(outcharfun("PARAMETER ESTIMATES"))
       print(dd,right=FALSE)
-      fileout<-paste(fileCSV,"ParameterEstimates.csv",sep="")
+      fileout<-paste0(fileCSV,"ParameterEstimates.csv")
       fwrite(dd,file=fileout,row.names=F,append=F,quote=T,showProgress = FALSE,
              dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     }
@@ -232,7 +252,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     ch <- " "
     row.names(dd) <- ch
     print(dd)
-    fileout<-paste(fileCSV,"EigenValueSpread.csv",sep="")
+    fileout<-paste0(fileCSV,"EigenValueSpread.csv")
     fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     
@@ -245,7 +265,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
       colnames(dd) <- Parmnames[nsrc+1:ndeliv]
       print(outcharfun("DESIGN MATRIX"))
       print(dd)
-      fileout<-paste(fileCSV,"DesignMatrix.csv",sep="")
+      fileout<-paste0(fileCSV,"DesignMatrix.csv")
       fwrite(dd,file=fileout,row.names=T,append=F,quote=F,showProgress = FALSE,
              dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     }
@@ -257,7 +277,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   print(space)
   print("LOG RESIDUALS, Station quantiles",quote=FALSE)
   print(quantile(round(sparrowEsts$resid,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97)))
-  fileout<-paste(fileCSV,"LogResid_StationQuantiles.csv",sep="")
+  fileout<-paste0(fileCSV,"LogResid_StationQuantiles.csv")
   dd<-as.data.frame(t(quantile(round(sparrowEsts$resid,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97))))
   fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -270,7 +290,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
         print(space)
         print("STANDARDIZED RESIDUALS, Station quantiles",quote=FALSE)
         print(quantile(round(Mdiagnostics.list$standardResids,digits=3),c(0.025,0.16,0.2,0.3,0.5,0.7,0.84,0.9,0.97)))
-        fileout<-paste(fileCSV,"StandardResid_StationQuantiles.csv",sep="")
+        fileout<-paste0(fileCSV,"StandardResid_StationQuantiles.csv")
         dd<-as.data.frame(t(quantile(round(Mdiagnostics.list$standardResids,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97))))
         fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
                dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -300,7 +320,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   print(space)
   print("RATIO OF OBSERVED TO PREDICTED LOAD, Station quantiles",quote=FALSE)
   print(quantile(round(ratio.obs.pred,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97)))
-  fileout<-paste(fileCSV,"RatioObsToPredLoad_StationQuantiles.csv",sep="")
+  fileout<-paste0(fileCSV,"RatioObsToPredLoad_StationQuantiles.csv")
   dd<-as.data.frame(t(quantile(round(ratio.obs.pred,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97))))
   fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -309,7 +329,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   print(space)
   print("OBSERVED YIELD, percentiles",quote=FALSE)
   print(summary(yldobs))
-  fileout<-paste(fileCSV,"ObservedYieldPercentiles.csv",sep="")
+  fileout<-paste0(fileCSV,"ObservedYieldPercentiles.csv")
   dd<-as.data.frame(t(unclass(summary(yldobs))))
   fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -318,7 +338,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   print(space)
   print("PREDICTED YIELD, percentiles",quote=FALSE)
   print(summary(yldpredict))
-  fileout<-paste(fileCSV,"PredictedYieldPercentiles.csv",sep="")
+  fileout<-paste0(fileCSV,"PredictedYieldPercentiles.csv")
   dd<-as.data.frame(t(unclass(summary(yldpredict))))
   fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -332,7 +352,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     print(outcharfun("MODEL VALIDATION (simulated predictions)"))
     print("LOG RESIDUALS, Station quantiles",quote=FALSE)
     print(quantile(round(vresids,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97)))
-    fileout<-paste(fileCSV,"LogResid_StationQuantiles_NoMonitoringAdj.csv",sep="")
+    fileout<-paste0(fileCSV,"LogResid_StationQuantiles_NoMonitoringAdj.csv")
     dd<-as.data.frame(t(quantile(round(vresids,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97))))
     fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -341,7 +361,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     print(outcharfun("MODEL VALIDATION (simulated predictions)"))
     print("RATIO OF OBSERVED TO PREDICTED LOAD, Station quantiles",quote=FALSE)
     print(quantile(round(vratio,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97)))
-    fileout<-paste(fileCSV,"RatioObsToPredLoad_StationQuantiles_NoMonitoringAdj.csv",sep="")
+    fileout<-paste0(fileCSV,"RatioObsToPredLoad_StationQuantiles_NoMonitoringAdj.csv")
     dd<-as.data.frame(t(quantile(round(vratio,digits=3),c(0.025,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.97))))
     fwrite(dd,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
@@ -370,7 +390,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   print("LARGEST OUTLIERS",quote=FALSE)
   print("(absolute standardized residual>3, leverage>Critical value, or Cook's D p-value<0.10)",quote=FALSE)
   print(ddnew)
-  fileout<-paste(fileCSV,"LargestSqResid.csv",sep="")
+  fileout<-paste0(fileCSV,"LargestSqResid.csv")
   fwrite(ddnew,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
@@ -386,7 +406,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   row.names(dd) <- ch
   print(outcharfun("REGIONAL MODEL PERFORMANCE (Monitoring-Adjusted Predictions)"))
   print(dd)
-  fileout<-paste(fileCSV,"ClassRegionModelPerformance_MonitoringAdj.csv",sep="")
+  fileout<-paste0(fileCSV,"ClassRegionModelPerformance_MonitoringAdj.csv")
   fwrite(dd,file=fileout,row.names=T,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
@@ -403,7 +423,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   row.names(dd) <- ch
   print(outcharfun("REGIONAL MODEL PERFORMANCE (Simulated Predictions)"))
   print(dd)
-  fileout<-paste(fileCSV,"ClassRegionModelPerformance_NoMonitoringAdj.csv",sep="")
+  fileout<-paste0(fileCSV,"ClassRegionModelPerformance_NoMonitoringAdj.csv")
   fwrite(dd,file=fileout,row.names=T,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
@@ -421,7 +441,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     print(outcharfun("PARAMETER COVARIANCES"))
     print(dd)
     print(space)
-    fileout<-paste(fileCSV,"ParameterCovariances.csv",sep="")
+    fileout<-paste0(fileCSV,"ParameterCovariances.csv")
     fwrite(dd,file=fileout,row.names=T,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     # Correlations
@@ -433,7 +453,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     print(outcharfun("PARAMETER CORRELATIONS"))
     print(dd)
     print(space)
-    fileout<-paste(fileCSV,"ParameterCorrelations.csv",sep="")
+    fileout<-paste0(fileCSV,"ParameterCorrelations.csv")
     fwrite(dd,file=fileout,row.names=T,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     # Eigenvectors
@@ -450,7 +470,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     print(outcharfun("X'X EIGENVALUES AND EIGENVECTORS"))
     print(dd)
     print(space)
-    fileout<-paste(fileCSV,"EigenvaluesEigenvectors.csv",sep="")
+    fileout<-paste0(fileCSV,"EigenvaluesEigenvectors.csv")
     fwrite(dd,file=fileout,row.names=T,append=F,quote=F,showProgress = FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   } # end 'ifHess'
@@ -475,7 +495,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     print(outcharfun("CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Reaches)"))
     print(outcharfun("SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS"))
     print(cor.allValues)
-    xtext <- paste("SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=",nsamples,")",sep="")
+    xtext <- paste0("SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=",nsamples,")")
     print(outcharfun(xtext))
     print(cor.sampleValues)
     print(outcharfun("SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)"))
@@ -513,7 +533,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
     Parmnames <- Parmnames[JacobResults$bmin < JacobResults$bmax]     # eliminate user-fixed coefficients
     esttype <- esttype[JacobResults$bmin < JacobResults$bmax]
     jcolNames <- Parmnames[esttype == "Estimated"]       # eliminate any Fixed coefficients (zero or outside min/max bounds)
-    jcolNames <- paste(jcolNames,"_Jgradient",sep="")
+    jcolNames <- paste0(jcolNames,"_Jgradient")
     jacobian <- jacobian[,esttype == "Estimated"] 
     jacobian <- as.matrix(jacobian)
     colnames(jacobian) <- jcolNames
@@ -529,7 +549,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   }
   ddnew$rchname <- str_replace_all(ddnew$rchname,"[[:punct:]]","")
   ddnew$station_name <- str_replace_all(ddnew$station_name,"[[:punct:]]","")
-  fileout <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_residuals.csv",sep="")
+  fileout <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_residuals.csv")
   fwrite(ddnew,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   

@@ -43,7 +43,7 @@ shinyErrorTrap<-function(input, path_results, badSettings, errMsg){
         errMsg<-"Please select a Mapping Variable Type"
       }
     }else if (input$mapType=="Source Change Scenarios"){#scenarios
-      scenDir <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,sep="")
+      scenDir <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep)
       
       if (input$scenarioName==""){
         errMsg<-"Please enter a scenario name"
@@ -78,7 +78,7 @@ shinyErrorTrap<-function(input, path_results, badSettings, errMsg){
           }
         }else if (tolower(input$target)=="import"){#test for flags
           #read flag file
-          filein <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv",sep="")
+          filein <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv")
           select_targetReachWatersheds <- fread(filein,header=TRUE,stringsAsFactors=FALSE,
                                                 dec = csv_decimalSeparator,sep=csv_columnSeparator)
           

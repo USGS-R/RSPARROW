@@ -9,7 +9,7 @@
 replaceNAs<-function(listColumns){
   columnNames<-names(listColumns)
   for (i in 1:length(columnNames)) { 
-    dname <- paste(columnNames[i],"<-ifelse(is.na(",columnNames[i],"),0,",columnNames[i],")",sep="")
+    dname <- paste0(columnNames[i],"<-ifelse(is.na(",columnNames[i],"),0,",columnNames[i],")")
     eval(parse(text=dname),envir = parent.frame()) 
   }
 }

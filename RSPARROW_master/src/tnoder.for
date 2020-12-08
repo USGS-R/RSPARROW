@@ -1,6 +1,7 @@
-C     
-C Revised 9-12-2014 to restrict load to be positive, non-zero
-C
+C tnoder.for
+
+C Purpose: Load stream network accumulation routine that returns residuals for use in parameter estimation. 
+
       subroutine tnoder(ifadj,nreach,nnode,data2,incddsrc,carryf,ee)
         !GCC$ ATTRIBUTES DLLEXPORT::tnoder
         integer, intent(in) :: ifadj

@@ -21,7 +21,6 @@ getYesNoSett<-function(){
                    "if_predict",
                    "if_boot_predict",
                    "batch_mode",
-                   "if_install_packages",
                    "if_create_binary_maps",
                    "create_initial_dataDictionary",
                    "create_initial_parameterControlFiles",
@@ -31,8 +30,9 @@ getYesNoSett<-function(){
                    "edit_dataDictionary",
                    "if_estimate_simulation",
                    "load_previousDataImport",
-                   "enable_interactiveMaps",
+                   "enable_ShinyApp",
                    "if_verify_demtarea_maps",
-                   "RSPARROW_errorOption")
+                   "RSPARROW_errorOption",
+                   "showPlotGrid")
   return(yesNoSettings)
 }

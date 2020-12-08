@@ -48,11 +48,11 @@ selectDesignMatrix <- function(SelParmValues,betavalues,dmatrixin){
     jdel = 0
     jtot = 0
     for (i in 1:asrc){
-      if(sdmatrix[i]==TRUE){
+      if(sdmatrix[i]){
         isrc=isrc+1
         for (j in 1:adel){
           jtot=jtot+1
-          if(dmatrix[j]==TRUE){
+          if(dmatrix[j]){
             jdel=jdel+1
             dlvdsgn[isrc,jdel] = dlvdsgn1[jtot]
           }

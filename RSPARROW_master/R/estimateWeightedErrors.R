@@ -3,13 +3,16 @@
 #'Executed By:  \\cr
 #'Executes Routines: \\itemize\{\\item named.list.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input 
+#'                        and output of external files.  Created by `generateInputList.R`
 #'@param xrun_id current model run_id used by `estimateWeightedErrors.R` executed in 
 #'       `userModifyData.R`
 #'@param pre_run_id run_id for the prior model residuals used by `estimateWeightedErrors.R` 
 #'       executed in `userModifyData.R`
 #'@param nreaches number of reaches
 #'@param calsites calibration site indicator (NA or 0 = not selected; 1=selected)
-
+#'@return `weight` numeric vector of weights computed as the reciprocal of the 
+#'                 squared residutals (variance) predicted by the power function
 
 
 estimateWeightedErrors <- function(file.output.list,xrun_id,pre_run_id,nreaches,calsites) {
@@ -21,8 +24,8 @@ estimateWeightedErrors <- function(file.output.list,xrun_id,pre_run_id,nreaches,
   #  using nonlinear power function regression of squared log residuals on log of predicted loads
   
   # read the _residuals.csv file contents from a prior model run (sites in downstream order)
-  filename <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,pre_run_id,.Platform$file.sep,
-                    "estimate",.Platform$file.sep,pre_run_id,"_residuals.csv",sep="")
+  filename <- paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,pre_run_id,.Platform$file.sep,
+                    "estimate",.Platform$file.sep,pre_run_id,"_residuals.csv")
   
   oResids <- read.csv(filename,header=TRUE,                                    # colClasses=Ctype,
                       dec = csv_decimalSeparator,sep=csv_columnSeparator)
@@ -53,8 +56,8 @@ estimateWeightedErrors <- function(file.output.list,xrun_id,pre_run_id,nreaches,
   assign("Csites.weights.lnload.list",Csites.weights.lnload.list,envir = .GlobalEnv)
   
   # output plot to PDF file
-  filename <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,xrun_id,.Platform$file.sep,
-                    "estimate",.Platform$file.sep,xrun_id,"_weights.pdf",sep="")
+  filename <- paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,xrun_id,.Platform$file.sep,
+                    "estimate",.Platform$file.sep,xrun_id,"_weights.pdf")
   pdf(file=filename,font="Helvetica")
   xy <- data.frame(x,y)
   xy <- xy[order(x),]

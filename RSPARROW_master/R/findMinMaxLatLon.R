@@ -4,7 +4,17 @@
 #'            and 'lon_limit' are equal to 'NA' \\cr \\cr
 #'Executed By: startModelRun.R \\cr
 #'Executes Routines: named.list.R \\cr
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@return `sitegeolimits` named list of minimum and maximum values of the calibration station 
 #'            latitudes and longitudes
 

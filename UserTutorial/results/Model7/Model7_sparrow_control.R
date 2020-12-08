@@ -2,9 +2,10 @@
 ## RSPARROW CONTROL SCRIPT ####
 ###############################
 
-# Authors:  R. Alexander, USGS, Reston, VA (ralex@usgs.gov)
+# Authors:  R. Alexander, USGS, Reston, VA 
 #           L. Gorman-Sanisaca, USGS, Baltimore, MD (lgormansanisaca@usgs.gov)
-# Modified: 09-30-2019
+# Modified: 11-11-2020
+# RSPARROW Version 1.1.0
 # SPARROW URL:  http://water.usgs.gov/nawqa/sparrow/
 
  ####################################################################
@@ -160,9 +161,9 @@
   #               reciprocal of the variance proportional to user-selected variables
   NLLS_weights <- "default"
 
-  #############################
-  ### 5. MODEL DIAGNOSTICS ####
-  #############################
+  #####################################
+  ### 5. MODEL SPATIAL DIAGNOSTICS ####
+  #####################################
 
   # Specifiy if the spatial autocorrelation diagnostic graphics for Moran's I test are to be output 
   if_spatialAutoCorr <- "no"
@@ -295,12 +296,9 @@
 
   # Convert shape files to binary 
   convertShapeToBinary.list <- c("lineShapeName","polyShapeName","LineShapeGeo")
-  convertShapeToBinary.list <- c("lineShapeName","polyShapeName")
-
 
   # Select ERSI shape file output for streams, catchments, residuals, site attributes
-  outputERSImaps <-  c("no","no","no","no")   #  c("yes","yes","yes","yes") 
-
+  outputESRImaps <-  c("no","no","no","no")   #  c("yes","yes","yes","yes") 
 
   # Specify the geographic units minimum/maximum limits for mapping and prediction maps
   # If set to NA (missing), limits will be automatically determined from the monitoring site values
@@ -311,7 +309,7 @@
   ####################################################
   # Maps of model predictions and dataDictionary variables
 
-  # Identify list of load and yield predictions for mapping to output PDF file (enter NA for none)
+  # Identify list of load and yield predictions for mapping to output files (enter NA for none)
   # Any variables listed in the data-dictionary are available for mapping by streams or catchments
   # Note: To map model predictions, then 'if_predict' must = "yes" or predictions must have been 
   #       previouly executed
@@ -326,13 +324,13 @@
   
 
   #map display settings for model predictions or dataDictionary variables
-  predictionTitleSize<-1
-  predictionLegendSize<-0.6
+  predictionTitleSize<-16
+  predictionLegendSize<-0.5
   predictionLegendBackground<-"white"
   predictionMapColors<-c("blue","dark green","gold","red","dark red") #length sets number of breakpoints
   predictionClassRounding<-3
   predictionMapBackground<-"white"
-  lineWidth<-0.8 #for stream maps #0.8
+  lineWidth<-0.5    #for stream maps 
 
   ####################################################
   # Model diagnostics:  Station attribute maps, model plots, residual maps
@@ -347,13 +345,13 @@
     # meanconc <- depvar/meanq*ConcFactor
     # meanloadSE <- depvar_se/depvar*100
   
-  siteAttrTitleSize<-1
-  siteAttrLegendSize<-1
+  siteAttrTitleSize<-16
+  siteAttrLegendSize<-0.5
   #siteAttrColors<-c("blue","green4","yellow","orange","red","darkred") #length sets number of breakpoints
   siteAttrColors<-c("blue","green4","yellow","orange","red")
   siteAttrClassRounding<-2
-  siteAttr_mapPointStyle<-16 #pch=16
-  siteAttr_mapPointSize<-1 # sets point size scaling 
+  siteAttr_mapPointStyle<-16  #pch=16
+  siteAttr_mapPointSize<-2    # sets point size scaling 
   siteAttrMapBackground<-"white"
 
 
@@ -388,23 +386,45 @@
   residualPointSize_factor<-1 
   residualMapBackground<-"white"
  
-  
   ####################################################
-  #Trigger interactive Rshiny Maps upon completing run
-  enable_interactiveMaps<-"yes"
+  #Enable plotly interactive displays for maps (interactive plots are automatic)
+  enable_plotlyMaps<-"yes"
+  add_plotlyVars<-c("waterid","rchname","staid") 
+  showPlotGrid<-"no"
 
-  #################################################
-  ### 9. PREDICTION SOURCE-CHANGE SCENARIOS ####
-  #################################################
   
-  # Management source-change scenarios:
+  ###################################################################
+  ### 9. RShiny interactive Decision Support System (DSS) mapper ####
+  ###################################################################
+  
+  #Enable the interactive RShiny mapper
+  enable_ShinyApp<-"yes"
+  
+  #Specify preferred Web browser for the RShiny display
+  path_shinyBrowser<-"C:/Program Files/Mozilla Firefox/firefox.exe"
+  path_shinyBrowser<-"C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+  path_shinyBrowser<-"C:/Windows/SystemApps/Microsoft.MicrosoftEdge_8wekyb3d8bbwe/MicrosoftEdge.exe"
+  path_shinyBrowser <- NA      # user's default browser
+  path_shinyBrowser<-"C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
+  
+  # R Shiny can be enabled from RStudio in a specified browser (e.g., Chrome) for a previously 
+  #   executed model by running the following function in the Console window:
+  # runBatchShiny("C:/UserTutorial/results/Model6",
+  #              path_shinyBrowser ="C:/Program Files (x86)/Google/Chrome/Application/chrome.exe" )
+  
+  ############################################################
+  
+  # Simulation of source-change management scenarios in the RShiny mapper
+
   #  NOTE: Requires prior execution of the model estimation ('if_estimate')
   #        and standard predictions ('if_predict'). 
   
   #  Scenarios can be executed using the R Shiny interactive mapper using the
-  #    control setting 'enable_interactiveMaps<-"yes"'
+  #    control setting 'enable_ShinyApp <-"yes"'
   
-  # Indicate the spatial domain to apply scenario predictions:  
+  ###############################################
+  
+  # Identify the locations for applying scenarios
   #    "none", "all reaches", "selected reaches"
   select_scenarioReachAreas <- "all reaches"
   select_scenarioReachAreas <- "selected reaches"
@@ -423,13 +443,16 @@
   # ('waterid' system variable) and all upstreams
   # reaches
   
+  ###############################################
+  
+  # Set scenario source conditions for "all reaches" in user-defined watersheds
   
   # Settings applicable to select_scenarioReachAreas<-"all reaches" option.
   # Source changes are applied to "all reaches" in the user-defined watersheds
   
   # List the source variables evaluated in the change scenarios.
   scenario_sources <- NA
-  scenario_sources <- c("point","ndep","crops")  
+  scenario_sources <- c("point","ndep")  
   
   # For land-use 'scenario_sources' with areal units, specify a land-use source in the 
   # model to which a complimentary area conversion is applied that is equal to the 
@@ -443,9 +466,12 @@
   #  in the user-specified watersheds. Enter a factor of 0.1 or 1.1 to obtain a 10% 
   #  reduction or increase in a source, respectively.
   scenario_factors <- NA
-  scenario_factors <- c(0.20,1.1,0.25)   # order consistent with order of 
+  scenario_factors <- c(0.20,0.10)   # order consistent with order of 
   #  the 'scenario_sources'
   
+  ###############################################
+  
+  # Set scenario source conditions for "selected reaches" in user-defined watersheds
   
   # Settings applicable to select_scenarioReachAreas<-"selected reaches" option.
   # Source changes applied to "selected reaches" in the user-defined watersheds.
@@ -480,7 +506,12 @@
   #         OPEN     S_crops                NA
   #         OPEN     S_crops_LC             NA
   
-  #Set scenario name; this becomes the directory and file name for all scenario output
+  
+  ###############################################
+  
+  # Specify the scenario output settings
+  
+  # Set scenario name; this becomes the directory and file name for all scenario output
   #  NOTE: only one scenario can be run at a time; avoid using "/" or "\" for name
   scenario_name<-"scenario1"
   
@@ -528,7 +559,7 @@
   #   yield_inc_(sources)_deliv  Total incremental source yield delivered to 
   #                                 terminal reach
   #
-  scenario_map_list <- c("ratio_total","ratio_inc","pload_total","concentration")
+  scenario_map_list <- c("ratio_total","ratio_inc","pload_total")
 
   ###########################################
   ### 10. MODEL PREDICTION UNCERTAINTIES ####
@@ -549,7 +580,7 @@
 
   # Specify if bootstrap predictions (mean, SE, confidence intervals) are to be executed
   #  Note: Bias retransformation correction based on parametric bootstrap estimation
-  #        Requires completion of bootstrap estimation 
+  #        Requires completion of bootstrap estimation  
   if_boot_predict <- "no"
 
   # Bootstrap load prediction names and explanations
@@ -598,7 +629,8 @@
   ### 11. DIRECTORY AND MODEL IDENTIFICATION AND CONTROL SCRIPT OPERATIONS ####
   #############################################################################
   
-  path_master <- "~/RSPARROW_master"
+  # Add a relative or absolute path name (No spaces are allowed)
+  path_master <- "./RSPARROW_master"
   
   #results, data, and gis directories should be in Users Directory
   results_directoryName<-"results"
@@ -641,18 +673,18 @@
   # findCodeStr(path_master,"string name here","all")
   # executionTree(...)
 
-  #########################################################
-  ### 12. INSTALLATION AND VERIFICATION OF R LIBRARIES ####
-  #########################################################
-    
+  #####################################################
+  ### 12. INSTALLATION AND UPDATING OF R LIBRARIES ####
+  #####################################################
+
   # Install required packages
-  #   this is a one time process unless a new version of R is installed
-  #   packages previously installed by user will be skipped
-    
-  if_install_packages<-"no"
-  source(paste(path_master,"/R/installPackages.R",sep=""))
-  installPackages(if_install_packages,path_master)
-    
+  #   This is a one time process to install the current versions of the RSPARROW library 
+  #   dependencies for a newly installed version of R.  The "never" upgrade option
+  #   will not allow upgrades to more recent versions of the library dependencies during
+  #   subsequent executions of the control script.  
+  if(!"devtools" %in% installed.packages()){install.packages("devtools")}   
+  suppressWarnings(devtools::install_deps(path_master, upgrade = "never", type="binary"))
+
   # Load RSPARROW functions (These 2 lines should ALWAYS be run together)
   suppressWarnings(remove(list="runRsparrow"))
   devtools::load_all(path_master,recompile = FALSE)  

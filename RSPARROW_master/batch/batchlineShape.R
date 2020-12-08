@@ -46,11 +46,12 @@ if (length(res)!=0){
   
   suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(sp)))
+  suppressWarnings(suppressMessages(library(sf)))
   
-  lineShape <- readOGR(dsn=path_gis, layer=lineShapeName)
-  lineShape <- spTransform(lineShape, CRS(CRStext))
+  lineShape <- sf::st_read(paste0(path_gis,"/",lineShapeName,".shp"), quiet = TRUE)
+  lineShape<-st_transform(lineShape,CRS(CRStext))
   
-  objfile <- paste(path_gis,.Platform$file.sep,"lineShape",sep="")
+  objfile <- paste0(path_gis,.Platform$file.sep,"lineShape")
   save(lineShape,file=objfile)
   
   

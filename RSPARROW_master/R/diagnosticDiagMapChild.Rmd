@@ -1,0 +1,26 @@
+```{r chunkdiagMapplotly{{n}},eval = TRUE, echo = FALSE}
+evalPlotly<-ifelse(enable_plotlyMaps=="yes",TRUE,FALSE)
+notPlotly<-ifelse(enable_plotlyMaps=="no",TRUE,FALSE)
+```
+
+```{r chunkdiagMap{{n}},eval = evalPlotly, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
+n<-{{n}}
+map.list<-mapTypes[n]  
+diagnosticMaps(mapColumn,mapdata,GeoLines,
+                         map.list,strTitle,mapping.input.list,sitedata)
+
+  
+```
+
+```{r chunkdiagMap2{{n}},eval = notPlotly, echo = FALSE, fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+n<-{{n}}
+map.list<-mapTypes[n]  
+diagnosticMaps(mapColumn,mapdata,GeoLines,
+                         map.list,strTitle,mapping.input.list,sitedata)
+
+  
+```
+
+```{r diagMapPgBr{{n}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

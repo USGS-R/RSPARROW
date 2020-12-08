@@ -28,7 +28,7 @@ replaceData1Names <- function(data_names,data1) {
       }
     }
     if(ick == 0) {
-      dname <- paste("data1$",datalstreq[i],"<-NA",sep="") 
+      dname <- paste0("data1$",datalstreq[i],"<-NA") 
       eval(parse(text=dname))  # place missing variable in data1 object
     }
   }

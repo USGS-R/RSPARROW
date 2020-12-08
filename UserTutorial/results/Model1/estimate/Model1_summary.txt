@@ -2,7 +2,7 @@
   SPARROW NLLS MODEL SUMMARY
                     
   MODEL NAME: Model1
-                                                                                                       
+                                                                                                      
   FILE PATH: ~/UserTutorial/results/Model1/estimate/Model1_summary.txt
   
   
@@ -29,7 +29,7 @@
   
   
   EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
-                  1    0.9803326 0.9587258 3.259483e-13                  1.338349
+                  1    0.9782759 0.9587258 3.259483e-13                  1.338349
   
   
 [1] LOG RESIDUALS, Station quantiles

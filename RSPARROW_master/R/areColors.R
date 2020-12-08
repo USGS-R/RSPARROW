@@ -17,7 +17,7 @@ areColors <- function(strColors) {
   #end sourced from https://stackoverflow.com/questions/13289009/check-if-character-string-is-a-valid-color-representation
   testCol<-unique(testCol)
   if (length(testCol)==1){
-    if (suppressWarnings(testCol==TRUE)){
+    if (suppressWarnings(testCol)){
       testCol<-TRUE
     }else{
       testCol<-FALSE

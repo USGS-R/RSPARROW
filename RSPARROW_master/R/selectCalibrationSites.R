@@ -8,6 +8,8 @@
 #'             \\item unPackList.R\} \\cr
 #'@param subdata data.frame input data (subdata)
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#'@param min.sites.list named list of control settings `minimum_headwater_site_area`,
+#'                     `minimum_reaches_separating_sites`, `minimum_site_incremental_area`
 #'@return `Csites.list` list output from `selectCalibrationSites.R` modified in 
 #'            `startModelRun.R`
 

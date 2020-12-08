@@ -25,7 +25,7 @@ copyPriorModelFiles<-function(activeFile,old_run_id, path_master,batch_mode){
     }else{#copy files
       #get path_results
       path_results<-dirname(activeFile)
-      path_old<-paste(path_results,.Platform$file.sep,old_run_id,.Platform$file.sep,sep="")
+      path_old<-paste0(path_results,.Platform$file.sep,old_run_id,.Platform$file.sep)
       path_oldFile<-paste0(path_old,old_run_id,"_sparrow_control.R")
       
       #replace path_master in old file with activeFile path_master
@@ -44,23 +44,23 @@ copyPriorModelFiles<-function(activeFile,old_run_id, path_master,batch_mode){
                    "design_matrix.csv",
                    "userModifyData.R",
                    "dataDictionary.csv")
-      filesListFrom<-paste(old_run_id,"_",filesList,sep="")
+      filesListFrom<-paste0(old_run_id,"_",filesList)
       
       #copy files
       for (f in 1:length(filesList)){
-        if (file.exists(paste(path_old,filesListFrom[f],sep=""))){
-          file.copy(from = paste(path_old,filesListFrom[f],sep=""),
-                    to=paste(path_results,.Platform$file.sep,filesList[f],sep=""),
+        if (file.exists(paste0(path_old,filesListFrom[f]))){
+          file.copy(from = paste0(path_old,filesListFrom[f]),
+                    to=paste0(path_results,.Platform$file.sep,filesList[f]),
                     overwrite = TRUE)
         }else{
-          message("MISSING control file \n",paste(path_old,filesListFrom[f],sep=""),"\ncopy_PriorModelFiles FAILED.\n  RUN EXECUTION TERMINATED. ")
+          message("MISSING control file \n",paste0(path_old,filesListFrom[f]),"\ncopy_PriorModelFiles FAILED.\n  RUN EXECUTION TERMINATED. ")
           errorOccurred("copyPriorModelFiles.R",batch_mode)
         }
       }
       
       #no error
-      file.edit(paste(path_results,.Platform$file.sep,"sparrow_control.R",sep=""))
-      message(paste("copy_PriorModelFiles COMPLETE.  Control files ready for edit in \n",path_results,sep=""))
+      file.edit(paste0(path_results,.Platform$file.sep,"sparrow_control.R"))
+      message(paste0("copy_PriorModelFiles COMPLETE.  Control files ready for edit in \n",path_results))
       
       
     }

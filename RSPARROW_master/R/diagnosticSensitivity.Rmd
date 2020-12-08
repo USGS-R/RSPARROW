@@ -1,0 +1,210 @@
+---
+title: "diagnosticSensitivity"
+author: ""
+date: "`r format(Sys.time(), '%m-%d-%Y')`"
+output: html_document
+params:
+  file.output.list: file.output.list
+  path_diagnosticSensParamChild: path_diagnosticSensParamChild
+  classvar: classvar
+  estimate.list: estimate.list
+  DataMatrix.list: DataMatrix.list
+  SelParmValues: SelParmValues
+  reach_decay_specification: reach_decay_specification
+  reservoir_decay_specification: reservoir_decay_specification
+  subdata: subdata
+  sitedata.demtarea.class: sitedata.demtarea.class
+  mapping.input.list: mapping.input.list
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+#unpack params
+file.output.list<-params$file.output.list
+path_diagnosticSensParamChild<-params$path_diagnosticSensParamChild
+classvar<-params$classvar
+estimate.list<-params$estimate.list
+DataMatrix.list<-params$DataMatrix.list
+SelParmValues<-params$SelParmValues
+reach_decay_specification<-params$reach_decay_specification
+reservoir_decay_specification<-params$reservoir_decay_specification
+subdata<-params$subdata
+sitedata.demtarea.class<-params$sitedata.demtarea.class
+mapping.input.list<-params$mapping.input.list
+
+
+unPackList(lists = list(SelParmValues = SelParmValues,
+                        JacobResults = estimate.list$JacobResults,
+                        file.output.list = file.output.list,
+                        mapping.input.list = mapping.input.list),
+           parentObj = list(NA,
+                            NA,
+                            NA,
+                            NA))
+
+# contiguous class variables by sites
+class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
+for (k in 1:length(classvar)) { 
+  for (i in 1:nrow(sitedata)) {
+    class[i,k] <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k],"[",i,"]"))))
+  } 
+}
+depvar <- subdata$depvar
+xclass <- eval(parse(text=paste0("subdata$",classvar[1])))
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
+# required SPARROW estimated coefficients (oEstimate, Parmnames)
+Estimate <- oEstimate  # initial baseline estimates
+
+# obtain baseline predictions all reaches
+predict <- predictSensitivity(Estimate,estimate.list,DataMatrix.list,SelParmValues,
+                              reach_decay_specification,reservoir_decay_specification,subdata)
+
+apredict <- predict
+apredict_sum <- matrix(1,nrow=length(depvar),ncol=length(Estimate))
+
+ct <- length(Estimate)
+xiqr <- matrix(0,nrow=4,ncol=sum(ct))
+xmed <- numeric(sum(ct))
+xparm <- character(sum(ct))
+xvalue2 <- numeric(sum(ct))
+xsens <- matrix(0,nrow=sum(depvar > 0),ncol=length(Estimate))
+
+for (i in 1:length(Estimate)) {
+  if(betaconstant[i] == 0) {     # an estimated parameter
+    #  adjust parameter by 1%
+    AEstimate <- Estimate
+    AEstimate[i] <- Estimate[i] * 0.99
+    apredict <- predictSensitivity(AEstimate,estimate.list,DataMatrix.list,SelParmValues,
+                                   reach_decay_specification,reservoir_decay_specification,subdata)
+    apredict_sum[,i] <- abs((apredict-predict)/predict*100) / 1.0  # change relative to 1% change
+  }
+}
+```
+
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+# select site sensitivities 
+rmd <- sapply(
+  1:(length(Estimate)),
+  function(i) {
+    
+    knit_expand(path_diagnosticSensParamChild, i = i)
+  }
+)
+rmd <- paste(rmd, collapse = "\n")
+
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+
+rendered <- knit(text = rmd, quiet = TRUE)
+cat("\n \n")
+cat(rendered, sep = "\n")
+
+```
+
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
+for (i in 1:length(Estimate)) {
+  x1 <- apredict_sum[,i]
+  xx <- data.frame(x1,depvar,xclass)
+  parmsens <- xx[(xx$depvar > 0), ] 
+  xvalue2[i] <- i
+  xiqr[,i] <- quantile(parmsens$x1, c(0.05,0.25,0.75,0.95)) 
+  xmed[i] <- median(parmsens$x1)
+  xparm[i] <- Parmnames[i]
+  xsens[,i] <- parmsens$x1   # sensitivities for all calibration sites
+}   
+# save results to directory and global environment
+sensitivities.list <- named.list(xparm,xmed,xiqr,xsens)
+objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list") 
+save(sensitivities.list,file=objfile)
+
+# Plot median and IQR for each parameter
+xx <- xiqr[1,(xiqr[1,]>0)]  
+xminimum <- min(xx)
+xminimum <- ifelse(is.infinite(xminimum),0,xminimum)
+xmed <- ifelse( xmed == 0,xminimum,xmed)
+xiqr <- ifelse( xiqr == 0,xminimum,xiqr)
+
+xupper <- xiqr[3,] - xmed
+xlower <- xmed - xiqr[2,]
+supper <- xiqr[4,] - xmed
+slower <- xmed - xiqr[1,]
+
+xupper <- ifelse(xupper == 0,xminimum,xupper)
+supper <- ifelse(supper == 0,xminimum,supper)
+xlower <- ifelse(xlower == 0,xminimum,xlower)
+slower <- ifelse(slower == 0,xminimum,slower)
+
+xx <- data.frame(xmed,xlower,xupper,supper,slower,xparm)
+xx <- xx[with(xx,order(xx$xmed)), ]  
+
+ymin <- min(xiqr)
+ymax <- max(xiqr)
+
+# Arithmetic y axis
+data<-data.frame(x = xvalue2)
+data<-cbind(data,xx)
+
+
+plotlyLayout(NA,data$xmed, log = "", nTicks = 5, digits = 0,
+                  xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+                  yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+                  plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+                  legend = TRUE,showPlotGrid = showPlotGrid) %>%
+add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+                     name = '90% Interval',
+                     error_y = ~list(symetric = FALSE,
+                                     array = supper,
+                                     arrayminus = slower,
+                                     color = "#0000FF")) %>%
+add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+                     name = '50% Interval',
+                     error_y = ~list(symetric = FALSE,
+                                     array = xupper,
+                                     arrayminus = xlower,
+                                     color = "#FF0000")) %>%
+
+add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),
+          name = 'median')
+
+
+
+```
+
+```{r pagebreak6, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
+
+# Log y axis
+plotlyLayout(NA,data$xmed, log = "y", nTicks = 5, digits = 0,
+                  xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+                  yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+                  plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+                  legend = TRUE,showPlotGrid = showPlotGrid) %>%
+add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+                     name = '90% Interval',
+                     error_y = ~list(symetric = FALSE,
+                                     array = supper,
+                                     arrayminus = slower,
+                                     color = "#0000FF")) %>%
+add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+                     name = '50% Interval',
+                     error_y = ~list(symetric = FALSE,
+                                     array = xupper,
+                                     arrayminus = xlower,
+                                     color = "#FF0000")) %>%
+
+add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'median')#,
+
+
+```

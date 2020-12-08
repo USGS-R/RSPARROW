@@ -28,7 +28,7 @@ checkBinaryMaps<-function(mapSetting,path_gis,batch_mode){
   }else{
     outObj<-"polyShape"
   }
-  objfile <- paste(path_gis,.Platform$file.sep,outObj,sep="")   
+  objfile <- paste0(path_gis,.Platform$file.sep,outObj)   
   
   
   
@@ -37,7 +37,7 @@ checkBinaryMaps<-function(mapSetting,path_gis,batch_mode){
     assign(outObj,get(outObj),env = parent.frame())
     
     if (!exists("outObj")){
-      message(paste(settingName," <- ",mapSetting," NOT FOUND MAPPING CANNOT COMPLETE.\nSet if_create_binary_maps<-'yes' to create binary files.",sep=""))
+      message(paste0(settingName," <- ",mapSetting," NOT FOUND MAPPING CANNOT COMPLETE.\nSet if_create_binary_maps<-'yes' to create binary files."))
       if (batch_mode=="yes"){#if batch output message to log
         cat(settingName," <- ",mapSetting," NOT FOUND MAPPING CANNOT COMPLETE.\nSet if_create_binary_maps<-'yes' to create binary files.",sep="")
       }

@@ -15,24 +15,24 @@
 
 
 createInteractiveChoices<-function(SelParmValues,existPredict,subdata, data_names, map_uncertainties){
-  if (existPredict==TRUE){
+  if (existPredict){
     sources<-as.character(SelParmValues$srcvar)
     
     
     #load metrics
     choices<-c("pload_total",
-               paste("pload_",sources,sep=""),
+               paste0("pload_",sources),
                "mpload_total",
-               paste("mpload_",sources,sep=""),
+               paste0("mpload_",sources),
                "pload_nd_total",
-               paste("pload_nd_",sources,sep=""),
+               paste0("pload_nd_",sources),
                "pload_inc",
-               paste("pload_inc_",sources,sep=""),
+               paste0("pload_inc_",sources),
                "deliv_frac",
                "pload_inc_deliv",
-               paste("pload_inc_",sources,"_deliv",sep=""),
-               paste("share_total_",sources,sep=""),
-               paste("share_inc_",sources,sep=""))
+               paste0("pload_inc_",sources,"_deliv"),
+               paste0("share_total_",sources),
+               paste0("share_inc_",sources))
     
     definitions<-c("Total load (fully decayed)",
                    rep("Source load (fully decayed)",length(sources)),
@@ -56,13 +56,13 @@ createInteractiveChoices<-function(SelParmValues,existPredict,subdata, data_name
     #yield metrics
     choices<-c("concentration",
                "yield_total",
-               paste("yield_",sources,sep=""),
+               paste0("yield_",sources),
                "myield_total",
-               paste("myield_",sources,sep=""),
+               paste0("myield_",sources),
                "yield_inc",
-               paste("yield_inc_",sources,sep=""),
+               paste0("yield_inc_",sources),
                "yield_inc_deliv",
-               paste("yield_inc_",sources,"_deliv",sep=""))
+               paste0("yield_inc_",sources,"_deliv"))
     definitions<-c("Concentration based on decayed total load and discharge",
                    "Total yield (fully decayed)",
                    rep("Source yield (fully decayed)",length(sources)),

@@ -46,14 +46,17 @@ if (length(res)!=0){
   
   suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(sp)))
-  
+  suppressWarnings(suppressMessages(library(sf)))
+
   #load and convert shape file
-  LineGeo <- readOGR(dsn=path_gis, layer=LineShapeGeo)
-  LineGeo <- spTransform(LineGeo, CRS(CRStext))
-  GeoLines <- as(LineGeo, "SpatialLinesDataFrame")
-  
+
+
+
+  GeoLines <- sf::st_read(paste0(path_gis,"/",LineShapeGeo,".shp"), quiet = TRUE)
+  GeoLines<-st_transform(GeoLines,CRS(CRStext))
+
   #save file
-  objfile <- paste(path_gis,.Platform$file.sep,"GeoLines",sep="")
+  objfile <- paste0(path_gis,.Platform$file.sep,"GeoLines")
   save(GeoLines,file=objfile) 
   
   if (RSPARROW_errorOption=="yes"){

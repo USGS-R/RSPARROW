@@ -5,6 +5,8 @@
 #'             \\item getVarList.R
 #'             \\item importCSVcontrol.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
@@ -23,7 +25,7 @@ readParameters <- function(file.output.list,if_estimate,if_estimate_simulation,
   
   
   #define column classes and names
-  filebetas <- paste(path,run_id,"_parameters.csv",sep="")
+  filebetas <- paste0(path,run_id,"_parameters.csv")
   Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
   NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
   
@@ -40,10 +42,10 @@ readParameters <- function(file.output.list,if_estimate,if_estimate_simulation,
   
   #replace NAs with 0 in numeric columns
   for (c in names(betavalues)){
-    test<-eval(parse(text=paste("betavalues$",c,sep="")))
+    test<-eval(parse(text=paste0("betavalues$",c)))
     if (class(test)=="numeric"){
       test<-ifelse(is.na(test),0,test)
-      eval(parse(text=paste("betavalues$",c,"<-test",sep="")))
+      eval(parse(text=paste0("betavalues$",c,"<-test")))
     }
   }
   
@@ -88,7 +90,7 @@ readParameters <- function(file.output.list,if_estimate,if_estimate_simulation,
   }
   if (length(missing)!=0){
     
-    message(paste(" \nMISSING VALUES FOUND IN THE FOLLOWING COLUMNS OF THE PARAMETERS FILE:\n \n",paste(missing,collapse="\n"),"\n \nRUN EXECUTION TERMINATED.",sep=""))
+    message(paste0(" \nMISSING VALUES FOUND IN THE FOLLOWING COLUMNS OF THE PARAMETERS FILE:\n \n",paste(missing,collapse="\n"),"\n \nRUN EXECUTION TERMINATED."))
     if (batch_mode=="yes"){#if batch output message to log
       cat(" \nMISSING VALUES FOUND IN THE FOLLOWING COLUMNS OF THE PARAMETERS FILE:\n \n",paste(missing,collapse="\n"),"\n \nRUN EXECUTION TERMINATED.",sep="")
     }

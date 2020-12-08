@@ -75,7 +75,8 @@ testRedTbl<-function(input, output, session, DF){
                                    col = which(names(SourceRedALL)=="LanduseConversion"))
                 rowNums<-rbind(rowNums,rowNum)
                 errMsg<-"'LanduseConversion' selections cannot be 'Source' variables.  Please select different 'LanduseConversions'"
-              }else if (length(which(names(SourceRedALL)=="SelectionVariable"))!=0){
+              }else if (length(which(names(SourceRedALL)=="SelectionVariable"))!=0 & SourceRedALLcomplete$ChangeCoefficient=="no"){
+
                 #test multiple landusechange per source-PercentChange-selectionVar combo
                 multiLand<-SourceRedALLcomplete[which(SourceRedALLcomplete$LanduseConversion!="None" & SourceRedALLcomplete$ChangeCoefficient=="no"),]
                 multiLand$Min<-ifelse(is.na(multiLand$Min),'NA',multiLand$Min)
@@ -115,7 +116,16 @@ testRedTbl<-function(input, output, session, DF){
                   errMsg<-"Only 1 'LanduseConversion' selection is valid for each 'Source'-'PercentChange'-'SelectionVariable' combination.  Please select different 'LanduseConversions'"
                   #test if landuseConversion both NA and not NA
                 }
+                
               }#all src=="no"
+              if (SourceRedALLcomplete$ChangeCoefficient=="yes"){
+                rowNum<-data.frame(row = SourceRedALLcomplete$ChangeCoefficient=="yes", 
+                                   col = rep(which(names(SourceRedALL)=="LanduseConversion"),1))
+                
+                rowNums<-rbind(rowNums,rowNum)
+                errMsg<-"'LanduseConversion' selection is invalid for Coefficient Change Scenario, Remove Landuse conversion selection or do not change via coefficient"
+                
+              }
             }#no landuseconversion
           }else{#no PercentChanges
             rowNum<-data.frame(row = r, 

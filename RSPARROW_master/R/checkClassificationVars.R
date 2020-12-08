@@ -6,6 +6,7 @@
 #'Executes Routines: \\itemize\{\\item errorOccurred.R
 #'             \\item unPackList.R\} \\cr
 #'@param subdata data.frame input data (subdata)
+#'@param class.input.list list of control settings related to classification variables
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 

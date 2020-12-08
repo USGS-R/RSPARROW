@@ -6,6 +6,7 @@
 #'Executes Routines: \\itemize\{\\item accumulateIncrArea.R
 #'             \\item unPackList.R\} \\cr
 #'@param subdata data.frame input data (subdata)
+#'@param class.input.list list of control settings related to classification variables
 #'@return `percentClassLanduse`  data.frame with calculated percentages by land use
 
 

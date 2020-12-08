@@ -11,11 +11,11 @@ deleteFiles<-function(path_results){
   
   
   #delete files from prediction, mapping, and scenario folders
-  folders<-paste(path_results,c("estimate","predict","maps","scenarios"),.Platform$file.sep,sep="")
+  folders<-paste0(path_results,c("estimate","predict","maps","scenarios"),.Platform$file.sep)
   for (f in folders){
     filesList<-list.files(f,recursive = TRUE,full.names=TRUE)
     if (length(filesList)!=0){
-      msgText<-paste("Deleting files from '",basename(f),"' subdirectory...",sep="")
+      msgText<-paste0("Deleting files from '",basename(f),"' subdirectory...")
       message(msgText)
       unlink(filesList,recursive = TRUE)
     }

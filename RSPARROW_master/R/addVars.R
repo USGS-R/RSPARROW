@@ -7,6 +7,8 @@
 #'             \\item getVarList.R
 #'             \\item importCSVcontrol.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 
@@ -20,7 +22,7 @@ addVars<-function(file.output.list,batch_mode){
   
   
   #read parameters file
-  filebetas<-paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv",sep="")
+  filebetas<-paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv")
   Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
   NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
   
@@ -37,7 +39,7 @@ addVars<-function(file.output.list,batch_mode){
   
   
   #read dataDictionary
-  filein <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"dataDictionary.csv",sep="")
+  filein <- paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"dataDictionary.csv")
   Ctype <- c("character","character","character","character","character")
   NAMES<-c("varType","sparrowNames","data1UserNames","varunits","explanation")
   
@@ -52,11 +54,11 @@ addVars<-function(file.output.list,batch_mode){
   #make fixed and required names lowercase
   data_names$sparrowNames<-ifelse(tolower(data_names$sparrowNames) %in% as.character(getVarList()$varList),tolower(data_names$sparrowNames),data_names$sparrowNames)
   
-  fileDic<-paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"dataDictionary.csv",sep="")
+  fileDic<-paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"dataDictionary.csv")
   
   
   #read designMatrix
-  filed <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"design_matrix.csv",sep="")
+  filed <- paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"design_matrix.csv")
   
   #columns for DELIVF
   NAMES<-betavalues[which(betavalues$parmType=="DELIVF"),]$sparrowNames
@@ -76,7 +78,7 @@ addVars<-function(file.output.list,batch_mode){
   names(dmatrixin)<-ifelse(tolower(names(dmatrixin)) %in% as.character(getVarList()$varList),tolower(names(dmatrixin)),names(dmatrixin))
   
   
-  fileDesign<-paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"design_matrix.csv",sep="")
+  fileDesign<-paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"design_matrix.csv")
   
   
   #test for parameters NOT in dataDictionary
@@ -84,11 +86,11 @@ addVars<-function(file.output.list,batch_mode){
   names(test_data_names)<-names(betavalues)
   if (nrow(test_data_names)!=0){#missing from dataDictionary
     for (t in test_data_names$sparrowNames){
-      message(paste("ERROR: ",t," PARAMETER NOT FOUND IN dataDictonary.csv\n ",t, 
+      message(paste0("ERROR: ",t," PARAMETER NOT FOUND IN dataDictonary.csv\n ",t, 
                     " HAS BEEN ADDED TO dataDictionary.csv\n USER MUST EDIT 
 dataDictionary.csv, userModifyData.R, and design_matrix.R\n 
 TO ALLOW FOR NEW PARAMETER\n \nDATA IMPORT MUST BE RE_RUN\n
-SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n",sep=""))
+SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n"))
       new_data_names<-data.frame(varType = test_data_names[which(test_data_names$sparrowNames==t),]$parmType,
                                  sparrowNames=t,
                                  data1UserNames = NA,
@@ -124,10 +126,10 @@ SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n",sep=""))
     
     for (t in test_design$sparrowNames){
       if (test_design[which(test_design$sparrowNames==t),]$parmType=="SOURCE"){
-        message(paste("ERROR: ",t," PARAMETER NOT FOUND IN design_matrix.csv as SOURCE\n ",t, 
+        message(paste0("ERROR: ",t," PARAMETER NOT FOUND IN design_matrix.csv as SOURCE\n ",t, 
                       " HAS BEEN ADDED TO design_matrix.csv\n USER MUST EDIT design_matrix.csv, userModifyData.R\n 
 TO ALLOW FOR NEW PARAMETER\n \nDATA IMPORT MUST BE RE_RUN\n
-SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n",sep=""))
+SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n"))
         
         new_design_matrix<-as.data.frame(matrix(rep(0,length(dmatrixin)),ncol=length(dmatrixin),nrow=1))
         names(new_design_matrix)<-names(dmatrixin)
@@ -135,10 +137,10 @@ SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n",sep=""))
         
         dmatrixin<-rbind(dmatrixin,new_design_matrix)
       }else{
-        message(paste("ERROR: ",t," PARAMETER NOT FOUND IN design_matrix.csv as DELIVF\n ",t, 
+        message(paste0("ERROR: ",t," PARAMETER NOT FOUND IN design_matrix.csv as DELIVF\n ",t, 
                       " HAS BEEN ADDED TO design_matrix.csv\n USER MUST EDIT design_matrix.csv, userModifyData.R\n 
 TO ALLOW FOR NEW PARAMETER\n \nDATA IMPORT MUST BE RE_RUN\n
-SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n",sep=""))
+SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n"))
         
         new_design_matrix<-as.data.frame(matrix(rep(0,nrow(dmatrixin)),ncol=1,nrow=nrow(dmatrixin)))
         names(new_design_matrix)<-t
@@ -161,10 +163,10 @@ SET run_dataImport<-'yes' AND load_previousDataImport<-'no'\n \n",sep=""))
   
   #if missing parameter variables found open files for edit and terminate run
   if (nrow(test_design)!=0 | nrow(test_data_names)!=0){
-    message(paste("USER MUST EDIT CONTROL FILES WITH MISSING PARAMETER INFORMATION\ndesign_matrix.csv, dataDictionary.csv, and userModifyData.R ARE OPEN FOR EDIT\n RUN EXECUTION TERMINATED",sep=""))
-    shell.exec(paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"design_matrix.csv",sep=""))
-    shell.exec(paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"dataDictionary.csv",sep=""))
-    file.edit(paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"userModifyData.R",sep=""))
+    message(paste0("USER MUST EDIT CONTROL FILES WITH MISSING PARAMETER INFORMATION\ndesign_matrix.csv, dataDictionary.csv, and userModifyData.R ARE OPEN FOR EDIT\n RUN EXECUTION TERMINATED"))
+    shell.exec(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"design_matrix.csv"))
+    shell.exec(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"dataDictionary.csv"))
+    file.edit(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"userModifyData.R"))
     errorOccurred("addVars.R",batch_mode)
   }
   

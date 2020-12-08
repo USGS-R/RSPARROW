@@ -15,9 +15,11 @@
 findCodeStr<-function(path_master,str,strType){
   #get all files
   files<-list.files(path_master,full.names = TRUE,pattern="\\.R",recursive = TRUE)
-  files<-files[which(sapply(files, function(x) substr(x,nchar(x)-1,nchar(x))==".R"))]
+  files<-files[which(sapply(files, function(x) substr(x,nchar(x)-1,nchar(x))==".R") | regexpr("\\.Rmd",files)>0)]
   forFiles<-list.files(path_master,full.names = TRUE,pattern="\\.for",recursive = TRUE)
   files<-c(files,forFiles)
+  files<-files[which(regexpr("\\/inst\\/doc\\/",files)<0)]
+  files<-files[which(regexpr("\\/vignettes\\/",files)<0)]
   
   for (f in files){
     
@@ -29,7 +31,11 @@ findCodeStr<-function(path_master,str,strType){
         findStr<-gsub("\\.R","",str)
       }else if (f %in% forFiles){
         findStr<-paste0(gsub("\\.for","",str),"\\(")
-      }else{
+      }else if (regexpr("\\.Rmd",str)>0 & (regexpr("child",str,ignore.case = TRUE)<0)){#parent rmd
+        findStr<-paste0('rmarkdown::render\\(paste0\\(path_master,\\"',str)
+      }else if (regexpr("\\.Rmd",str)>0){#child rmd
+        findStr<-paste0('knit_expand\\(path_',gsub("\\.Rmd","",str))
+        }else{
         findStr<-paste0(gsub("\\.R","",str),"\\(")
       }
       
@@ -43,15 +49,21 @@ findCodeStr<-function(path_master,str,strType){
       
       
     }else if (strType=="setting"){
-      routine<-gsub("\\.R","",basename(f))
+      if (regexpr("\\.Rmd",basename(f))<0){
+       routine<-gsub("\\.R","",basename(f)) 
+      }
+      
       if (regexec("\\.for",routine)<0 & regexec("batch",routine, ignore.case = TRUE)<0){
         #find start of function call
+        if (regexpr("\\.Rmd",basename(f))<0){
         startStr<-which(regexpr(paste0(routine,"<-function"),gsub(" ","",x))>0)
-        
+        }else if (regexpr("child",str,ignore.case = TRUE)<0){#Rmd start
+          startStr<-which(regexpr("params:",x)>0)+1
+        }
         if (length(startStr)==0){#not a real routine
           findStr<-x[which(regexpr(str,x)>0)]
           lines<-which(regexpr(paste0("\b",str,"\b"),x)>0)  
-        }else{      
+        }else if (regexpr("\\.Rmd",basename(f))<0){      
           findStr<-x[startStr:length(x)]
           
           #find end of function call
@@ -79,13 +91,26 @@ findCodeStr<-function(path_master,str,strType){
             
           }
           
-        }
+        }else if (regexpr("child",str,ignore.case = TRUE)<0){#get Rmd params list
+           findStr<-x[startStr:length(x)]
+           
+           #find end of function call
+           endStr<-findStr[which(regexpr("---",trimws(findStr))>0)[1]]
+           endStr<-which(x==endStr)[2]-1
+           
+           findStr<-x[startStr:endStr] 
+           splitFind<-strsplit(findStr,":")
+           splitFind<-unique(trimws(unlist(splitFind)))
+           lines<-which(trimws(splitFind)==str)+startStr-1
+         }
       }else{
         lines<-numeric(0)
       }
     }else if (strType=="args"){
+      if (regexpr("\\.Rmd",basename(f))<0){
       routine<-gsub("\\.R","",basename(f))
-      if (routine==gsub("\\.R","",str)){
+      }
+      if (routine==gsub("\\.R","",str) & regexpr("\\.Rmd",basename(f))<0){
         #find start of function call
         startStr<-which(regexpr(paste0(routine,"<-function"),gsub(" ","",x))>0)
         
@@ -114,7 +139,20 @@ findCodeStr<-function(path_master,str,strType){
           lines<-sapply(lines, function(x) trimws(x))
           lines<-lines[which(lines!="" & lines!="..." & !is.na(lines) & regexpr("parent.frame",lines)<0 & regexpr("GlobalEnv",lines)<0)]
         }
-      }else{#routine!=str
+      }else if (gsub("\\.Rmd","",basename(f))==gsub("\\.Rmd","",str) & regexpr("\\.Rmd",basename(f))>0 & (regexpr("child",f,ignore.case = TRUE)<0)){#if Rmd
+        startStr<-which(regexpr("params:",x)>0)+1
+        
+        findStr<-x[startStr:length(x)]
+        
+        #find end of function call
+        endStr<-findStr[which(regexpr("---",trimws(findStr))>0)[1]]
+        endStr<-which(x==endStr)[2]-1
+        
+        findStr<-x[startStr:endStr] 
+        splitFind<-strsplit(findStr,":")
+        lines<-unique(trimws(unlist(splitFind)))
+      
+        }else{#routine!=str
         lines<-character(0)
       }
     }else{#general str search

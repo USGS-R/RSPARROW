@@ -6,6 +6,8 @@
 #'Executes Routines: \\itemize\{\\item getVarList.R
 #'             \\item importCSVcontrol.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 
@@ -89,7 +91,7 @@ createMasterDataDictionary<-function(file.output.list,batch_mode){
     }# valid data_names file
     
   }#end for f
-  fwrite(file=paste(dirname(path_results),.Platform$file.sep,"master_dataDictionary.csv",sep=""),master,
+  fwrite(file=paste0(dirname(path_results),.Platform$file.sep,"master_dataDictionary.csv"),master,
          row.names=FALSE, col.names=TRUE,showProgress = FALSE,dec=csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
   
   

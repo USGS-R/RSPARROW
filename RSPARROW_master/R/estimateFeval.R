@@ -14,9 +14,14 @@
 #'Executes Routines: \\itemize\{\\item unPackList.R
 #'             \\item tnoder.for\} \\cr
 #'@param beta0 estimated parameters (no constants)
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
+#'@param Csites.weights.list regression weights as proportional to incremental area size
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param dlvdsgn design matrix imported from design_matrix.csv
 #'@return `e` vector of weighted residuals
 

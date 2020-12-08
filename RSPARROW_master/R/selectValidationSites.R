@@ -35,6 +35,7 @@ selectValidationSites <- function(iseed,pvalidate,subdata,minimum_reaches_separa
   staid <- numeric(numrchs)
   vstaid <- numeric(numrchs)
   vdepvar <- numeric(numrchs)
+  vcalsites <- numeric(numrchs)
   nMon <- 0
   vic <- 0
   
@@ -47,7 +48,7 @@ selectValidationSites <- function(iseed,pvalidate,subdata,minimum_reaches_separa
         iset <- 0
         for (j in 1:nsamples) {
           if (tstaid[i] == rpick[j]) {   
-            if(depvar[i] > 0) {          # accepted site with non-zero load
+            if(depvar[i] > 0 & calsites[i]==1) {          # accepted site with non-zero load
               nMon <- nMon+1
               iset <- 1
               staid[i] <- nMon
@@ -56,10 +57,11 @@ selectValidationSites <- function(iseed,pvalidate,subdata,minimum_reaches_separa
         }
         if (iset == 0) {   # site not picked, use for validation site
           staid[i] <- 0
-          if(depvar[i] > 0) {
+          if(depvar[i] > 0 & calsites[i]==1) {
             vic <- vic+1
             vdepvar[i] <- depvar[i]    # store validation dependent variable value
             vstaid[i] <- vic
+            vcalsites[i]<- calsites[i]
             depvar[i] <- 0
           }
         }

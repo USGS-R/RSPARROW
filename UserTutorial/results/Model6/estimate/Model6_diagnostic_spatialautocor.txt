@@ -15,7 +15,7 @@
 274 CUMBERLAND R 174.5    U/S FROM CLEESE'S FERRY      770               539                  8  0.40157637           -0.8388092  0.69907035            0.3865757
 337                 Maumee River at Waterville OH  4193500               621                 17  0.05703731           -1.9030248  0.22467334           -1.2141948
 343             ST. JOSEPH RIVER AT ST. JOSEPH MI  4102533               627                  8  0.60302350           -0.5200575  0.76195822           -0.3029103
-366                  Ohio River near Smithland KY     OR21               653                281  0.19024917           -1.3098423  0.04822033           -1.9754216
+366                  Ohio River near Smithland KY     OR21               653                281  0.19024913           -1.3098425  0.04822033           -1.9754216
 375 SAGINAW R AT MIDLAND ST BR; BANGOR TWP SEC 21    90162               664                  5  0.08410109           -1.7273708  0.57068882            0.5670373
 395            MISSISSIPPI RIVER BELOW GRAFTON IL  5587455               689                230  0.09522784           -1.6684429  0.86744395           -0.1669061
 409             RED RIVER OF THE NORTH AT OSLO MN  5083500               708                 32  0.56863547            0.5700623  0.34860411            0.9373003
@@ -37,7 +37,7 @@
   
         huc2  Number Stations  Moran's P-Value  Moran's Standard Deviate
 1          4              121        0.9519368                0.06027475
-2          5              295        0.2235316               -1.21719097
+2          5              295        0.2235315               -1.21719110
 3          7              252        0.3438225               -0.94663945
 4          9               40        0.2496004                1.15132047
-5 Total Area              708        0.2864388                1.06596657
+5 Total Area              708        0.2864388                1.06596649

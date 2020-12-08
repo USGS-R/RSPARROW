@@ -1,5 +1,6 @@
 routine,returns,description
 accumulateIncrArea,AreaRch, data.frame containing waterid and `accum_elements`
+addMarkerText,marker.list,a named list containing `markerText` the character string to execute to generate plotly hover text and `mapData` the data to be plotted
 addVars,NA,NA
 allowRemoveRow,NA,NA
 applyUserModify,subdata, data.frame with all user designated modifications from userModifyData.R
@@ -20,6 +21,7 @@ checkBinaryMaps,fileLoaded, logical TRUE/FALSE indicating whether or not file is
 checkClassificationVars,NA,NA
 checkData1NavigationVars,data1, data1 input file as dataframe with large interger values replaced and hydseq 
 checkDrainageareaErrors,NA,NA
+checkDrainageareaMapPrep,prepReturns.list,"a named list containing `dmap` the data to map, `break1` vector of legend breaks, `nlty` numeric vector indicating line types, `nlwd` numeric vector of line widths, `Mcol`character vector of unique map colors"
 checkDupVarnames,NA,NA
 checkMissingData1Vars,data1, data1 input data.frame with missing variables added
 checkMissingSubdataVars,NA,NA
@@ -57,13 +59,13 @@ estimateFevalNoadj,e,vector of weighted residuals
 estimateNLLSmetrics,estimate.metrics.list,named list of summary metrics. For more details see documentation section 5.2.4
 estimateNLLStable,NA,NA
 estimateOptimize,sparrowEsts,list object contained in estimate.list `if_estimate<-'yes'`.  For more details see documentation Section 5.2.4.4.
-estimateWeightedErrors,NA,NA
+estimateWeightedErrors,weight,numeric vector of weights computed as the reciprocal of the squared residutals (variance) predicted by the power function
 executeRSPARROW,NA,NA
 executionTree,traceProgram,data.table of all function/routine executions and line number of executions after the `startRoutine`
 findCodeStr,NA,NA
 findControlFiles,NA,NA
 findMinMaxLatLon,sitegeolimits,named list of minimum and maximum values of the calibration station latitudes and longitudes
-findScriptName,NA,NA
+findScriptName,path,character string path to current user directory
 fixDupLatLons,x,latitude or longitude vector with small random increment added to duplicate latitudes and longitudes
 generateInputLists,NA,NA
 getCharSett,charSettings,list of all character type control settings
@@ -92,6 +94,7 @@ openParameters,NA,NA
 openVarnames,NA,NA
 outputSettings,settings,data.frame of all user control file settings and setting values
 pkgInstall,NA,NA
+plotlyLayout,p,plotly plot object with custom layout
 predict,predict.list,"archive with all load and yield prediction variables to provide for the efficient access and use of predictions in subsequent execution of the parametric
 bootstrap predictions and uncertainties, mapping, and scenario evaluations.  For more details see documentation Section 5.3.1.5"
 predictBoot,predictBoots.list,contains parametric bootstrap predictions for load and yield. For more details see documentation Section 5.3.2.3

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-mkdir -p $(R -q  --vanilla -e 'Sys.getenv("R_LIBS_USER")' | fgrep -v '>' | cut -d '"' -f 2 | sed -e "s,~,$HOME,")

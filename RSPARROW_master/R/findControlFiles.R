@@ -18,7 +18,7 @@ findControlFiles<-function(path_user,if_userModifyData,
                            create_initial_dataDictionary, create_initial_parameterControlFiles){
   
   
-  path_results <- paste(path_user,.Platform$file.sep,results_directoryName,sep="") # location of the results directory
+  path_results <- paste0(path_user,.Platform$file.sep,results_directoryName) # location of the results directory
   
   
   #save control files
@@ -33,15 +33,15 @@ findControlFiles<-function(path_user,if_userModifyData,
     filesList<-c(filesList,"design_matrix.csv","parameters.csv")
   }
   
-  fileExist<-sapply(filesList, function(x) file.exists(paste(path_results,.Platform$file.sep,x,sep="")))
+  fileExist<-sapply(filesList, function(x) file.exists(paste0(path_results,.Platform$file.sep,x)))
   
   fileExist<-data.frame(success = t(fileExist)[1,])
-  fileExist$path<-paste(path_results,.Platform$file.sep,filesList,sep="")
-  fileExist<-fileExist[(fileExist$success==FALSE),]
+  fileExist$path<-paste0(path_results,.Platform$file.sep,filesList)
+  fileExist<-fileExist[(!fileExist$success),]
   
   if (nrow(fileExist)!=0){
     for (x in fileExist$path){
-      message(paste("MISSING CONTROL FILES.\n \n",x,"\n \nRUN EXECUTION TERMINATED",sep=""))
+      message(paste0("MISSING CONTROL FILES.\n \n",x,"\n \nRUN EXECUTION TERMINATED"))
     }
     errorOccurred("findControlFiles.R",batch_mode)
   }

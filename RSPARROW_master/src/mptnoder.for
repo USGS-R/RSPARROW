@@ -1,4 +1,11 @@
-C     
+C mptnoder.for
+
+C Purpose: Load stream network accumulation routine that returns a share of the prediction.  
+C          Computes the monitoring-adjusted source loads, which are calculated 
+C          as shares of the nonadjusted total loads. 
+
+C Notes:   See predict.R calculation of 'mpload_' shares for background. 
+
       subroutine mptnoder(ifadj,share,nreach,nnode,
      cdata2,incddsrc,carryf,pred)
         !GCC$ ATTRIBUTES DLLEXPORT::mptnoder

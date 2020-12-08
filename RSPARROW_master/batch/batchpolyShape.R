@@ -45,11 +45,12 @@ if (length(res)!=0){
   
   suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(sp)))
+  suppressWarnings(suppressMessages(library(sf)))
   
-  polyShape <- readOGR(dsn=path_gis, layer=polyShapeName)
-  polyShape <- spTransform(polyShape, CRS(CRStext))
+  polyShape <- sf::st_read(paste0(path_gis,"/",polyShapeName,".shp"), quiet = TRUE)
+  polyShape<-st_transform(polyShape,CRS(CRStext))
   
-  objfile <- paste(path_gis,.Platform$file.sep,"polyShape",sep="")
+  objfile <- paste0(path_gis,.Platform$file.sep,"polyShape")
   save(polyShape,file=objfile)
   
   

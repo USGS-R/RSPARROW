@@ -1,5 +1,8 @@
-C     
-C input reaches sorted in reverse hydrologic order
+C deliv_fraction.for
+
+C Purpose: Computes the delivery fraction metric in the prediction functions (e.g., predict.R).
+C Notes:  The input reaches are sorted in reverse hydrologic order
+
       subroutine deliv_fraction(nreach,waterid,nnode,data2,
      &incdecay,totdecay,sumatt)
         !GCC$ ATTRIBUTES DLLEXPORT::deliv_fraction

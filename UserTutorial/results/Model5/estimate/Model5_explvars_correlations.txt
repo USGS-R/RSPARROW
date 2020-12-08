@@ -39,13 +39,13 @@ MANC_N 0.6932653 1.0000000
                                                              
   SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
             ndep    MANC_N
-ndep   1.0000000 0.6876633
-MANC_N 0.6876633 1.0000000
+ndep   1.0000000 0.7268779
+MANC_N 0.7268779 1.0000000
                                                                                                                     
   SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
             ndep    MANC_N
-ndep   1.0000000 0.7126109
-MANC_N 0.7126109 1.0000000
+ndep   1.0000000 0.6976559
+MANC_N 0.6976559 1.0000000
   
   
                                                      

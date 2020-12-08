@@ -1,5 +1,5 @@
 if (exists("runRsparrow")){
-  if (runRsparrow=="yes" & if_install_packages=="no"){   
+  if (runRsparrow=="yes"){   
     
     if (RSPARROW_errorOption=="yes"){
       

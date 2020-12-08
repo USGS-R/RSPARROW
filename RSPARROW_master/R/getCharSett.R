@@ -43,7 +43,7 @@ getCharSett<-function(){
                   "csv_columnSeparator",
                   "copy_PriorModelFiles",
                   
-                  "outputERSImaps",
+                  "outputESRImaps",
                   "predictionLegendBackground",
                   "predictionMapColors",
                   "predictionMapBackground",

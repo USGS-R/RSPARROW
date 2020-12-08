@@ -27,8 +27,8 @@
 errorOccurred<-function(scriptName,batch_mode){
   cat("\n \n")
   
-  message(paste("AN ERROR OCCURRED IN PROCESSING ", scriptName, "\n",
-                "RUN EXECUTION TERMINATED.",sep=""))
+  message(paste0("AN ERROR OCCURRED IN PROCESSING ", scriptName, "\n",
+                "RUN EXECUTION TERMINATED."))
   if (batch_mode=="yes"){#if batch output message to log
     cat(" \nAN ERROR OCCURRED IN PROCESSING ", scriptName, "\n",
         "RUN EXECUTION TERMINATED.",sep="")

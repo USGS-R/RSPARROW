@@ -98,6 +98,6 @@ lamda: 0.2684355  SS= 234.8404  at  = 1725.145  = 1960.327  = 711.264  = 164.292
  
 Time elapsed in optimization
     user  system elapsed 
-   3.83    0.04    3.91 
+   2.35    0.03    2.38 
 
  

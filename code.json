@@ -3,7 +3,7 @@
     "name": "RSPARROW",
     "organization": "U.S. Geological Survey",
     "description": "RSPARROW: An R System for SPARROW Modeling",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "Production",
 
     "permissions": {
@@ -17,7 +17,7 @@
     },
 
     "homepageURL": "https://code.usgs.gov/water/stats/RSPARROW",
-    "downloadURL": "https://code.usgs.gov/water/stats/RSPARROW/-/archive/v1.0.1/RSPARROW-v1.0.1.zip",
+    "downloadURL": "https://code.usgs.gov/water/stats/RSPARROW/-/archive/v1.1.0/RSPARROW-v1.1.0.zip",
     "disclaimerURL": "https://code.usgs.gov/water/stats/RSPARROW/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/water/stats/RSPARROW.git",
     "vcs": "git",
@@ -41,7 +41,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2019-09-30"
+      "metadataLastUpdated": "2020-11-10"
     }
   }
 ]

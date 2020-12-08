@@ -3,6 +3,11 @@
 #'Executed By: controlFileTasksModel.R \\cr
 #'Executes Routines: \\itemize\{\\item getVarList.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param estimate.list list output from `estimate.R`
+#'@param predictBoots.list contains parametric bootstrap predictions for load and yield. 
+#'                         For more details see documentation Section 5.3.2.3
 #'@param subdata data.frame input data (subdata)
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files
@@ -98,7 +103,7 @@ predictBootsOutCSV <- function(file.output.list,estimate.list,predictBoots.list,
   
   outvars2 <- outvars2[with(outvars2,order(outvars2$hydseq,outvars2$waterid)), ]
   
-  fileout <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predicts_load_boots.csv",sep="")
+  fileout <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predicts_load_boots.csv")
   fwrite(outvars2,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
@@ -124,7 +129,7 @@ predictBootsOutCSV <- function(file.output.list,estimate.list,predictBoots.list,
   }# if add_vars
   outvars2 <- outvars2[with(outvars2,order(outvars2$hydseq,outvars2$waterid)), ]
   
-  fileout <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predicts_yield_boots.csv",sep="")
+  fileout <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predicts_yield_boots.csv")
   fwrite(outvars2,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   

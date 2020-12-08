@@ -9,7 +9,9 @@
 #'             \\item validateFevalNoadj.R\} \\cr
 #'@param classvar character vector of user specified spatially contiguous discrete 
 #'       classification variables from sparrow_control.  First element is reach classification variable.
+#'@param estimate.list list output from `estimate.R`
 #'@param dlvdsgn design matrix imported from design_matrix.csv
+#'@param Vsites.list named list of sites for validation
 #'@param yieldFactor numeric control setting to specify the yield conversion factor, computed 
 #'       as `Yield = load / demtarea * yieldFactor`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
@@ -17,6 +19,8 @@
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
 #'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@return `validate.metrics.list` named list including the vANOVA.list and vMdiagnostics.list
 
 
@@ -29,11 +33,11 @@ validateMetrics <- function(classvar,estimate.list,dlvdsgn,Vsites.list,yieldFact
   class <- array(0,dim=c(nrow=nrow(vsitedata),ncol=length(classvar))) 
   for (k in 1:length(classvar)) { 
     for (i in 1:nrow(vsitedata)) {
-      class[i,k] <- as.numeric(eval(parse(text=paste("vsitedata$",classvar[k],"[",i,"]",sep=""))))
+      class[i,k] <- as.numeric(eval(parse(text=paste0("vsitedata$",classvar[k],"[",i,"]"))))
     } 
   } 
   # contiguous class variables by reach
-  classrch <- as.numeric(eval(parse(text=paste("subdata$",classvar[1],sep=""))))  # used to compute RMSE by class
+  classrch <- as.numeric(eval(parse(text=paste0("subdata$",classvar[1]))))  # used to compute RMSE by class
   
   data <- DataMatrix.list$data
   

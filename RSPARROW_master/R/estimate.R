@@ -17,17 +17,46 @@
 #'             \\item validateMetrics.R\} \\cr
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_predict yes/no indicating whether or not prediction is run
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param class.input.list list of control settings related to classification variables
 #'@param dlvdsgn design matrix imported from design_matrix.csv
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param minimum_reaches_separating_sites number indicating the minimum number of reaches 
 #'       separating sites
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
-#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
-#'       parmMin>=0) | parmType!="SOURCE")`
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & 
+#'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
+#'@param Csites.weights.list regression weights as proportional to incremental area size
+#'@param Csites.list list output from `selectCalibrationSites.R` modified in `startModelRun.R`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param numsites number of sites selected for calibration
 #'@param if_validate yes/no indicating whether or not validation is run
-#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`
+#'@param Vsites.list named list of sites for validation
+#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0
+#'                 & subdata$calsites==1), ]`
 #'@param subdata data.frame input data (subdata)
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
+#'@param sitedata.landuse Land use for incremental basins for diagnostics.
+#'@param vsitedata.landuse Land use for incremental basins for diagnostics for validation 
+#'                         sites.
+#'@param sitedata.demtarea.class Total drainage area classification variable for calibration 
+#'                               sites.
+#'@param vsitedata.demtarea.class Total drainage area classification variable for validation 
+#'                                sites.
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
@@ -116,7 +145,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
     
     diagnosticSensitivity(file.output.list,classvar,estimate.list,DataMatrix.list,SelParmValues,
                           reach_decay_specification,reservoir_decay_specification,
-                          subdata,sitedata.demtarea.class)
+                          subdata,sitedata.demtarea.class,mapping.input.list)
     
     #####################################
     ### 4. Output validation metrics  ###
@@ -133,7 +162,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
     #   Files checked include:  sparrowEsts, HessianResults, JacobResults
     #   These files are needed for prediction and bootstrap prediction
     
-    objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+    objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
     if(file.exists(objfile) == TRUE & if_estimate_simulation=="no") {
       load(objfile)
       # Load SPARROW object file from a prior run if available
@@ -147,7 +176,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       # $upper - upper parameter bounds for the least squares estimation
       
       
-      objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults")
       if(file.exists(objfile) == TRUE) {
         load(objfile)
       }
@@ -156,7 +185,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       assign("estimate.list",estimate.list, envir=.GlobalEnv)
       
       # load the Hessian results if object exists
-      objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults")
       if(file.exists(objfile) == TRUE) {
         load(objfile)
         estimate.list <- named.list(sparrowEsts,JacobResults,HesResults)
@@ -173,7 +202,9 @@ estimate <- function(if_estimate,if_predict,file.output.list,
         sparrowEsts$coefficient <- SelParmValues$beta0   # starting values
         
         
-        nn <- ifelse(DataMatrix.list$data[,10] > 0,1,0)  # jdepvar site load index
+        nn <- ifelse(DataMatrix.list$data[,10] > 0 # jdepvar site load index
+                     & DataMatrix.list$data[,13]==1, #calistes ==1
+                     1,0)  
         
         # if monitoring loads exist (but not estimating coefs), run residuals, performance measures, 
         #     and save JacobResults objects 
@@ -203,7 +234,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
           estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list)
           
           # save sparrowEsts file to support prediction
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
           save(sparrowEsts,file=objfile)
           
           
@@ -223,7 +254,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
           ### Sensitivity analyses for parameters ###
           diagnosticSensitivity(file.output.list,classvar,estimate.list,DataMatrix.list,SelParmValues,
                                 reach_decay_specification,reservoir_decay_specification,
-                                subdata,sitedata.demtarea.class)
+                                subdata,sitedata.demtarea.class,mapping.input.list)
           
           
         } else {
@@ -235,10 +266,10 @@ estimate <- function(if_estimate,if_predict,file.output.list,
                                               SelParmValues$decvar,SelParmValues$resvar))
           
           
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults")
           save(JacobResults,file=objfile)
           
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
           save(sparrowEsts,file=objfile)
           
           estimate.list <- named.list(sparrowEsts,JacobResults)
@@ -286,16 +317,16 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       assign(l,get(l),envir=.GlobalEnv)   
       if (l=="Mdiagnostics.list"){
         # store Mdiagnostics.list and ANOVA.list objects as list
-        objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_Mdiagnostics.list",sep="")
+        objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_Mdiagnostics.list")
         save(list=l,file=objfile)
-        objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_ANOVA.list",sep="")
+        objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_ANOVA.list")
         save(ANOVA.list,file=objfile)
         
         if(if_validate == "yes" & if_estimate_simulation=="no") {
           # store vMdiagnostics.list and vANOVA.list objects as list
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vMdiagnostics.list",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vMdiagnostics.list")
           save(vMdiagnostics.list,file=objfile)
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vANOVA.list",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vANOVA.list")
           save(vANOVA.list,file=objfile)
         }
       }

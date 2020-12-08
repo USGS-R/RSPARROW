@@ -2,7 +2,7 @@
   SPARROW NLLS MODEL SUMMARY
                     
   MODEL NAME: Model5
-                                                                                                       
+                                                                                                      
   FILE PATH: ~/UserTutorial/results/Model5/estimate/Model5_summary.txt
   
   
@@ -43,7 +43,7 @@
   
   
   EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
-           10.95707     0.974137 0.9377858 1.297841e-16                  1.123383
+           10.95707    0.9702434 0.9377858 1.297841e-16                  1.123383
   
   
 [1] LOG RESIDUALS, Station quantiles
@@ -213,13 +213,13 @@ MANC_N 0.6932653 1.0000000
                                                              
   SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
             ndep    MANC_N
-ndep   1.0000000 0.6876633
-MANC_N 0.6876633 1.0000000
+ndep   1.0000000 0.7268779
+MANC_N 0.7268779 1.0000000
                                                                                                                     
   SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
             ndep    MANC_N
-ndep   1.0000000 0.7126109
-MANC_N 0.7126109 1.0000000
+ndep   1.0000000 0.6976559
+MANC_N 0.6976559 1.0000000
                                                      
   SUMMARY METRICS FOR EXPLANATORY VARIABLES (Reaches)
       ndep               MANC_N       

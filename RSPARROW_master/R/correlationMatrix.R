@@ -6,6 +6,8 @@
 #'Executes Routines: \\itemize\{\\item named.list.R
 #'             \\item sumIncremAttributes.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
@@ -31,10 +33,10 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   suppressWarnings(suppressMessages(library(dplyr)))   # sample_n function (requires 'rlang' library)
   
   # create global variables from list names
-  rows <- length(assign(names[1],eval(parse(text=paste("subdata$",names[1],sep="")))))
+  rows <- length(assign(names[1],eval(parse(text=paste0("subdata$",names[1])))))
   cmatrix <- matrix(0,nrow=rows,ncol=length(names))
   for(i in 1:length(names)) {
-    dname <- paste("subdata$",names[i],sep="")
+    dname <- paste0("subdata$",names[i])
     xx <- eval(parse(text=dname))
     cmatrix[,i] <- xx
   }
@@ -70,13 +72,13 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   cmatrixM <- matrix(0,nrow=numsites,ncol=length(names))
   if(numsites>10){
     for (i in 1:length(names)){
-      nclass <- paste("subdata$",names[i],sep="")
+      nclass <- paste0("subdata$",names[i])
       xx <- eval(parse(text=nclass)) * demiarea   # area weight variable
-      xname <- paste("siteiarea <- sumIncremAttributes(idseq,xx,",shQuote(names[i]),")",sep="")
+      xname <- paste0("siteiarea <- sumIncremAttributes(idseq,xx,",shQuote(names[i]),")")
       eval((parse(text=xname)))
       df <- merge(df,siteiarea,by="idseq",all.y=FALSE,all.x=TRUE)
       df <- df[with(df,order(df$idseq)), ]   # sort by site ID
-      xname <- paste("cmatrixM[,",i,"] <- df$",names[i]," / df$siteincarea ",sep="")  # compute mean
+      xname <- paste0("cmatrixM[,",i,"] <- df$",names[i]," / df$siteincarea ")  # compute mean
       eval((parse(text=xname)))
     }
     colnames(cmatrixM) <- names
@@ -95,7 +97,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   ################################################
   # Output Results
   
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_explvars_correlations.pdf",sep="")
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_explvars_correlations.pdf")
   pdf(file=filename,font="Helvetica")
   
   
@@ -186,7 +188,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   for(i in 1:length(xnames)) {
     if(xnames[i]<=1) {
       j<-j+1
-      dname <- paste("subdata$",nnames[j],sep="")
+      dname <- paste0("subdata$",nnames[j])
       xx <- eval(parse(text=dname))
       cmatrix[,j] <- xx          
     }
@@ -233,7 +235,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   colnames(space) <- c(" ")
   
   
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_explvars_correlations.txt",sep="")
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_explvars_correlations.txt")
   sink(file=filename,split="FALSE",append=FALSE)
   
   #########################################
@@ -265,7 +267,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   print(outcharfun("SPEARMAN CORRELATIONS FOR ALL OBSERVATIONS"))
   print(cor.allValues)
   
-  xtext <- paste("SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=",nsamples,")",sep="")
+  xtext <- paste0("SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=",nsamples,")")
   print(outcharfun(xtext))
   print(cor.sampleValues)
   

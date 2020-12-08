@@ -24,7 +24,7 @@ calcIncremLandUse <- function(subdata,class_landuse,idseq,minimum_reaches_separa
   if(!is.na( class_landuse[1])){
     classvar2 <- character(length(class_landuse))
     for (i in 1:length(class_landuse)) {
-      classvar2[i] <- paste(class_landuse[i],"_pct",sep="")
+      classvar2[i] <- paste0(class_landuse[i],"_pct")
     }
   }
   
@@ -44,21 +44,21 @@ calcIncremLandUse <- function(subdata,class_landuse,idseq,minimum_reaches_separa
   #df$forest_pct <- df$forest_pct / df$siteincarea * 100
   if(!is.na( class_landuse[1])){
     for (i in 1:length(class_landuse)){
-      nclass <- paste("subdata$",class_landuse[i],sep="")
-      nclasspct <- paste("df$",classvar2[i],sep="")
-      xname <- paste("siteiarea <- sumIncremAttributes(idseq,",nclass,",",shQuote(classvar2[i]),")",sep="")
+      nclass <- paste0("subdata$",class_landuse[i])
+      nclasspct <- paste0("df$",classvar2[i])
+      xname <- paste0("siteiarea <- sumIncremAttributes(idseq,",nclass,",",shQuote(classvar2[i]),")")
       eval((parse(text=xname)))
       
       df <- merge(df,siteiarea,by="idseq",all.y=FALSE,all.x=TRUE)
       
-      xname <- paste("df$",classvar2[i]," <- df$",classvar2[i]," / df$siteincarea * 100",sep="")
+      xname <- paste0("df$",classvar2[i]," <- df$",classvar2[i]," / df$siteincarea * 100")
       eval((parse(text=xname)))
     }}
   
   # substitute 0.0 for NAs for user-selected parameters (assumes variables already present in 'df')
   setNAdf <- function(names){
     for (i in 1:length(names)) {
-      dname <- paste("df$",names[i],"<-ifelse(is.na(df$",names[i],"),0.0,df$",names[i],")",sep="") 
+      dname <- paste0("df$",names[i],"<-ifelse(is.na(df$",names[i],"),0.0,df$",names[i],")") 
       eval(parse(text=dname)) 
     }
   }

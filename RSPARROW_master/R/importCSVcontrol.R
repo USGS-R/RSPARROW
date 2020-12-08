@@ -14,6 +14,8 @@
 #'@param Ctype column class designation for required columns
 #'@param NAMES column names for required columns
 #'@param strEndMessage message string to be evaluated
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param exitRun TRUE/FALSE states whether code should terminate
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
@@ -40,8 +42,8 @@ importCSVcontrol<-function(filein,Ctype,NAMES,strEndMessage,
       Ctype<-c(Ctype,rep("NULL",numberFields))
       numberFieldsOut<-list(Ctype=Ctype,numberFields=numberFields)
     }else if (numberFields<0){#not enough columns invalid file
-      message(paste("ERROR: INVALID ",fileName," FILE '",filein,"' CHECK NUMBER OF COLUMNS\n", 
-                    fileName," FILE SHOULD HAVE THE FOLLOWING COLUMNS:\n ",sep=""))
+      message(paste0("ERROR: INVALID ",fileName," FILE '",filein,"' CHECK NUMBER OF COLUMNS\n", 
+                    fileName," FILE SHOULD HAVE THE FOLLOWING COLUMNS:\n "))
       for (i in NAMES){
         message(i)
       }
@@ -57,7 +59,7 @@ importCSVcontrol<-function(filein,Ctype,NAMES,strEndMessage,
       }#end batch_mode
       
       
-      if (exitRun==TRUE){
+      if (exitRun){
         errorOccurred("importCSVcontrol.R",batch_mode)    
       }else{
         data<-"error"

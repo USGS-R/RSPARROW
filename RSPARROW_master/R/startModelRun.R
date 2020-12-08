@@ -27,6 +27,8 @@
 #'             \\item shinyMap2.R
 #'             \\item startEndmodifySubdata.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
@@ -34,7 +36,7 @@
 #'       (Monte Carlo) is to be executed
 #'@param if_boot_predict yes/no control setting to specify if bootstrap predictions (mean, SE, 
 #'       confidence intervals) are to be executed
-#'@param enable_interactiveMaps yes/no control setting indicating whether shiny app should be 
+#'@param enable_ShinyApp yes/no control setting indicating whether shiny app should be 
 #'       triggered at the end of the run
 #'@param filter_data1_conditions User specified additional DATA1 variables (and conditions) to 
 #'       be used to filter reaches from sparrow_control
@@ -42,13 +44,25 @@
 #'@param if_userModifyData yes/no indicating whether or not the userModifyData.R control file 
 #'       is to be applied
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#'@param class.input.list list of control settings related to classification variables
+#'@param min.sites.list named list of control settings `minimum_headwater_site_area`,
+#'                     `minimum_reaches_separating_sites`, `minimum_site_incremental_area`
 #'@param if_validate yes/no indicating whether or not validation is run
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param pvalidate numeric control setting indicating a percentage of calibration sites to 
 #'       select for validation or if equal to 0 indicates that the user defined valsites variable should be 
 #'       used to select sites for validation. For more details see documentation Section 4.4.6
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param biters User specified number of parametric bootstrap iterations from sparrow_control
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param compare_models character string control setting indicated the run_ids of preivously 
 #'       run model to which the current model is to be compared
 #'@param modelComparison_name character string control setting that gives the name of the 
@@ -59,13 +73,14 @@
 #'       prediction, yield, and residuals csv and shape files
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied
 
 
 
 startModelRun<-function(file.output.list,
                         if_estimate,if_estimate_simulation,
-                        if_boot_estimate,if_boot_predict,enable_interactiveMaps,
+                        if_boot_estimate,if_boot_predict,enable_ShinyApp,
                         #createSubdataSorted
                         filter_data1_conditions,data1,
                         #applyUserModify
@@ -118,7 +133,7 @@ startModelRun<-function(file.output.list,
   # (B) Setup the parameter and system variables
   SelParmValues <- selectParmValues(betavalues,if_estimate,if_estimate_simulation,batch_mode)
   assign("SelParmValues",SelParmValues,envir = .GlobalEnv)
-  #print("SELECTED PARAMETER VALUES")
+
   #SelParmValues 
   
   # deactivates unnecessary computation of parameter correlations, Eigenvalues in cases of one predictor variable
@@ -152,8 +167,8 @@ startModelRun<-function(file.output.list,
     
     if (class(tryIt)=="try-error"){#if an error occured
       cat("\n \n")
-      message(paste("AN ERROR OCCURRED IN PROCESSING _userModifyData.R\n",
-                    geterrmessage(),"RUN EXECUTION TERMINATED.",sep=""))
+      message(paste0("AN ERROR OCCURRED IN PROCESSING _userModifyData.R\n",
+                    geterrmessage(),"RUN EXECUTION TERMINATED."))
       if (batch_mode=="yes"){#if batch output message to log
         cat(" \nAN ERROR OCCURRED IN PROCESSING _userModifyData.R\n",
             geterrmessage(),"RUN EXECUTION TERMINATED.",sep="")
@@ -242,21 +257,21 @@ startModelRun<-function(file.output.list,
     assign("Vsites.list",Vsites.list,envir = .GlobalEnv)
     
   }
-  print(paste("Initial monitoring site count: ",numsites1,sep=""))
+  print(paste0("Initial monitoring site count: ",numsites1))
   
-  print(paste("Monitoring sites after filtering for small headwater sites: ",numsites2,sep=""))
+  print(paste0("Monitoring sites after filtering for small headwater sites: ",numsites2))
   
-  print(paste("Monitoring sites after filtering for minimum number of reaches separating sites: ",numsites3,sep=""))
+  print(paste0("Monitoring sites after filtering for minimum number of reaches separating sites: ",numsites3))
   
-  print(paste("Monitoring sites after filtering for minimum incremental area between sites: ",numsites4,sep=""))
+  print(paste0("Monitoring sites after filtering for minimum incremental area between sites: ",numsites4))
   
-  print(paste("Number of calibration sites identified by the CALSITES variable: ",nMoncalsites,sep=""))
+  print(paste0("Number of calibration sites identified by the CALSITES variable: ",nMoncalsites))
   
-  print(paste("Number of selected calibration sites with non-zero observed loads: ",nMon,sep=""))
+  print(paste0("Number of selected calibration sites with non-zero observed loads: ",nMon))
   
-  print(paste("Number of selected validation sites with non-zero observed loads: ",vic,sep=""))
+  print(paste0("Number of selected validation sites with non-zero observed loads: ",vic))
   
-  save(subdata,file=paste(path_results,.Platform$file.sep,"data",.Platform$file.sep,"subdata",sep=""))
+  save(subdata,file=paste0(path_results,.Platform$file.sep,"data",.Platform$file.sep,"subdata"))
   
   ###############################################################
   # 6. Missing data checks and data setup for estimation 
@@ -274,10 +289,10 @@ startModelRun<-function(file.output.list,
   
   
   # (C) Setup SITEDATA and VSITEDATA for diagnostics
-  sitedata <- subdata[(subdata$depvar > 0), ]  # create site attribute object
+  sitedata <- subdata[(subdata$depvar > 0 & subdata$calsites==1), ]  # create site attribute object
   assign("sitedata",sitedata,envir = .GlobalEnv)
   numsites <- length(sitedata$waterid)
-  save(sitedata,file=paste(path_results,.Platform$file.sep,"data",.Platform$file.sep,"sitedata",sep=""))
+  save(sitedata,file=paste0(path_results,.Platform$file.sep,"data",.Platform$file.sep,"sitedata"))
   assign("numsites",numsites,envir = .GlobalEnv)
   
   
@@ -297,7 +312,7 @@ startModelRun<-function(file.output.list,
     assign("vsitedata",vsitedata,envir = .GlobalEnv)
     vnumsites <- length(vsitedata$waterid)
     vnumsites 
-    save(vsitedata,file=paste(path_results,.Platform$file.sep,"data",.Platform$file.sep,"vsitedata",sep=""))
+    save(vsitedata,file=paste0(path_results,.Platform$file.sep,"data",.Platform$file.sep,"vsitedata"))
   }
   
   # (D) Setup land use for incremental basins for diagnostics 
@@ -360,7 +375,7 @@ startModelRun<-function(file.output.list,
       message("Running correlations among explanatory variables...")
       Cor.ExplanVars.list <- correlationMatrix(file.output.list,SelParmValues,subdata)
       
-      objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_Cor.ExplanVars.list",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_Cor.ExplanVars.list")
       save(Cor.ExplanVars.list,file=objfile)
     }
   }
@@ -448,14 +463,14 @@ startModelRun<-function(file.output.list,
   #popup results
   try({
     if (if_estimate=="yes" | if_estimate_simulation=="yes"){
-      shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep=""))
-      shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt",sep=""))
+      shell.exec(paste0(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.html"))
+      shell.exec(paste0(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt"))
     }
   },silent=TRUE)
   
   
   # obtain uncertainties, if available
-  objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties",sep="")
+  objfile <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties")
   if(file.exists(objfile) == TRUE) {
     load(objfile)
     map_uncertainties <- c("se_pload_total","ci_pload_total")
@@ -465,34 +480,35 @@ startModelRun<-function(file.output.list,
   }
   assign("map_uncertainties",map_uncertainties,envir = .GlobalEnv)
   assign("BootUncertainties",BootUncertainties,envir = .GlobalEnv)
+
+  if (exists("estimate.list")){
+    
   
-  if (enable_interactiveMaps=="yes" & batch_mode=="no"){
     #setup for interactive Mapping
-    shiny::runApp(shinyMap2(
-      #stream/catchment
-      file.output.list,map_uncertainties,BootUncertainties,
-      data_names,mapping.input.list,
-      #predict.list,
-      subdata,SelParmValues,
-      #site attr
-      sitedata,
-      #scenarios
-      estimate.list,
-      ConcFactor,DataMatrix.list,dlvdsgn,
-      reach_decay_specification,reservoir_decay_specification,
-      scenario.input.list,
-      #scenarios out
-      add_vars,
-      #batchError
-      batch_mode,
-      RSPARROW_errorOption))
-    stopApp()
+    shinyArgs<-named.list(file.output.list,map_uncertainties,BootUncertainties,
+                          data_names,mapping.input.list,
+                          #predict.list,
+                          subdata,SelParmValues,
+                          #site attr
+                          sitedata,
+                          #scenarios
+                          estimate.list,estimate.input.list,
+                          ConcFactor,DataMatrix.list,dlvdsgn,
+                          reach_decay_specification,reservoir_decay_specification,scenario.input.list,
+                          if_predict,
+                          #scenarios out
+                          add_vars,
+                          #batchError
+                          batch_mode,RSPARROW_errorOption)
     
     
+    save(shinyArgs, file= paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))    
+  }
+    if (enable_ShinyApp=="yes" & batch_mode=="no"){
+    runBatchShiny(path_results,path_shinyBrowser)
   }#end interactive maps
   
-  # }#if runScript=yes
-  #}#if exists(runScript)
+
   
   
   

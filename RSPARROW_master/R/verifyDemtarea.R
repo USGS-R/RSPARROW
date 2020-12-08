@@ -10,6 +10,14 @@
 #'@param data1 input data (data1)
 #'@param compareData data.frame of reach verification attributes to compare with the users 
 #'       data1 file
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 
@@ -30,7 +38,7 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
     # Select reaches to be included in the analysis (exclude coastal shorelines)
     # NAs removed first or will create NA records in 'sub1'
     for (c in c("termflag","fnode","tnode","demiarea","demtarea")){
-      eval(parse(text = paste("data1$",c,"<-ifelse(is.na(data1$",c,"),0,data1$",c,")",sep="")))
+      eval(parse(text = paste0("data1$",c,"<-ifelse(is.na(data1$",c,"),0,data1$",c,")")))
     }
     
     sub1 <- data1[(data1$fnode > 0 & data1$tnode > 0 & data1$termflag != 3), ]
@@ -46,7 +54,7 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
     demtarea_new <- demtarea
     hydseq_new <- hydseq
     headflag_new <- headflag
-    name1 <- paste("hs_data <- data.frame(waterid,demtarea_new,hydseq_new,headflag_new)",sep="")
+    name1 <- paste0("hs_data <- data.frame(waterid,demtarea_new,hydseq_new,headflag_new)")
     eval(parse(text=name1))
     hs_data <- hs_data[hs_data$waterid != 0, ] # eliminate 0 cases where vector dimension max > no. reaches
     sub1 <- merge(sub1,hs_data,by="waterid",all.y=TRUE,all.x=TRUE)
@@ -61,9 +69,11 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
     DAreaFailCheckObj <- sub1[(sub1$AreaRatio_NewOld < 0.99 | sub1$AreaRatio_NewOld > 1.01), ]
     if(nrow(DAreaFailCheckObj) > 0) {
       DAreaFailCheckMessage <- 
-        paste("Number of reaches with different (>1%) total drainage areas (see records in DAreaFailCheckObj): ",
-              nrow(DAreaFailCheckObj),sep="")
+        paste0("Number of reaches with different (>1%) total drainage areas (see records in DAreaFailCheckObj): ",
+              nrow(DAreaFailCheckObj))
       
+    }else{
+      DAreaFailCheckMessage<-" "
     }
     
     #output results
@@ -81,7 +91,7 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
     if(DAreaFailCheckMessage!=" ") {    # Map mis-matched reaches and diagnostics
       if(nrow(DAreaFailCheckObj) > 0) {
         
-        message("Writing results from drainage area comparisons (CSV, PDF maps) in estimate directory...")
+        message("Writing results from drainage area comparisons (CSV, HTML maps) in estimate directory...")
         
         checkDrainageareaErrors(file.output.list,mapping.input.list,
                                 #sub1.plot,

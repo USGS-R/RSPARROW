@@ -9,8 +9,8 @@
 
 openParameters<-function(path_user,results_directoryName){
   #test filePath
-  if (!file.exists(paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv",sep=""))){
+  if (!file.exists(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv"))){
     message(cat("NO PARAMETERS FILE FOUND IN RESULTS DIRECTORY.\n",paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,sep="")))
   }else{
-    shell.exec(paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv",sep=""))}
+    shell.exec(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv"))}
 }

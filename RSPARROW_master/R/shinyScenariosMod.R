@@ -13,11 +13,11 @@
 
 
 shinyScenariosMod<-function(input, output, session, scenarioRtables,
-                            path_results){
+                            path_results,scenario.input.list, mapping.input.list){
   
   #button for flaging targets
   observeEvent(input$openTarget, {
-    filein <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv",sep="")
+    filein <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv")
     shell(filein, wait = TRUE, invisible=FALSE)
     
   })
@@ -42,9 +42,12 @@ shinyScenariosMod<-function(input, output, session, scenarioRtables,
       callModule(handsOnMod, "nsSourceRedALL", DF = as.data.frame(scenarioRtables$sourceRed))
     }
     
-    testRow<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$rowNums
+    testRow<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios",
+                          scenario.input.list, mapping.input.list)$rowNums
     callModule(validCosmetic,"nsCosmetic", DF = as.data.frame(scenarioRtables$cosmeticScen),rowNum = testRow)
     
+    
+
     
     
   }) 

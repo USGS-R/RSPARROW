@@ -1,0 +1,52 @@
+```{r chunkLand{{l}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+k <- {{l}}
+
+vvar <- as.numeric(eval(parse(text=paste0("sitedata.landuse$",classvar2[k]) )))
+iprob<-10
+chk <- unique(quantile(vvar, probs=0:iprob/iprob))
+chk1 <- 11 - length(chk)
+if(chk1 == 0) {
+  qvars <- as.integer(cut(vvar, quantile(vvar, probs=0:iprob/iprob), include.lowest=TRUE)) 
+  avars <- quantile(vvar, probs=0:iprob/iprob)
+  qvars2 <- numeric(length(qvars))
+  for (j in 1:10) {
+    for (i in 1:length(qvars)){
+      if(qvars[i] == j) {
+        qvars2[i] <- round(avars[j+1],digits=0)
+      }
+    }
+  }
+  xxlab <- paste0("Upper Bound for ",classvar2[k])  
+  
+plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+                    xTitle = xxlab,  
+                    xZeroLine = FALSE,xLabs = sort(as.numeric(unique(qvars2))),
+                    yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
+                    plotTitle = "Ratio Observed to Predicted by Deciles",
+                    legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(y = boxvar,x = qvars2, type = 'box', color = I("black"), 
+                       fillcolor = "white") %>%
+layout(shapes = list(hline(1)))
+  
+  
+} else {  # non-unique classes
+  
+plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+                    xTitle = classvar2[k],  
+                    xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
+                    yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
+                    plotTitle = "Ratio Observed to Predicted",
+                    legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
+                       fillcolor = "white") %>%
+layout(shapes = list(hline(1)))
+  
+}
+
+
+
+```
+
+```{r landPgBr{{l}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

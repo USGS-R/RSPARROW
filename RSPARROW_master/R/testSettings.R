@@ -42,7 +42,7 @@ testSettings<-function(settings,saved){
       if (setting=="yes" |setting=="no"){
         assign(s,setting,envir = .GlobalEnv)
       }else{
-        message(paste(" \nINVALID SETTING : ",s," should have a value of 'yes' or 'no'\n ",sep=""))
+        message(paste0(" \nINVALID SETTING : ",s," should have a value of 'yes' or 'no'\n "))
         badSet<-data.frame(Setting = s)
         badSet$CurrentValue<-capture.output(dput(setting))
         badSet$Type<-"yes/no"
@@ -57,7 +57,7 @@ testSettings<-function(settings,saved){
         setting<-get(s)
         if (class(setting)=="character" | is.na(setting)){
         }else{
-          message(paste(" \nINVALID SETTING : ",s," should be a character class\n ",sep=""))
+          message(paste0(" \nINVALID SETTING : ",s," should be a character class\n "))
           badSet<-data.frame(Setting = s)
           badSet$CurrentValue<-capture.output(dput(setting))
           badSet$Type<-"character"
@@ -74,7 +74,7 @@ testSettings<-function(settings,saved){
       badvalue<-value[which(!value %in% eval(parse(text=setting)) & !is.na(value))]
       if (length(badvalue)==0){
       }else{
-        message(paste(" \nINVALID SETTING : ",s," should be selected from ",setting,"\n ",sep=""))
+        message(paste0(" \nINVALID SETTING : ",s," should be selected from ",setting,"\n "))
         badSet<-data.frame(Setting = trimws(strsplit(s,"=")[[1]][1]))
         badSet$CurrentValue<-capture.output(dput(value))
         badSet$Type<-"option"
@@ -88,7 +88,7 @@ testSettings<-function(settings,saved){
       setting<-get(s)
       if (length(setting)==1){
       }else{
-        message(paste(" \nINVALID SETTING : ",s," should have only 1 element\n ",sep=""))
+        message(paste0(" \nINVALID SETTING : ",s," should have only 1 element\n "))
         badSet<-data.frame(Setting = s)
         badSet$CurrentValue<-capture.output(dput(setting))
         badSet$Type<-"single element"
@@ -102,7 +102,7 @@ testSettings<-function(settings,saved){
       setting<-get(s)
       if (class(setting)=="numeric" | is.na(setting)){
       }else{
-        message(paste(" \nINVALID SETTING : ",s," should be a numeric class\n ",sep=""))
+        message(paste0(" \nINVALID SETTING : ",s," should be a numeric class\n "))
         badSet<-data.frame(Setting = s)
         badSet$CurrentValue<-capture.output(dput(setting))
         badSet$Type<-"numeric"
@@ -118,9 +118,9 @@ testSettings<-function(settings,saved){
       fail<-specialSettings$fail[s]
       value<-
         goodvalue<-eval(parse(text=test))
-      if (goodvalue==TRUE){
+      if (goodvalue){
       }else{
-        message(paste(" \nINVALID SETTING : ",setting," should be meet the required test \n",fail,"\n ",sep=""))
+        message(paste0(" \nINVALID SETTING : ",setting," should be meet the required test \n",fail,"\n "))
         badSet<-data.frame(Setting = setting)
         CurrentValue<-capture.output(dput(get(setting)))
         if (length(CurrentValue)!=1){

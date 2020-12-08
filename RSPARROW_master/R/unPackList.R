@@ -87,8 +87,8 @@ unPackList<-function(lists,parentObj, env = parent.frame()){
       #variables from data frame
       parent<-parentObj[[l]]
       for (i in 1:length(sublist)) {
-        dname <- paste("parent$",sublist[i],sep="") 
-        x1name <- paste(sublist[i],sep="")
+        dname <- paste0("parent$",sublist[i]) 
+        x1name <- paste0(sublist[i])
         if((x1name %in% names(parent)) == TRUE) {
           assign(sublist[i],eval(parse(text=dname)),env = parent.frame())
         }

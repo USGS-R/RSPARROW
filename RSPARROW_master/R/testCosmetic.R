@@ -18,7 +18,7 @@
 
 
 
-testCosmetic<-function(input, output, session, DF, mapType){
+testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list, mapping.input.list){
   #import namespace
   
   if (mapType!=""){
@@ -48,6 +48,9 @@ testCosmetic<-function(input, output, session, DF, mapType){
     
     
     #unpack settings
+    unPackList(lists = list(scenario.input.list = scenario.input.list,
+                            mapping.input.list = mapping.input.list),
+               parentObj = list(NA, NA))
     unPackList(lists = list(compiledInput = compiledInput),
                parentObj = list(NA))
     
@@ -72,7 +75,7 @@ testCosmetic<-function(input, output, session, DF, mapType){
     numericSettings<-getNumSett()[which(getNumSett() %in% DF$setting)]
     for (s in numericSettings){
       setting<-eval(parse(text = s))
-      fail<-paste(" \nINVALID SETTING : ",s," should be a numeric class\n ",sep="")
+      fail<-paste0(" \nINVALID SETTING : ",s," should be a numeric class\n ")
       # fail<-paste0(s," should be a numeric")
       if (class(setting)=="numeric" | is.na(setting)){
       }else{
@@ -100,10 +103,10 @@ testCosmetic<-function(input, output, session, DF, mapType){
         
         
         
-        fail<-(paste(" \nINVALID SETTING : ",setting," should be meet the required test \n",specialSettings$fail[s],"\n ",sep=""))
+        fail<-(paste0(" \nINVALID SETTING : ",setting," should be meet the required test \n",specialSettings$fail[s],"\n "))
         goodvalue<-eval(parse(text=test))
         goodvalue<-ifelse(is.na(goodvalue),FALSE,goodvalue)
-        if (goodvalue==TRUE){
+        if (goodvalue){
         }else{
           badSet<-data.frame(Setting = setting)
           CurrentValue<-capture.output(dput(eval(parse(text = setting))))

@@ -1,0 +1,1380 @@
+---
+title: "`r paste0(params$file.output.list$run_id,'_diagnostic_plots')`"
+author: ""
+date: "`r paste0('Generated: ',format(Sys.time(), '%m-%d-%Y'))`"
+output: html_document
+params:
+  validation: validation
+  file.output.list: file.output.list
+  path_diagnosticMapAttrChild: path_diagnosticMapAttrChild
+  path_diagnosticCorrChild: path_diagnosticCorrChild
+  path_diagnosticClassvarChild: path_diagnosticClassvarChild
+  path_diagnosticClassLandChild: path_diagnosticClassLandChild
+  path_diagnosticContiguousChild: path_diagnosticContiguousChild
+  path_diagnosticDiagMapChild: path_diagnosticDiagMapChild
+  class.input.list: class.input.list
+  sitedata.demtarea.class: sitedata.demtarea.class
+  sitedata: sitedata
+  sitedata.landuse: sitedata.landuse
+  estimate.list: estimate.list
+  mapping.input.list: mapping.input.list
+  Csites.weights.list: Csites.weights.list
+  Cor.ExplanVars.list: Cor.ExplanVars.list
+  data_names: data_names
+  add_vars: add_vars
+  batch_mode: batch_mode
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+#unpack params
+validation<-params$validation
+file.output.list<-params$file.output.list
+path_diagnosticMapAttrChild<-params$path_diagnosticMapAttrChild
+path_diagnosticCorrChild<-params$path_diagnosticCorrChild
+path_diagnosticClassvarChild<-params$path_diagnosticClassvarChild
+path_diagnosticClassLandChild<-params$path_diagnosticClassLandChild
+path_diagnosticContiguousChild<-params$path_diagnosticContiguousChild
+path_diagnosticDiagMapChild<-params$path_diagnosticDiagMapChild
+class.input.list<-params$class.input.list
+sitedata.demtarea.class<-params$sitedata.demtarea.class
+sitedata<-params$sitedata
+sitedata.landuse<-params$sitedata.landuse
+estimate.list<-params$estimate.list
+mapping.input.list<-params$mapping.input.list
+Csites.weights.list<-params$Csites.weights.list
+Cor.ExplanVars.list<-params$Cor.ExplanVars.list
+data_names<-params$data_names
+add_vars<-params$add_vars
+batch_mode<-params$batch_mode
+
+if (!validation){
+  # create global variable from list names (Mdiagnostics.list)
+  unPackList(lists = list(mapping.input.list = mapping.input.list,
+                          Mdiagnostics.list = estimate.list$Mdiagnostics.list,
+                          file.output.list = file.output.list,
+                          class.input.list = class.input.list),
+             parentObj = list(NA,
+                              NA,
+                              NA,
+                              NA))
+}else{
+  unPackList(lists = list(mapping.input.list = mapping.input.list,
+                          vMdiagnostics.list = estimate.list$vMdiagnostics.list,
+                          file.output.list = file.output.list,
+                          class.input.list = class.input.list),
+             parentObj = list(NA,
+                              NA,
+                              NA,
+                              NA))
+}
+
+hline <- function(y = 0, color = "red") {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = color)
+  )
+}
+pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==diagnosticPlotPointStyle,]$plotly)
+markerSize<-diagnosticPlotPointSize*10
+markerCols<-colorNumeric(c("black","white"), 1:2)
+markerList = paste0("list(symbol = pnch,
+                       size = ",markerSize,",")
+if (regexpr("open",pnch)>0){
+  markerList<-paste0(markerList,"color = markerCols(1))")
+}else{
+  markerList<-paste0(markerList,"line = list(color = markerCols(1), width = 0.8),color = markerCols(1))")
+}
+
+# contiguous class variables by sites
+class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
+for (k in 1:length(classvar)) { 
+  for (i in 1:nrow(sitedata)) {
+    class[i,k] <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k],"[",i,"]"))))
+  } 
+} 
+
+# Create 'classvar2' for plotting landuse non-contiguous class
+#   following code executes:  classvar2 <- c("forest_pct","agric_pct","urban_pct","shrubgrass_pct")
+if(!is.na( class_landuse[1])){
+  classvar2 <- character(length(class_landuse))
+  for (i in 1:length(class_landuse)) {
+    classvar2[i] <- paste0(class_landuse[i],"_pct")
+  }
+}
+
+
+
+#start pdf output
+
+################################    
+#map site attributes
+################################
+existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
+if (!validation){  
+  if(!is.na(map_siteAttributes.list) & existGeoLines){
+    strExplanation1<-TRUE
+    strExplanation<-"#### Output is presented for the following sections:
+1. Calibration Site Maps for User-Selected Attributes
+2. Model Estimation Performance Diagnostics
+3. Model Simulation Performance Diagnostics
+4. Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites"
+  }else if (existGeoLines){
+    strExplanation<-"### Output is presented for the following sections:
+1. Model Estimation Performance Diagnostics
+2. Model Simulation Performance Diagnostics
+3. Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites"
+  }else{
+    strExplanation<-"### Output is presented for the following sections:
+1. Model Estimation Performance Diagnostics
+2. Model Simulation Performance Diagnostics"
+  }
+}else{#validation text
+  if (existGeoLines){
+    strExplanation<-"### Output is presented for the following sections:
+1. Model Simulation Performance Diagnostics
+2. Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites"
+  }else{
+    strExplanation<-"### Model Simulation Performance Diagnostics"
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+
+cat("### Document Contents ",strExplanation,sep="\n")
+
+```
+
+```{r pagebreak1, results='asis', echo=FALSE}
+if (!validation){ 
+  cat("<P style='page-break-before: always'>") 
+}
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){   
+  if(existGeoLines) { 
+    
+    #map site attributes
+    if (!is.na(map_siteAttributes.list)){
+      
+      cat("## Calibration Site Maps for User-Selected Attributes\n")
+    }
+  }
+}
+```
+
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}  
+
+#    #map site attributes
+
+if (!validation){ 
+  if(existGeoLines) { 
+    map_siteAttributes.list<-map_siteAttributes.list[which(map_siteAttributes.list %in% names(sitedata))]  
+    #map site attributes
+    if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
+      
+      rmd <- sapply(
+        1:(length(map_siteAttributes.list)),
+        function(s) {
+          knit_expand(path_diagnosticMapAttrChild, s = s)
+        }
+      )
+      rmd <- paste(rmd, collapse = "\n")
+    }
+    
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){  
+  if(existGeoLines) { 
+    if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
+      rendered <- knit(text = rmd, quiet = TRUE)
+      cat("\n \n")
+      cat(rendered, sep = "\n")
+    }}
+}
+```
+
+
+```{r echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  strExplanation<-"# Model Estimation Performance Diagnostics
+Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These predictions provide the most accurate reach predictions for use in calibrating the model. The associated residuals and observed to predicted ratios shown in the following section provide the most relevant measures of the accuracy of the model fit to observed loads.
+
+### The diagnostic plots include:
+1. Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. predicted loads and yields
+
+2. Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads
+
+3. Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads
+
+4. Plots of the observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)
+
+5. Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites
+
+6. Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4)
+
+7. Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting, with the land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
+
+8. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields "
+  cat(strExplanation)
+}
+```
+
+```{r pagebreak2, results='asis', echo=FALSE}
+if (!validation){ 
+  cat("<P style='page-break-before: always'>") 
+}
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Observed vs. predicted for loads and yields and log residuals vs. predicted loads and yields\n")
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+if (!validation){ 
+  ##################################################
+  # PERFORMANCE METRICS FOR MONITORING ADJUSTMENT
+  ##################################################
+  
+  # observed vs predicted 
+  par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
+  
+  # observed vs. predicted mass 
+  markerText<-"~paste('</br> Observed Load: ',Obs,
+                   '</br> Predicted Load: ',predict"
+  
+  data<-data.frame(predict = predict, Obs = Obs)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  p1 <- plotlyLayout(predict,Obs, log = "xy", nTicks = 5, digits = 0,
+                     xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
+                     yTitle = paste0("OBSERVED LOAD (",loadUnits,")"),  yZeroLine = TRUE,
+                     plotTitle = "MODEL ESTIMATION PERFORMANCE \n(Monitoring-Adjusted Predictions) \nObserved vs    Predicted Load",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  
+  
+  p1 <- p1 %>% add_trace(data = data, x = ~predict, y = ~Obs, 
+                         type = "scatter", 
+                         mode = "markers",
+                         # marker = list(symbol = pnch,
+                         #   color = "white",
+                         #   size = 4,
+                         #   line = list(color = "black", width = 0.8)),
+                         marker = eval(parse(text = markerList)),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+  p1 <- p1 %>% add_trace(data = data, x = ~Obs, y = ~Obs, 
+                         type = "scatter", 
+                         mode = "lines",
+                         color = I("red"),
+                         hoverinfo = 'text',
+                         text = "Observed Load vs. Observed Load")
+  
+  
+  
+  
+  # observed vs. predicted yield
+  markerText<-"~paste('</br> Observed Yield: ',yldobs,
+                   '</br> Predicted Yield: ',yldpredict"
+  data<-data.frame(yldpredict = yldpredict, yldobs = yldobs)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  p2 <- plotlyLayout(yldpredict,yldobs, log = "xy", nTicks = 6, digits = 0,
+                     xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"),  xZeroLine = TRUE,
+                     yTitle = paste0("OBSERVED YIELD (",yieldUnits,")"), yZeroLine = TRUE,
+                     plotTitle = "MODEL ESTIMATION PERFORMANCE \nObserved vs Predicted Yield",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  p2 <- p2 %>% add_trace(data = data, x = ~yldpredict, y = ~yldobs, 
+                         type = "scatter", 
+                         mode = "markers",
+                         marker = eval(parse(text = markerList)),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+  p2 <- p2 %>% add_trace(data = data, x = ~yldobs, y = ~yldobs, 
+                         type = "scatter", 
+                         mode = "lines",
+                         color = I("red"),
+                         hoverinfo = 'text',
+                         text = "Observed Yield vs. Observed Yield")#
+  
+  
+  #  
+  #  # mass residual plot
+  markerText<-"~paste('</br> Log Residual: ',Resids,
+                   '</br> Predicted Load: ',predict"
+  data<-data.frame(predict = predict, Resids = Resids)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  p3 <- plotlyLayout(predict,Resids, log = "x", nTicks = 6, digits = 0,
+                     xTitle = paste0("PREDICTED LOAD (",loadUnits,")"),  xZeroLine = TRUE,
+                     yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
+                     plotTitle = "Residuals vs Predicted \nLoad",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  p3 <- p3 %>% add_trace(data = data, x = ~predict, y = ~Resids, 
+                         type = "scatter", 
+                         mode = "markers",
+                         marker = eval(parse(text = markerList)),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+  
+  
+  p3 <- p3 %>% layout(shapes = list(hline(0)))
+  
+  # yield residual plot
+  markerText<-"~paste('</br> Log Residual: ',Resids,
+                   '</br> Predicted Yield: ',yldpredict"
+  data<-data.frame(yldpredict = yldpredict, Resids = Resids)#
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  p4 <- plotlyLayout(yldpredict,Resids, log = "x", nTicks = 6, digits = 0,
+                     xTitle = paste0("PREDICTED YIELD (",loadUnits,")"),  xZeroLine = TRUE,
+                     yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
+                     plotTitle = "Residuals vs Predicted \nYield",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  p4 <- p4 %>% add_trace(data = data, x = ~yldpredict, y = ~Resids, 
+                         type = "scatter", 
+                         mode = "markers",
+                         marker = eval(parse(text = markerList)),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+  p4 <- p4 %>% layout(shapes = list(hline(0)))
+  
+  p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
+             titleX = TRUE, titleY=TRUE, margin = 0.08)
+  p
+}
+```
+
+```{r pagebreak4, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n")
+}
+```  
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.height=8, fig.width=8}  
+if (!validation){ 
+  ##########################
+  
+  # Residual plots
+  p1 <- plotlyLayout(NA,Resids, log = "", nTicks = 4, digits = 0,
+                     xTitle = "",  xZeroLine = FALSE,
+                     yTitle = "LOG RESIDUAL",  yZeroLine = FALSE,
+                     plotTitle = "MODEL ESTIMATION PERFORMANCE \nResiduals",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  p1 <- p1 %>% add_trace(y = Resids,type = 'box', name = "Resids", color = I("black"), 
+                         fillcolor = "white")
+  
+  
+  # Obs-Pred ratio boxplot
+  
+  p2 <- plotlyLayout(NA,ratio.obs.pred, log = "", nTicks = 4, digits = 0,
+                     xTitle = "", xZeroLine = FALSE,
+                     yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
+                     plotTitle = "MODEL ESTIMATION PERFORMANCE \nObserved / Predicted Ratio",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  p2 <- p2 %>% add_trace(y = ratio.obs.pred,type = 'box', name = "Ratio", color = I("black"), fillcolor = "white")
+  
+  
+  
+  # Normality probability plot
+  
+  markerText<-"~paste('</br> Standard Residual: ',standardResids,
+                      '</br> Theoretical Value: ',y.theo"
+  data<-data.frame(standardResids = standardResids)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  data<-data[order(data$standardResids),]
+  
+  #get f values for data
+  i<-1:nrow(data)
+  fi<-(i-0.5)/nrow(data)
+  x.norm<-qnorm(fi)
+  #find 1st and 3rd quantiles
+  y <- quantile(data$standardResids, c(0.25, 0.75), type = 5)
+  x <- qnorm( c(0.25, 0.75))
+  
+  #get qqline
+  slope <- diff(y) / diff(x)
+  int   <- y[1] - slope * x[1]
+  y.theo <- sapply(x.norm, function(k) as.numeric(slope)*k+as.numeric(int))
+  
+  data$x.norm<-x.norm
+  data$y.theo<-y.theo
+  
+  #plot data points on qq plot
+  p3 <- plotlyLayout(data$x.norm,data$standardResids, log = "", nTicks = 7, digits = 0,
+                     xTitle = "Theoretical Quantiles", xZeroLine = FALSE,
+                     yTitle = "Standardized Residuals", yZeroLine = FALSE,
+                     plotTitle = "Normal Q-Q Plot",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  
+  p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~standardResids, 
+                         type = "scatter", 
+                         mode = "markers",
+                         marker = eval(parse(text = markerList)),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+  p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~y.theo, 
+                         type = "scatter", 
+                         mode = "lines",
+                         color = I("red"),
+                         hoverinfo = 'text',
+                         text = "Theoretical Normal Distribution")
+  
+  
+  # Squared residuals vs predicted
+  Resids2 <- Resids**2
+  
+  lwresids <- lowess(predict,Resids2, f = 0.5, iter = 3)
+  
+  lwy <- lwresids$y[1:(length(lwresids$y)-1)]
+  lwx <- lwresids$x[1:(length(lwresids$x)-1)]
+  
+  # lines(lwx,lwy,col=2)
+  markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
+                   '</br> Predicted Load: ',predict"
+  data<-data.frame(Resids2 = Resids2,predict = predict)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  p4 <- plotlyLayout(predict,Resids2, log = "xy", nTicks = 5, digits = 0,
+                     xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
+                     yTitle = "SQUARED LOG RESIDUALS", yZeroLine = FALSE,
+                     plotTitle = "Squared Residuals vs Predicted Load",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+  p4 <- p4 %>% add_trace(data = data, x = ~predict, y = ~Resids2, 
+                         type = "scatter", 
+                         mode = "markers",
+                         marker = eval(parse(text = markerList)),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+  p4 <- p4 %>% add_trace(x = lwx, y = lwy, 
+                         type = "scatter", 
+                         mode = "lines",
+                         color = I("red"),
+                         hoverinfo = 'text',
+                         text = "Lowess smooth line")
+  p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
+             titleX = TRUE, titleY=TRUE, margin = 0.08)
+  p
+}
+```
+
+```{r pagebreak5, results='asis', echo=FALSE}
+if (!validation){ 
+  cat("<P style='page-break-before: always'>") 
+}
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n")
+}
+```    
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+if (!validation){ 
+  
+  markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
+                   '</br> Predicted Load: ',predict"
+  data<-data.frame(ppredict = ppredict,predict = predict)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+  data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  
+  p <- plotlyLayout(ppredict,predict, log = "xy", nTicks = 5, digits = 0,
+                    xTitle = paste0("Simulated Load (",loadUnits,")"), xZeroLine = FALSE,
+                    yTitle = paste0("Monitoring-Adjusted Load (",loadUnits,")"), yZeroLine = FALSE,
+                    plotTitle = "Monitoring-Adjusted vs. Simulated Loads",
+                    legend = FALSE,showPlotGrid = showPlotGrid)
+  p <- p %>% add_trace(data = data, x = ~ppredict, y = ~predict, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+  p <- p %>% add_trace(x = ppredict, y = ppredict, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Simulated Load")
+  p
+}
+```
+
+```{r pagebreak6, results='asis', echo=FALSE}
+if (!validation){ 
+  cat("<P style='page-break-before: always'>") 
+}
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites \n
+Output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file.
+")
+}
+
+```  
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
+if (!validation){  
+  # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
+  #   for the incremental areas between calibration sites
+  
+  if(!is.na(Cor.ExplanVars.list)){ 
+    corrData<-ratio.obs.pred
+    rmd <- sapply(
+      1:(length(Cor.ExplanVars.list$names)),
+      function(i) {
+        
+        knit_expand(path_diagnosticCorrChild, i = i)
+      }
+    )
+    rmd <- paste(rmd, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){ 
+  if(!is.na(Cor.ExplanVars.list)){ 
+    rendered <- knit(text = rmd, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered, sep = "\n")
+  }
+}
+```
+
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites\n
+")
+}
+```  
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}    
+if (!validation){ 
+  ####################################################
+  # Diagnostics for Ratio by class (one plot per page)
+  
+  # sitedata.demtarea.class regions
+  
+  vvar <- sitedata.demtarea.class
+  
+  p <- plotlyLayout(NA,ratio.obs.pred, log = "y", nTicks = 7, digits = 0,
+                    xTitle = "Upper Bound for Total Drainage Area Deciles (km2)",  
+                    xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
+                    yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
+                    plotTitle = "Ratio Observed to Predicted by Deciles",
+                    legend = FALSE,showPlotGrid = showPlotGrid)
+  p <- p %>% add_trace(y = ratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
+                       fillcolor = "white")
+  p <- p %>% layout(shapes = list(hline(1)))
+  p
+}
+``` 
+
+```{r pagebreak7, results='asis', echo=FALSE}
+if (!validation){ 
+  cat("<P style='page-break-before: always'>") 
+}
+```
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4) \n
+")
+}
+```  
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+if (!validation){ 
+  # "classvar" regions
+  
+  if (classvar!="sitedata.demtarea.class"){
+    boxvar<-ratio.obs.pred
+    rmd <- sapply(
+      1:(length(classvar)),
+      function(k) {
+        knit_expand(path_diagnosticClassvarChild, k = k)
+      }
+    )
+    rmd <- paste(rmd, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){ 
+  if (classvar!="sitedata.demtarea.class"){
+    rendered <- knit(text = rmd, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered, sep = "\n")
+  }
+}
+```
+
+
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting\n
+The land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
+")
+}
+```  
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+if (!validation){ 
+  # 'classvar2" decile boxplots
+  
+  if(!is.na( class_landuse[1])){
+    boxvar<-ratio.obs.pred
+    rmd2 <- sapply(
+      1:(length(classvar2)),
+      function(l) {
+        knit_expand(path_diagnosticClassLandChild, l = l)
+      }
+    )
+    rmd2 <- paste(rmd2, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){ 
+  if(!is.na( class_landuse[1])){
+    rendered2 <- knit(text = rmd2, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered2, sep = "\n")
+  }
+}
+```
+
+
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+if (!validation){ 
+  cat("## Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting\n
+The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields 
+")
+}
+```  
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+##################################################
+
+
+
+# Obtain CLASS region numbers
+grp <- table(class[,1])   # get labels
+xx <- as.data.frame(grp)  # convert table to dataframe...
+grp <- as.numeric(levels(xx$Var1)[xx$Var1])  # convert factor levels to numeric values
+
+if (!validation){ 
+  
+  plotclass<-class[,1]
+  plotObs<-Obs
+  plotpredict<-predict
+  plotyldobs<-yldobs
+  plotyldpredict<-yldpredict
+  plotResids<-Resids
+  
+  
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+if (!validation){ 
+  rmd3 <- sapply(
+    1:(length(grp)),
+    function(i) {
+      knit_expand(path_diagnosticContiguousChild, i = i)
+    }
+  )
+  rmd3 <- paste(rmd3, collapse = "\n")
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){ 
+  rendered3 <- knit(text = rmd3, quiet = TRUE)
+  cat("\n \n")
+  cat(rendered3, sep = "\n")
+}
+```
+
+```{r pagebreak7b, results='asis', echo=FALSE}
+
+cat("<P style='page-break-before: always'>") 
+
+```
+
+```{r echo=FALSE, results='asis', eval=TRUE}
+strExplanation<-paste0("# Model Simulation Performance Diagnostics
+Diagnostics are based on the use of unconditioned predictions (i.e., predictions that are not adjusted for monitoring loads). These predictions (and the associated residuals and observed to predicted ratios shown in the following section) provide the best measure of the predictive skill of the estimated model in simulation mode. The simulated predictions are computed using mean coefficients from the NLLS model estimated with monitoring-adjusted (conditioned) predictions. \n
+### The diagnostic plots include:
+1. Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. predicted loads and yields
+
+2. Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads
+
+3. Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads\n
+
+")
+if (!validation){ 
+  strExplanation<-paste0(strExplanation,
+                         "4. Plots of the observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)\n
+
+5. Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites
+
+6. Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4)
+
+7. Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting, with the land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
+
+8. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, 
+log residuals vs. predicted loads, and log residuals vs. predicted yields ")
+}else{
+  strExplanation<-paste0(strExplanation,
+                         "4. Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites
+
+5. Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4)
+
+6. Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting, with the land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
+
+7. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, 
+log residuals vs. predicted loads, and log residuals vs. predicted yields ")                     
+}
+cat(strExplanation)
+```
+
+```{r pagebreak8a, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+##################################################
+# PERFORMANCE METRICS FOR NO MONITORING ADJUSTMENT
+##################################################  
+# Full spatial domain
+
+# observed vs predicted 
+
+# observed vs. predicted mass
+
+# observed vs. predicted yield
+
+# mass residual plot
+
+# yield residual plot
+
+####################
+# observed vs predicted 
+markerText<-"~paste('</br> Observed Load: ',Obs,
+                   '</br> Predicted Load: ',ppredict"
+data<-data.frame(ppredict = ppredict, Obs = Obs)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+
+p1 <- plotlyLayout(ppredict,Obs, log = "xy", nTicks = 5, digits = 0,
+                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
+                   yTitle = paste0("OBSERVED LOAD (",loadUnits,")"),  yZeroLine = TRUE,
+                   plotTitle = "MODEL SIMULATION PERFORMANCE \nObserved vs Predicted Load",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+
+
+p1 <- p1 %>% add_trace(data = data, x = ~ppredict, y = ~Obs, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p1 <- p1 %>% add_trace(data = data, x = ~Obs, y = ~Obs, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Observed Load vs. Observed Load")
+
+
+
+
+# observed vs. predicted yield
+markerText<-"~paste('</br> Observed Yield: ',pyldobs,
+                   '</br> Predicted Yield: ',pyldpredict"
+data<-data.frame(pyldpredict = pyldpredict, pyldobs = pyldobs)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+p2 <- plotlyLayout(pyldpredict,pyldobs, log = "xy", nTicks = 6, digits = 0,
+                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"),  xZeroLine = TRUE,
+                   yTitle = paste0("OBSERVED YIELD (",yieldUnits,")"), yZeroLine = TRUE,
+                   plotTitle = "MODEL SIMULATION PERFORMANCE \nObserved vs Predicted Yield",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+p2 <- p2 %>% add_trace(data = data, x = ~pyldpredict, y = ~pyldobs, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p2 <- p2 %>% add_trace(data = data, x = ~pyldobs, y = ~pyldobs, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Observed Yield vs. Observed Yield")#
+
+
+
+#  # mass residual plot
+markerText<-"~paste('</br> Log Residual: ',pResids,
+                   '</br> Predicted Load: ',ppredict"
+data<-data.frame(ppredict = ppredict, pResids = pResids)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+p3 <- plotlyLayout(ppredict,pResids, log = "x", nTicks = 6, digits = 0,
+                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"),  xZeroLine = TRUE,
+                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
+                   plotTitle = "Residuals vs Predicted \nLoad",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+p3 <- p3 %>% add_trace(data = data, x = ~ppredict, y = ~pResids, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+
+
+p3 <- p3 %>% layout(shapes = list(hline(0)))
+
+# yield residual plot
+markerText<-"~paste('</br> Log Residual: ',pResids,
+                   '</br> Predicted Yield: ',pyldpredict"
+data<-data.frame(pyldpredict = pyldpredict, pResids = pResids)#
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+p4 <- plotlyLayout(pyldpredict,pResids, log = "x", nTicks = 6, digits = 0,
+                   xTitle = paste0("PREDICTED YIELD (",loadUnits,")"),  xZeroLine = TRUE,
+                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
+                   plotTitle = "Residuals vs Predicted \nYield",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+p4 <- p4 %>% add_trace(data = data, x = ~pyldpredict, y = ~pResids, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p4 <- p4 %>% layout(shapes = list(hline(0)))
+
+p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
+           titleX = TRUE, titleY=TRUE, margin = 0.08)
+p
+
+
+```
+
+```{r pagebreak8, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+
+##################################  
+
+# Residual plots
+
+# Obs-Pred ratio boxplot
+
+# Normality probability plot
+
+# Squared residuals vs predicted
+
+p1 <- plotlyLayout(NA,pResids, log = "", nTicks = 4, digits = 0,
+                   xTitle = "",  xZeroLine = FALSE,
+                   yTitle = "LOG RESIDUAL",  yZeroLine = FALSE,
+                   plotTitle = "MODEL SIMULATION PERFORMANCE \nResiduals",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+p1 <- p1 %>% add_trace(y = pResids,type = 'box', name = "Resids", color = I("black"), 
+                       fillcolor = "white")
+
+
+# Obs-Pred ratio boxplot
+p2 <- plotlyLayout(NA,pratio.obs.pred, log = "", nTicks = 4, digits = 0,
+                   xTitle = "", xZeroLine = FALSE,
+                   yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
+                   plotTitle = "MODEL SIMULATION PERFORMANCE \nObserved / Predicted Ratio",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+p2 <- p2 %>% add_trace(y = pratio.obs.pred,type = 'box', name = "Ratio", color = I("black"), fillcolor = "white")
+
+
+
+# Normality probability plot
+
+markerText<-"~paste('</br> Log Residual: ',pResids,
+                      '</br> Theoretical Value: ',y.theo"
+data<-data.frame(pResids = pResids)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+data<-data[order(data$pResids),]
+
+#get f values for data
+i<-1:nrow(data)
+fi<-(i-0.5)/nrow(data)
+x.norm<-qnorm(fi)
+#find 1st and 3rd quantiles
+y <- quantile(data$pResids, c(0.25, 0.75), type = 5)
+x <- qnorm( c(0.25, 0.75))
+
+#get qqline
+slope <- diff(y) / diff(x)
+int   <- y[1] - slope * x[1]
+y.theo <- sapply(x.norm, function(k) as.numeric(slope)*k+as.numeric(int))
+
+data$x.norm<-x.norm
+data$y.theo<-y.theo
+
+#plot data points on qq plot
+p3 <- plotlyLayout(data$x.norm,data$pResids, log = "", nTicks = 7, digits = 0,
+                   xTitle = "Theoretical Quantiles", xZeroLine = FALSE,
+                   yTitle = "Log Residuals", yZeroLine = FALSE,
+                   plotTitle = "Normal Q-Q Plot",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+#plot( data ~ x.norm, type = "p", xlab = "Normal quantiles", pch = 20)
+p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~pResids, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~y.theo, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Theoretical Normal Distribution")
+
+
+# Squared residuals vs predicted
+Resids2 <- pResids**2
+
+lwresids <- lowess(ppredict,Resids2, f = 0.5, iter = 3)
+
+lwy <- lwresids$y[1:(length(lwresids$y)-1)]
+lwx <- lwresids$x[1:(length(lwresids$x)-1)]
+
+# lines(lwx,lwy,col=2)
+markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
+                   '</br> Predicted Load: ',ppredict"
+data<-data.frame(Resids2 = Resids2,ppredict = ppredict)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+p4 <- plotlyLayout(ppredict,Resids2, log = "xy", nTicks = 5, digits = 0,
+                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
+                   yTitle = "SQUARED LOG RESIDUALS", yZeroLine = FALSE,
+                   plotTitle = "Squared Residuals vs Predicted Load",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+p4 <- p4 %>% add_trace(data = data, x = ~ppredict, y = ~Resids2, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p4 <- p4 %>% add_trace(x = lwx, y = lwy, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Lowess smooth line")
+
+p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
+           titleX = TRUE, titleY=TRUE, margin = 0.08)
+p
+
+
+```
+
+```{r pagebreak9, results='asis', echo=FALSE}
+if (!validation){ 
+  cat("<P style='page-break-before: always'>") 
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+if (!validation){ 
+  ##############################  
+  # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
+  #   for the incremental areas between calibration sites
+  
+  if(!is.na(Cor.ExplanVars.list)){ 
+    corrData<-pratio.obs.pred
+    rmd <- sapply(
+      1:(length(Cor.ExplanVars.list$names)),
+      function(i) {
+        
+        knit_expand(path_diagnosticCorrChild, i = i)
+      }
+    )
+    rmd <- paste(rmd, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){  
+  if(!is.na(Cor.ExplanVars.list)){ 
+    rendered <- knit(text = rmd, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered, sep = "\n")
+  }
+}
+```
+
+```{r pagebreak9b, results='asis', echo=FALSE}
+
+cat("<P style='page-break-before: always'>") 
+
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+##########################
+# Diagnostics for Ratio by class (one plot per page)
+
+# sitedata.demtarea.class regions
+vvar <- sitedata.demtarea.class
+
+p <- plotlyLayout(NA,pratio.obs.pred, log = "y", nTicks = 7, digits = 0,
+                  xTitle = "Upper Bound for Total Drainage Area Deciles (km2)",  
+                  xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
+                  yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
+                  plotTitle = "Ratio Observed to Predicted by Deciles",
+                  legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = pratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
+                     fillcolor = "white")
+p <- p %>% layout(shapes = list(hline(1)))
+p
+
+```
+
+```{r pagebreak10, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+# "classvar" regions
+if (classvar!="sitedata.demtarea.class"){
+  boxvar<-pratio.obs.pred
+  rmd4 <- sapply(
+    1:(length(classvar)),
+    function(k) {
+      knit_expand(path_diagnosticClassvarChild, k = k)
+    }
+  )
+  rmd4 <- paste(rmd4, collapse = "\n")
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (classvar!="sitedata.demtarea.class"){
+  rendered4 <- knit(text = rmd4, quiet = TRUE)
+  cat("\n \n")
+  cat(rendered4, sep = "\n")
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+# 'classvar2" decile boxplots
+if(!is.na( class_landuse[1])){
+  boxvar<-pratio.obs.pred
+  rmd5 <- sapply(
+    1:(length(classvar2)),
+    function(l) {
+      knit_expand(path_diagnosticClassLandChild, l = l)
+    }
+  )
+  rmd5 <- paste(rmd5, collapse = "\n")
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if(!is.na( class_landuse[1])){
+  rendered5 <- knit(text = rmd5, quiet = TRUE)
+  cat("\n \n")
+  cat(rendered5, sep = "\n")
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+##################################################
+# Diagnostics by CLASS (contiguous geographic units)
+
+
+plotclass<-class[,1]
+plotObs<-Obs
+plotpredict<-ppredict
+plotyldobs<-pyldobs
+plotyldpredict<-pyldpredict
+plotResids<-pResids
+
+
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+rmd6 <- sapply(
+  1:(length(grp)),
+  function(i) {
+    knit_expand(path_diagnosticContiguousChild, i = i)
+  }
+)
+rmd6 <- paste(rmd6, collapse = "\n")
+
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+
+rendered6 <- knit(text = rmd6, quiet = TRUE)
+cat("\n \n")
+cat(rendered6, sep = "\n")
+
+```
+
+```{r echo=FALSE, results='asis', eval=TRUE}
+
+if(existGeoLines) { 
+  strExplanation<-"# Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites
+### The maps include:
+1. Log residuals, based on monitoring conditioned predictions (i.e., Model Estimation Log Residuals)
+
+2. Log residuals, based on the unconditioned predictions (i.e., Model Simulation Log Residuals)
+
+3. Standardized residuals based on the monitoring conditioned predictions
+
+4. Ratio of observed to predicted loads for the conditioned predictions (i.e., Model Estimation Ratio)\n
+
+5. Ratio of observed to predicted load for the unconditioned predictions (i.e., Model Simulation Ratio) "
+  cat(strExplanation)
+}
+```
+
+```{r pagebreak11, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+#################
+# Residual MAPS
+#################
+
+
+# Setup GEOLINES basemap, if available
+if (!validation){ 
+  #8.8.17 if(!is.na(LineShapeGeo)) {
+  if(existGeoLines) { 
+    
+    
+    mapdata <- data.frame(xlat,xlon,Resids,ratio.obs.pred)
+    
+    mapTypes<-c("threshold-above","threshold-below","all")
+    mapColumn<-"Resids"
+    mapdata<-mapdata
+    strTitle<-"Model Estimation Log Residuals"
+    
+    rmd <- sapply(
+      1:(length(mapTypes)),
+      function(n) {
+        
+        knit_expand(path_diagnosticDiagMapChild, n = n)
+      }
+    )
+    rmd <- paste(rmd, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){
+  if(existGeoLines) { 
+    rendered <- knit(text = rmd, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered, sep = "\n")
+  }
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+#################
+# Residual MAPS
+#################
+
+
+# Setup GEOLINES basemap, if available
+
+#8.8.17 if(!is.na(LineShapeGeo)) {
+if(existGeoLines) { 
+  ##########################  
+  
+  # Single map of prediction residuals (8 classes) - no monitoring adjustment
+  pmapdata <- data.frame(xlat,xlon,pResids,pratio.obs.pred)
+  
+  mapTypes<-c("threshold-above","threshold-below","all")
+  mapColumn<-"pResids"
+  mapdata<-pmapdata
+  strTitle<-"Model Simulation Log Residuals"
+  
+  rmd <- sapply(
+    1:(length(mapTypes)),
+    function(n) {
+      
+      knit_expand(path_diagnosticDiagMapChild, n = n)
+    }
+  )
+  rmd <- paste(rmd, collapse = "\n")
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if(existGeoLines) { 
+  rendered <- knit(text = rmd, quiet = TRUE)
+  cat("\n \n")
+  cat(rendered, sep = "\n")
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
+if (!validation){
+  if(existGeoLines) { 
+    #Map Standardized Residuals
+    smapdata <- data.frame(xlat,xlon,standardResids)
+    
+    mapTypes<-c("threshold-above","threshold-below","all")
+    mapColumn<-"standardResids"
+    mapdata<-smapdata
+    strTitle<-"Model Estimation Standardized Residuals"
+    
+    rmd <- sapply(
+      1:(length(mapTypes)),
+      function(n) {
+        
+        knit_expand(path_diagnosticDiagMapChild, n = n)
+      }
+    )
+    rmd <- paste(rmd, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){
+  if(existGeoLines) { 
+    rendered <- knit(text = rmd, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered, sep = "\n")
+  }
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
+if (!validation){
+  if(existGeoLines) {     
+    ##########################
+    # Map Ratios observed to predicted 
+    
+    mapTypes<-c("threshold-above","threshold-below","all")
+    mapColumn<-"ratio.obs.pred"
+    mapdata<-data.frame(xlat,xlon,Resids,ratio.obs.pred)
+    strTitle<-"Model Estimation Obs/Pred Ratio"
+    
+    rmd <- sapply(
+      1:(length(mapTypes)),
+      function(n) {
+        
+        knit_expand(path_diagnosticDiagMapChild, n = n)
+      }
+    )
+    rmd <- paste(rmd, collapse = "\n")
+  }
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (!validation){ 
+  if(existGeoLines) { 
+    rendered <- knit(text = rmd, quiet = TRUE)
+    cat("\n \n")
+    cat(rendered, sep = "\n")
+  }
+}
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
+if(existGeoLines) {     
+  ##########################
+  # Map Ratios observed to predicted for no monitoring adjustment
+  
+  mapTypes<-c("threshold-above","threshold-below","all")
+  mapColumn<-"pratio.obs.pred"
+  mapdata<-pmapdata
+  strTitle<-"Model Simulation Obs/Pred Ratio"
+  
+  rmd <- sapply(
+    1:(length(mapTypes)),
+    function(n) {
+      
+      knit_expand(path_diagnosticDiagMapChild, n = n)
+    }
+  )
+  rmd <- paste(rmd, collapse = "\n")
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if(existGeoLines) { 
+  rendered <- knit(text = rmd, quiet = TRUE)
+  cat("\n \n")
+  cat(rendered, sep = "\n")
+}
+```
+

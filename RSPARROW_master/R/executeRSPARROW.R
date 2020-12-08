@@ -63,7 +63,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
   
   
   
-  testDir<- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,sep="") 
+  testDir<- paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep) 
   
   findControlFiles(path_user,if_userModifyData,
                    create_initial_dataDictionary, create_initial_parameterControlFiles)
@@ -99,7 +99,6 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
         setMapDefaults(settings)
         
         ##test for invalid settings
-        #source(paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,"testSettings.R",sep=""))
         badSettings<-testSettings(settings,saved)
         if (nrow(badSettings)!=0){
           runScript<-"no"
@@ -117,7 +116,6 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
           runScript<-"yes"
           assign("runScript",runScript,envir = .GlobalEnv)
           #generate input lists
-          # source(paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,"generateInputLists.R",sep=""))
           updateSettings<-lapply(ls(envir = .GlobalEnv)[which(ls(envir = .GlobalEnv) %in% c(getCharSett(),
                                                                                             getNumSett(),
                                                                                             getOptionSett(),
@@ -175,7 +173,6 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
             ##############################################################
             if (batch_mode=="no"){    
               {cat("\n \n")
-                #run2<-ifelse(run_dataImport=="yes" & load_previousDataImport=="no",1,0)
                 run2<-ifelse(load_previousDataImport=="no",1,0)
                 assign("run2",run2,envir = .GlobalEnv)
                 cat("RSPARROW MODEL NAME: ",run_id,sep="")
@@ -201,12 +198,12 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                 if (load_previousDataImport=="yes"){
                   fileName<-strsplit(path_results,.Platform$file.sep)[[1]]
                   fileName<-paste(fileName[1:length(fileName)-1],collapse = .Platform$file.sep)
-                  fileName<-paste(fileName,.Platform$file.sep,gsub(".csv","",input_data_fileName),"_priorImport",sep="")
+                  fileName<-paste0(fileName,.Platform$file.sep,gsub(".csv","",input_data_fileName),"_priorImport")
                   #check if file exists
                   if (file.exists(fileName)){
                     load(file=fileName)  
                   }else{
-                    message(paste("ERROR : ",fileName," binary file NOT FOUND\n SET load_previousDataImport<-'no'.\n RUN EXECUTION TERMINATED.",sep=""))
+                    message(paste0("ERROR : ",fileName," binary file NOT FOUND\n SET load_previousDataImport<-'no'.\n RUN EXECUTION TERMINATED."))
                     errorOccurred("executeRSPARROW.R",batch_mode)
                   }
                   
@@ -215,10 +212,9 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
               }#wait for run2 selection
               ###############################################################
               #runRsparrow
-              #source(paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,"startModelRun.R",sep=""))
               startModelRun(file.output.list,
                             if_estimate,if_estimate_simulation,
-                            if_boot_estimate,if_boot_predict,enable_interactiveMaps,
+                            if_boot_estimate,if_boot_predict,enable_ShinyApp,
                             #createSubdataSorted
                             filter_data1_conditions,data1,
                             #applyUserModify
@@ -243,25 +239,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                             batch_mode,
                             RSPARROW_errorOption)
               
-              #add to run shiny independently
-              if(exists("estimate.list")){
-              shinyArgs<-named.list(file.output.list,map_uncertainties,BootUncertainties,
-                                    data_names,mapping.input.list,
-                                    #predict.list,
-                                    subdata,SelParmValues,
-                                    #site attr
-                                    sitedata,
-                                    #scenarios
-                                    estimate.list,
-                                    ConcFactor,DataMatrix.list,
-                                    reach_decay_specification,reservoir_decay_specification,scenario.input.list,
-                                    #scenarios out
-                                    add_vars,
-                                    #batchError
-                                    batch_mode)
               
-              save(shinyArgs, file= paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))
-              }
               #remove unnecessary objects from workspace
               removeObjects(c("run2","saved","runScript","runRsparrow","dmatrixin","map_uncertainties"))
               
@@ -275,8 +253,8 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                             "estimate.input.list","mapping.input.list",
                             "file.output.list","class.input.list","min.sites.list","scenario.input.list",
                             "path_results","path_data","path_gis"),
-                   file=paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""))
-              system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchRun.R",sep="")),sep=""), wait = FALSE, invisible = FALSE)
+                   file=paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData"))
+              system(paste0(Sys.which("Rscript.exe")," ",file.path(paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchRun.R"))), wait = FALSE, invisible = FALSE)
               cat("Running RSPARROW in batch mode.")
               
               removeObjects(c("run2","saved","runScript","runRsparrow","dmatrixin","map_uncertainties"))

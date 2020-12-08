@@ -43,7 +43,7 @@ getVarList<-function(){
                 "depvar", "depvar_se", "target")
   
   matrixlst <- c("waterid","staid","fnode","tnode","frac","iftran","target",
-                 "demtarea","demiarea","depvar","hydseq","meanq")
+                 "demtarea","demiarea","depvar","hydseq","meanq","calsites")
   
   varList<-c(reqNames,fixNames)
   

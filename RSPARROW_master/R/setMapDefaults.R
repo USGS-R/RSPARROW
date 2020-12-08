@@ -15,14 +15,14 @@ setMapDefaults<-function(settings){
   #must be given in alphabetical order like ls()
   defaults<-list(diagnosticPlotPointSize = 0.6,
                  diagnosticPlotPointStyle = 16,
-                 lineWidth = 0.8,
-                 outputERSImaps = c("no","no","no","no"),
+                 lineWidth = 0.5,
+                 outputESRImaps = c("no","no","no","no"),
                  predictionClassRounding = 1,
                  predictionLegendBackground = "grey",
-                 predictionLegendSize = 0.6,
+                 predictionLegendSize = 0.5,
                  predictionMapBackground = "white",
                  predictionMapColors = c("blue","dark green","gold","red","dark red"),
-                 predictionTitleSize = 1,
+                 predictionTitleSize = 16,
                  ratio_map_breakpoints = c(0.3,0.5,0.8,1,1.25,2,3.3),
                  residual_map_breakpoints = c(-2.5,-0.75,-0.25,0,0.25,0.75,2.5),
                  residualColors = c("red","red","gold","gold","dark green","dark green","blue","blue"),
@@ -31,19 +31,19 @@ setMapDefaults<-function(settings){
                  residualPointSize_breakpoints = c(0.75,0.5,0.4,0.25,0.25,0.4,0.5,0.75),
                  residualPointSize_factor = 1,
                  residualPointStyle = c(2,2,1,1,1,1,6,6),
-                 residualTitleSize = 1,
+                 residualTitleSize = 16,
                  scenarioMapColors = c("light blue","blue","dark green","gold","red","dark red"),
-                 siteAttr_mapPointSize = 1,
+                 siteAttr_mapPointSize = 2,
                  siteAttr_mapPointStyle = 16,
                  siteAttrClassRounding = 2,
                  siteAttrColors = c("blue","green4","yellow","orange","red","darkred"),
-                 siteAttrLegendSize = 1,
+                 siteAttrLegendSize = 0.5,
                  siteAttrMapBackground = "grey",
                  siteAttrTitleSize = 1
                  
   )
   
-  #listSettings<-ls() 
+
   listSettings<-names(settings)[which(names(settings) %in% names(defaults))]
   
   for (s in listSettings){
@@ -54,9 +54,9 @@ setMapDefaults<-function(settings){
         
         value<-defaults[s][[1]]
         if (length(value)>1){
-          value<-paste("c(",paste(value, collapse = ","),")",sep="")
+          value<-paste0("c(",paste(value, collapse = ","),")")
         }
-        warn<-paste("MISSING VALUE FOR REQUIRED SETTING : ", s, "\n DEFAULT VALUE :  ",value, " USED \n \n",sep="")
+        warn<-paste0("MISSING VALUE FOR REQUIRED SETTING : ", s, "\n DEFAULT VALUE :  ",value, " USED \n \n")
         message(warn)
       }
     }

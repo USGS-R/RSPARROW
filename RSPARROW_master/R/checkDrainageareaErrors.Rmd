@@ -1,0 +1,113 @@
+---
+title: "`r params$file.output.list$run_id`"
+author: ""
+date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
+output: html_document
+params:
+  file.output.list: file.output.list
+  mapping.input.list: mapping.input.list
+  DAreaFailCheckObj: DAreaFailCheckObj 
+  data1: data1
+  existGeoLines: existGeoLines                                     
+  commonvar: commonvar
+  map.vars.list: map.vars.list
+  GeoLines: GeoLines
+  lineShape: lineShape
+  title_name: title_name
+  filename: filename
+  path_checkDrainageareaErrorsChild: path_checkDrainageareaErrorsChild
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.width=8, fig.height=8}
+#unpack params
+file.output.list<-params$file.output.list
+mapping.input.list<-params$mapping.input.list
+DAreaFailCheckObj<-params$DAreaFailCheckObj
+data1<-params$data1
+existGeoLines<-params$existGeoLines
+commonvar<-params$commonvar
+map.vars.list<-params$map.vars.list
+GeoLines<-params$GeoLines
+lineShape<-params$lineShape
+title_name<-params$title_name
+filename<-params$filename
+path_checkDrainageareaErrorsChild<-params$path_checkDrainageareaErrorsChild
+
+unPackList(lists = list(file.output.list = file.output.list,
+                        mapping.input.list = mapping.input.list),
+           parentObj = list(NA, NA)) 
+
+#setup plotly marker options
+pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==diagnosticPlotPointStyle,]$plotly)
+markerSize<-diagnosticPlotPointSize*10
+markerCols<-colorNumeric(c("black","white"), 1:2)
+markerList = paste0("list(symbol = pnch,
+                       size = ",markerSize,",")
+
+if (regexpr("open",pnch)>0){
+  markerList<-paste0(markerList,"color = markerCols(1))")
+}else{
+  markerList<-paste0(markerList,"line = list(color = markerCols(1), width = 0.8),color = markerCols(1))")
+}
+
+# plot comparison for mis-matched reaches
+markerText<-"~paste('</br> Pre-calc Total Drainage Area: ',preCalc,
+                   '</br> Newly-calculated Total Drainage Area: ',Calc"
+                   
+data<-data.frame(preCalc = DAreaFailCheckObj$demtarea, Calc = DAreaFailCheckObj$demtarea_new)
+
+data1sub<-data1[which(data1$waterid %in% DAreaFailCheckObj$waterid),]
+data1sub<-data1sub[match(DAreaFailCheckObj$waterid,data1sub$waterid),]
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, data1sub)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,data1sub)$mapData
+
+plotlyLayout(data$preCalc,data$Calc, log = "xy", nTicks = 5, digits = 0,
+                  xTitle ="Pre-calculated Total Drainage Area", xZeroLine = TRUE,
+                  yTitle = "Newly-calculated Total Drainage Area",  yZeroLine = TRUE,
+                  plotTitle = "Comparison of Total Drainage Areas",
+                  legend = FALSE,showPlotGrid = showPlotGrid) %>%
+
+  
+add_trace(data = data, x = ~preCalc, y = ~Calc, 
+                     type = "scatter", 
+                     mode = "markers",
+                    marker = eval(parse(text = markerList)),
+                     hoverinfo = 'text',
+                     text = eval(parse(text = markerText))) %>%
+add_trace(data = data, x = ~preCalc, y = ~preCalc, 
+                     type = "scatter", 
+                     mode = "lines",
+                     color = I("red"),
+                     hoverinfo = 'text',
+                     text = "Pre-calculated Total Drainage Area")
+
+
+```
+
+```{r pagebreak, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+
+rmd <- sapply(
+  1:(length(map.vars.list)),
+  function(k) {
+   knit_expand(path_checkDrainageareaErrorsChild, k = k)
+  }
+)
+rmd <- paste(rmd, collapse = "\n")
+        
+              
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+rendered <- knit(text = rmd, quiet = TRUE)
+cat("\n \n")
+cat(rendered, sep = "\n")
+```

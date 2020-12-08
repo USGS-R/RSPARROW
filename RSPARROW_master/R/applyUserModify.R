@@ -6,6 +6,8 @@
 #'Executes Routines: \\itemize\{\\item named.list.R
 #'             \\item replaceNAs.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param subdata data.frame input data (subdata)

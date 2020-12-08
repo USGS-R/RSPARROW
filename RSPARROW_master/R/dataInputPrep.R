@@ -15,11 +15,19 @@
 #'             \\item readData.R
 #'             \\item replaceData1Names.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param input_data_fileName name of users data1 file
 #'@param if_reverse_hydseq yes/no indicating whether hydseq in the DATA1 file needs to be 
 #'       reversed from sparrow_control
 #'@param if_verify_demtarea specify whether or not to verify demtarea
 #'@param calculate_reach_attribute_list list of attributes to calculate
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 
@@ -82,7 +90,7 @@ dataInputPrep<-function(#for readData
   fileList<-fileList[which(fileList %in% ls())]
   fileName<-strsplit(path_results,.Platform$file.sep)[[1]]
   fileName<-paste(fileName[1:length(fileName)-1],collapse = .Platform$file.sep)
-  fileName<-paste(fileName,.Platform$file.sep,gsub(".csv","",input_data_fileName),"_priorImport",sep="")
+  fileName<-paste0(fileName,.Platform$file.sep,gsub(".csv","",input_data_fileName),"_priorImport")
   save(list=fileList, file=fileName)
   
   

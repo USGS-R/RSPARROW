@@ -98,6 +98,6 @@ No parameter change
  
 Time elapsed in optimization
     user  system elapsed 
-  21.69    0.06   21.78 
+  11.78    0.14   11.89 
 
  

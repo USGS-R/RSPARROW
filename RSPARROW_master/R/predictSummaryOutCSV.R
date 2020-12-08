@@ -6,11 +6,21 @@
 #'Executed By: estimate.R \\cr
 #'Executes Routines: \\itemize\{\\item calcClassLandusePercent.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param estimate.list list output from `estimate.R`
+#'@param predict.list archive with all load and yield prediction variables to provide for 
+#'                    the efficient access and use of predictions in subsequent execution 
+#'                    of the parametric bootstrap predictions and uncertainties, mapping, 
+#'                    and scenario evaluations.  For more details see documentation Section 
+#'                    5.3.1.5
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
-
+#'@param class.input.list list of control settings related to classification variables
 
 
 predictSummaryOutCSV <- function(file.output.list,estimate.input.list,
@@ -82,21 +92,21 @@ predictSummaryOutCSV <- function(file.output.list,estimate.input.list,
   
   #   share_inc_(sources)        Source share for incremental load (percent)
   for (j in 1:length(srcvar)){
-    dname <- paste("share_inc_",srcvar[j],sep="")  
+    dname <- paste0("share_inc_",srcvar[j])  
     for (i in 1:length(oparmlist)) {
       if(oparmlist[i] == dname){
         omatrix[,(nfixed+j)] <- predmatrix[,i]
       }
     }
   }
-  name1 <- paste("Load Total (",loadUnits,")",sep="")
-  name2 <- paste("Yield Total (",yieldUnits,")",sep="")
-  name3 <- paste("Yield Incremental (",yieldUnits,")",sep="")
-  name4 <- paste("Flow-Weighted Concentration (",ConcUnits,")",sep="")
+  name1 <- paste0("Load Total (",loadUnits,")")
+  name2 <- paste0("Yield Total (",yieldUnits,")")
+  name3 <- paste0("Yield Incremental (",yieldUnits,")")
+  name4 <- paste0("Flow-Weighted Concentration (",ConcUnits,")")
   sumlist <- c(name1,name2,name3,name4,"Delivery Fraction")
   
   for (i in 1:length(srcvar)){
-    sumlist[nfixed+i] <- paste("Incremental Share (%) ",srcvar[i],sep="")  
+    sumlist[nfixed+i] <- paste0("Incremental Share (%) ",srcvar[i])  
   }
   
   # Compute percentiles
@@ -142,7 +152,7 @@ predictSummaryOutCSV <- function(file.output.list,estimate.input.list,
       
       #make dataframe
       LUoutvars <- as.data.frame(matrix(c(mstats,sstats),nrow=1))
-      rownames(LUoutvars) <- paste(class_landuse_percent[which(class_landuse==c)],"%",c,"_",name2,sep="")
+      rownames(LUoutvars) <- paste0(class_landuse_percent[which(class_landuse==c)],"%",c,"_",name2)
       colnames(LUoutvars) <- headlist 
       #bind to outvars
       outvars<-rbind(outvars,LUoutvars)
@@ -150,7 +160,7 @@ predictSummaryOutCSV <- function(file.output.list,estimate.input.list,
     }#end for each class_landuse
   }#end if class_landuse_percent
   
-  fileout <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_summary_predictions.csv",sep="")
+  fileout <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_summary_predictions.csv")
   fwrite(outvars,file=fileout,row.names=T,append=F,quote=F,col.names=TRUE,showProgress = FALSE,
          dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
   

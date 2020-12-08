@@ -1,0 +1,134 @@
+```{r chunkCont{{i}},eval = TRUE, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
+# Diagnostics by CLASS (contiguous geographic units)
+i <- {{i}}
+
+xmrb<-grp[i]
+
+xmrb <- as.double(xmrb)
+
+markerText<-"~paste('</br> Observed Load: ',plotObs,
+                   '</br> Predicted Load: ',plotpredict"
+#  observed vs. predicted mass
+df <- data.frame(plotpredict,plotObs)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+
+df <- subset(df,plotclass == xmrb)
+nsites <- as.numeric(length(df$plotpredict))
+
+
+p1 <- plotlyLayout(df$plotpredict,df$plotObs, log = "xy", nTicks = 5, digits = 0,
+                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
+                   yTitle = paste0("OBSERVED LOAD (",loadUnits,")"),  yZeroLine = TRUE,
+                   plotTitle = paste0("Observed vs Predicted Load \nCLASS Region = ",xmrb,"(n=",nsites,")"),
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+
+
+p1 <- p1 %>% add_trace(data = df, x = ~plotpredict, y = ~plotObs, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p1 <- p1 %>% add_trace(data = df, x = ~plotObs, y = ~plotObs, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Observed Load vs. Observed Load")
+
+# observed vs. predicted yield
+markerText<-"~paste('</br> Observed Yield: ',plotyldobs,
+                   '</br> Predicted Yield: ',plotyldpredict"
+
+df <- data.frame(plotyldpredict,plotyldobs)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+
+df <- subset(df,plotclass == xmrb)
+
+p2 <- plotlyLayout(df$plotyldpredict,df$plotyldobs, log = "xy", nTicks = 5, digits = 0,
+                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"), xZeroLine = TRUE,
+                   yTitle = paste0("OBSERVED YIELD (",yieldUnits,")"),  yZeroLine = TRUE,
+                   plotTitle = "Observed vs Predicted \nYield",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+
+
+p2 <- p2 %>% add_trace(data = df, x = ~plotyldpredict, y = ~plotyldobs, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p2 <- p2 %>% add_trace(data = df, x = ~plotyldobs, y = ~plotyldobs, 
+                       type = "scatter", 
+                       mode = "lines",
+                       color = I("red"),
+                       hoverinfo = 'text',
+                       text = "Observed Yield vs. Observed Yield")
+
+
+# mass residual plot
+markerText<-"~paste('</br> Log Residual: ',plotResids,
+                   '</br> Predicted Load: ',plotpredict"
+df <- data.frame(plotpredict,plotResids)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+
+df <- subset(df,plotclass == xmrb)
+
+p3 <- plotlyLayout(df$plotpredict,df$plotResids, log = "x", nTicks = 5, digits = 0,
+                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
+                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
+                   plotTitle = "Residuals vs Predicted \nLoad",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+
+
+p3 <- p3 %>% add_trace(data = df, x = ~plotpredict, y = ~plotResids, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p3 <- p3 %>% layout(shapes = list(hline(0)))
+
+
+# yield residual plot
+markerText<-"~paste('</br> Log Residual: ',plotResids,
+                   '</br> Predicted Yield: ',plotyldpredict"
+df <- data.frame(plotyldpredict,plotResids)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+
+df <- subset(df,plotclass == xmrb)
+
+p4 <- plotlyLayout(df$plotyldpredict,df$plotResids, log = "x", nTicks = 5, digits = 0,
+                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"), xZeroLine = TRUE,
+                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
+                   plotTitle = "Residuals vs Predicted \nYield",
+                   legend = FALSE,showPlotGrid = showPlotGrid)
+
+
+p4 <- p4 %>% add_trace(data = df, x = ~plotyldpredict, y = ~plotResids, 
+                       type = "scatter", 
+                       mode = "markers",
+                       marker = eval(parse(text = markerList)),
+                       hoverinfo = 'text',
+                       text = eval(parse(text = markerText)))
+p4 <- p4 %>% layout(shapes = list(hline(0)))
+
+p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
+           titleX = TRUE, titleY=TRUE, margin = 0.08)
+p
+
+
+
+```
+
+```{r cpntPgBr{{i}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

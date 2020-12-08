@@ -28,9 +28,9 @@ checkAnyMissingSubdataVars <- function(subdata,betavalues,batch_mode) {
     reqMissingSubdataVariable<-reqMissingSubdataVariable[which(reqMissingSubdataVariable %in% as.character(getVarList()$reqNames))]
     if (length(reqMissingSubdataVariable)!=0){
       for (i in reqMissingSubdataVariable){
-        message(paste(" \nWARNING: THIS REQUIRED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n ",sep=""))
+        message(paste0(" \nWARNING: THIS REQUIRED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n "))
         if (batch_mode=="yes"){
-          cat(paste(" \nWARNING: THIS REQUIRED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n ",sep=""))
+          cat(paste0(" \nWARNING: THIS REQUIRED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n "))
           if (i==reqMissingSubdataVariable[length(reqMissingSubdataVariable)]){
             cat("\n \n")
           }
@@ -43,9 +43,9 @@ checkAnyMissingSubdataVars <- function(subdata,betavalues,batch_mode) {
     fixMissingSubdataVariable<-fixMissingSubdataVariable[which(fixMissingSubdataVariable %in% as.character(getVarList()$fixNames))]
     if (length(fixMissingSubdataVariable)!=0){
       for (i in fixMissingSubdataVariable){
-        message(paste(" \nWARNING: THIS FIXED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n ",sep=""))
+        message(paste0(" \nWARNING: THIS FIXED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n "))
         if (batch_mode=="yes"){
-          cat(paste(" \nWARNING: THIS FIXED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n ",sep=""))
+          cat(paste0(" \nWARNING: THIS FIXED VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\n "))
           if (i==fixMissingSubdataVariable[length(fixMissingSubdataVariable)]){
             cat("\n \n")
           }
@@ -58,9 +58,9 @@ checkAnyMissingSubdataVars <- function(subdata,betavalues,batch_mode) {
     paramMissingSubdataVariable<-paramMissingSubdataVariable[which(paramMissingSubdataVariable %in% as.character(xlnames))]
     if (length(paramMissingSubdataVariable)!=0){
       for (i in paramMissingSubdataVariable){
-        message(paste(" \nERROR: THIS PARAMETER VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\nRUN EXECUTION TERMINATED",sep=""))
+        message(paste0(" \nERROR: THIS PARAMETER VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\nRUN EXECUTION TERMINATED"))
         if (batch_mode=="yes"){
-          cat(paste(" \nERROR: THIS PARAMETER VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\nRUN EXECUTION TERMINATED",sep=""))
+          cat(paste0(" \nERROR: THIS PARAMETER VARIABLE HAS SELECTED MISSING VALUES IN SUBDATA:",i,"\nRUN EXECUTION TERMINATED"))
           if (i==paramMissingSubdataVariable[length(paramMissingSubdataVariable)]){
             cat("\n \n")
           }

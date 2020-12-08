@@ -18,16 +18,16 @@
 
 makePaths<-function(path_user, path_master,run_id,results_directoryName,data_directoryName,gis_directoryName, envir = .GlobalEnv){
   
-  path_data <- paste(path_user,.Platform$file.sep,data_directoryName,.Platform$file.sep,sep="")       # location of the DATA1 file
-  path_results <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,sep="") # location of the results directory
-  path_gis <- paste(path_user,.Platform$file.sep,gis_directoryName,sep="")          # GIS shape files (necessary to exclude the slash at end)
+  path_data <- paste0(path_user,.Platform$file.sep,data_directoryName,.Platform$file.sep)       # location of the DATA1 file
+  path_results <- paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep) # location of the results directory
+  path_gis <- paste0(path_user,.Platform$file.sep,gis_directoryName)          # GIS shape files (necessary to exclude the slash at end)
   
   #test if data, results, and gis are all at same level
   badPath<-NA
   for (p in c("path_data","path_results","path_gis")){
     path<-get(p)
     if (p=="path_results"){
-      path<-paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,sep="")
+      path<-paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep)
     }
     if (!dir.exists(path)){
       badPath<-c(badPath,p)
@@ -35,15 +35,15 @@ makePaths<-function(path_user, path_master,run_id,results_directoryName,data_dir
   }
   if (length(na.omit(badPath))!=0){
     
-    message(paste("ERROR : THE FOLLOWING REQUIRED PATHS ARE NOT FOUND IN THE USER DIRECTORY\n ",
-                  paste(" \n",na.omit(badPath)," : ",get(na.omit(badPath)),"\n",sep=""),"\nPATHS TO DATA, GIS, AND RESULTS MUST ALL EXIST IN THE USER DIRECTORY : \n ",
+    message(paste0("ERROR : THE FOLLOWING REQUIRED PATHS ARE NOT FOUND IN THE USER DIRECTORY\n ",
+                  paste0(" \n",na.omit(badPath)," : ",get(na.omit(badPath)),"\n"),"\nPATHS TO DATA, GIS, AND RESULTS MUST ALL EXIST IN THE USER DIRECTORY : \n ",
                   path_user," \nTHE CONTROL FILE SHOULD BE RUN FROM THE UPPER LEVEL OF THE RESULTS DIRECTORY SHOWN HERE : \n ",
-                  paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,sep=""),"\nRUN EXECUTION TERMINATED",sep=""))
+                  paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep),"\nRUN EXECUTION TERMINATED"))
     errorOccurred("makePaths.R",batch_mode)
   }
   path_main<-path_master
-  path_src <- paste(path_main,.Platform$file.sep,"src",.Platform$file.sep,sep="")
-  path_master <- paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,sep="")
+  path_src <- paste0(path_main,.Platform$file.sep,"src",.Platform$file.sep)
+  path_master <- paste0(path_main,.Platform$file.sep,"R",.Platform$file.sep)
   
   for (n in ls()[which(!ls() %in% c("p","badPath","envir","path"))]){
     assign(n,get(n),envir=.GlobalEnv)

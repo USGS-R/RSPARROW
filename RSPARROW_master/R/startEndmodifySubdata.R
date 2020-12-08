@@ -4,6 +4,7 @@
 #'Executed By: startModelRun.R \\cr
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param class_landuse character vector of class_landuses from sparrow_control.R
+#'@param data1 input data (data1)
 #'@return `subdata` data.frame input data (subdata)
 
 

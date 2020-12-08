@@ -15,6 +15,3 @@ Because the software and related material are free (other than nominal materials
 
 The user assumes all risk for any damages whatsoever resulting from loss of use, data, or profits arising in connection with the access, use, quality, or performance of this software.
 
-R and other package dependencies have more restrictive licenses.
-
-The R-3.5.0 libraries and code are distributed in the RSPARROW software release in compliance with the licensing agreements in the "MIT License" [<https://www.r-project.org/Licenses/MIT>]. The R libraries contained in the R-3.5.0 version distributed with RSPARROW have not been modified by the USGS and include the most current versions of the R libraries available for download prior to August 12, 2019. 

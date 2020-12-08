@@ -2,7 +2,7 @@
   SPARROW NLLS MODEL SUMMARY
                     
   MODEL NAME: Model7
-                                                                                                       
+                                                                                                      
   FILE PATH: ~/UserTutorial/results/Model7/estimate/Model7_summary.txt
   
   
@@ -53,7 +53,7 @@
   
   
   EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
-           52.96279    0.9559166  0.925831 3.354124e-18                  1.084267
+           52.96279    0.9596626  0.925831 3.354124e-18                  1.084267
                
   DESIGN MATRIX
          ldrainden PPT30MEAN meanTemp tiles_perc soil_CLAYAVE
@@ -252,22 +252,22 @@ tiles_perc    0.20704711  0.4680895 -0.13939903 -0.1091727  1.0000000   0.106476
 soil_CLAYAVE  0.04957898  0.1512271  0.03119772  0.3468253  0.1064767   1.00000000
                                                              
   SPEARMAN CORRELATIONS FOR SUBSAMPLE OF OBSERVATIONS (n=500)
-                    ndep     MANC_N   ldrainden  PPT30MEAN tiles_perc soil_CLAYAVE
-ndep          1.00000000  0.6992194 -0.73272178 -0.1502502  0.1809350  -0.01607282
-MANC_N        0.69921937  1.0000000 -0.51563467 -0.2312782  0.4500165   0.10885479
-ldrainden    -0.73272178 -0.5156347  1.00000000  0.1962686 -0.0917434   0.09249614
-PPT30MEAN    -0.15025021 -0.2312782  0.19626864  1.0000000 -0.1531168   0.36122047
-tiles_perc    0.18093500  0.4500165 -0.09174340 -0.1531168  1.0000000   0.13225991
-soil_CLAYAVE -0.01607282  0.1088548  0.09249614  0.3612205  0.1322599   1.00000000
+                   ndep     MANC_N   ldrainden   PPT30MEAN  tiles_perc soil_CLAYAVE
+ndep          1.0000000  0.7418895 -0.79234109 -0.12845631  0.18016681   0.10609067
+MANC_N        0.7418895  1.0000000 -0.55977238 -0.16952209  0.45069689   0.16988769
+ldrainden    -0.7923411 -0.5597724  1.00000000  0.17628483 -0.09803068  -0.01757504
+PPT30MEAN    -0.1284563 -0.1695221  0.17628483  1.00000000 -0.08825365   0.43375848
+tiles_perc    0.1801668  0.4506969 -0.09803068 -0.08825365  1.00000000   0.11194058
+soil_CLAYAVE  0.1060907  0.1698877 -0.01757504  0.43375848  0.11194058   1.00000000
                                                                                                                     
   SPEARMAN CORRELATIONS FOR SUBSAMPLED LOGGED OBSERVATIONS (zero values are converted to minimum of non-zero values)
-                     ndep      MANC_N   ldrainden    PPT30MEAN  tiles_perc soil_CLAYAVE
-ndep          1.000000000  0.70125558 -0.74155844  0.008552823  0.17987440   0.12683367
-MANC_N        0.701255576  1.00000000 -0.04327882 -0.097239480  0.42276834   0.18458670
-ldrainden    -0.741558442 -0.04327882  1.00000000 -0.102597403 -0.21742745  -0.01168831
-PPT30MEAN     0.008552823 -0.09723948 -0.10259740  1.000000000 -0.05554995   0.38927081
-tiles_perc    0.179874397  0.42276834 -0.21742745 -0.055549953  1.00000000   0.11091019
-soil_CLAYAVE  0.126833668  0.18458670 -0.01168831  0.389270812  0.11091019   1.00000000
+                    ndep     MANC_N   ldrainden   PPT30MEAN  tiles_perc soil_CLAYAVE
+ndep          1.00000000  0.6586906 -0.84881423 -0.09590942  0.20152620    0.1507721
+MANC_N        0.65869055  1.0000000 -0.43645807 -0.14813813  0.44827825    0.1889684
+ldrainden    -0.84881423 -0.4364581  1.00000000 -0.24110672  0.02132391   -0.2185415
+PPT30MEAN    -0.09590942 -0.1481381 -0.24110672  1.00000000 -0.10874174    0.3774687
+tiles_perc    0.20152620  0.4482782  0.02132391 -0.10874174  1.00000000    0.0839059
+soil_CLAYAVE  0.15077208  0.1889684 -0.21854147  0.37746871  0.08390590    1.0000000
                                                      
   SUMMARY METRICS FOR EXPLANATORY VARIABLES (Reaches)
       ndep               MANC_N          ldrainden        PPT30MEAN        tiles_perc        soil_CLAYAVE  

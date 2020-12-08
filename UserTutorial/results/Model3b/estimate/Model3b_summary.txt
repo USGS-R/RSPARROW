@@ -2,7 +2,7 @@
   SPARROW NLLS MODEL SUMMARY
                      
   MODEL NAME: Model3b
-                                                                                                         
+                                                                                                        
   FILE PATH: ~/UserTutorial/results/Model3b/estimate/Model3b_summary.txt
   
   
@@ -37,7 +37,7 @@
   
   
   EigenValue Spread  Normal PPCC  SWilks W      P-Value   Mean Exp Weighted Error
-           6.528494    0.9364819 0.8780046 3.999964e-23                  1.132448
+           6.528494    0.9375942 0.8780046 3.999964e-23                  1.132448
   
   
 [1] LOG RESIDUALS, Station quantiles

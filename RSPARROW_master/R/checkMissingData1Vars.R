@@ -31,7 +31,7 @@ checkMissingData1Vars <- function(data1,batch_mode) {
     reqMissingData1Variable<-reqMissingData1Variable[which(reqMissingData1Variable %in% as.character(getVarList()$reqNames))]
     if (length(reqMissingData1Variable)!=0){
       for (i in reqMissingData1Variable){
-        reqMissingData1VariableMessage <- paste(" \nWARNING: THIS REQUIRED VARIABLE HAS ALL MISSING VALUES IN DATA1:",i,"\n ",sep="")
+        reqMissingData1VariableMessage <- paste0(" \nWARNING: THIS REQUIRED VARIABLE HAS ALL MISSING VALUES IN DATA1:",i,"\n ")
       }
     }else
       reqMissingData1VariableMessage<-""
@@ -40,7 +40,7 @@ checkMissingData1Vars <- function(data1,batch_mode) {
     fixMissingData1Variable<-fixMissingData1Variable[which(fixMissingData1Variable %in% as.character(getVarList()$fixNames))]
     if (length(fixMissingData1Variable)!=0){
       for (i in fixMissingData1Variable){
-        fixMissingData1VariableMessage <- paste(" \nWARNING: THIS FIXED VARIABLE HAS ALL MISSING VALUES IN DATA1:",i,"\n ",sep="")
+        fixMissingData1VariableMessage <- paste0(" \nWARNING: THIS FIXED VARIABLE HAS ALL MISSING VALUES IN DATA1:",i,"\n ")
       }
     }else
       fixMissingData1VariableMessage<-""

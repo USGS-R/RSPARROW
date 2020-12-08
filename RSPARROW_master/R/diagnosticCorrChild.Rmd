@@ -1,0 +1,38 @@
+
+```{r chunkCorr{{i}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+i<-{{i}}
+
+
+if(min(Cor.ExplanVars.list$cmatrixM_all[,i])<0 | max(Cor.ExplanVars.list$cmatrixM_all[,i])<0) {
+  logStr<-""
+}else{
+  logStr<-"x"
+}
+
+markerText<-"~paste('</br>',Cor.ExplanVars.list$names[i],': ',xvar,
+                   '</br> RATIO OBSERVED TO PREDICTED: ',ratio.obs.pred"
+data<-data.frame(xvar = Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred = ratio.obs.pred)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],corrData, log = logStr, nTicks = 5, digits = 0,
+                   xTitle = paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"), 
+                   xZeroLine = FALSE,
+                   yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
+                   plotTitle = paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas between Calibration Sites; Variable Name = ",Cor.ExplanVars.list$names[i]) ,
+                   legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
+                     type = "scatter", 
+                     mode = "markers",
+                     marker = eval(parse(text = markerList)),
+                     hoverinfo = 'text',
+                     text = eval(parse(text = markerText)))
+
+
+
+```
+
+```{r corrPgBr{{i}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

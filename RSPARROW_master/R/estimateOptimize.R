@@ -5,9 +5,15 @@
 #'Executes Routines: \\itemize\{\\item estimateFeval.R
 #'             \\item named.list.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param dlvdsgn design matrix imported from design_matrix.csv
 #'@return `sparrowEsts` list object contained in estimate.list `if_estimate<-'yes'`.  For more 
 #'            details see documentation Section 5.2.4.4.
@@ -47,7 +53,7 @@ estimateOptimize <- function(file.output.list,SelParmValues,estimate.input.list,
   }
   
   
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_log.txt",sep="")
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_log.txt")
   sink(file=filename,split="TRUE")
   
   ptm <- proc.time()
@@ -75,7 +81,7 @@ estimateOptimize <- function(file.output.list,SelParmValues,estimate.input.list,
   
   names <- ls(nlfbOut)
   for (k in 1:length(names)) {
-    assign(names[k],eval(parse(text=paste("nlfbOut$",names[k],sep=""))))
+    assign(names[k],eval(parse(text=paste0("nlfbOut$",names[k]))))
   }
   sparrowEsts <- named.list(resid,jacobian,feval,jeval,coefficients,ssquares,lower,upper,maskidx)
   
@@ -104,7 +110,7 @@ estimateOptimize <- function(file.output.list,SelParmValues,estimate.input.list,
   
   # SAVE SPARROW MODEL OBJECT TO FILE
   #  (Use 'load' command to read object into R
-  objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+  objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
   save(sparrowEsts,file=objfile)
   
   

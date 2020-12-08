@@ -3,6 +3,8 @@
 #'            'estimate/summaryCSV' directory \\cr \\cr
 #'Executed By: startModelRun.R \\cr
 #'Executes Routines: unPackList.R \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param compare_models character string control setting indicated the run_ids of preivously 
 #'       run model to which the current model is to be compared
 #'@param modelComparison_name character string control setting that gives the name of the 
@@ -36,37 +38,37 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
   if (length(na.omit(compare_models))!=0){
     message("Running Model Comparison...")
     #get current model data
-    path_summary<-paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep,sep="")
-    modelPerformance<-read.csv(file=paste(path_summary,"ModelPerformanceMonitoringAdj.csv",sep=""),
+    path_summary<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep)
+    modelPerformance<-read.csv(file=paste0(path_summary,"ModelPerformanceMonitoringAdj.csv"),
                                dec = csv_decimalSeparator,sep=csv_columnSeparator)
     ch <- " "
     row.names(modelPerformance) <- ch
-    eigenSpread<-read.csv(file=paste(path_summary,"EigenValueSpread.csv",sep=""),
+    eigenSpread<-read.csv(file=paste0(path_summary,"EigenValueSpread.csv"),
                           dec = csv_decimalSeparator,sep=csv_columnSeparator)
     row.names(eigenSpread) <- ch
     
-    paramEst<-read.csv(file=paste(path_summary,"ParameterEstimates.csv",sep=""),
+    paramEst<-read.csv(file=paste0(path_summary,"ParameterEstimates.csv"),
                        dec = csv_decimalSeparator,sep=csv_columnSeparator)
     
     if (if_spatialAutoCorr=="yes"){
-      moran<-read.csv(file=paste(path_summary,"EuclideanMoransI.csv",sep=""),
+      moran<-read.csv(file=paste0(path_summary,"EuclideanMoransI.csv"),
                       dec = csv_decimalSeparator,sep=csv_columnSeparator)
     }
     
     #create directory for comparison
     options(warn = -1)
-    dir.create(paste(dirname(path_results),.Platform$file.sep,modelComparison_name,.Platform$file.sep,sep=""))
+    dir.create(paste0(dirname(path_results),.Platform$file.sep,modelComparison_name,.Platform$file.sep))
     options(warn=0)
-    sinkFile<-paste(dirname(path_results),.Platform$file.sep,modelComparison_name,.Platform$file.sep,modelComparison_name,"_summary.txt",sep="")
+    sinkFile<-paste0(dirname(path_results),.Platform$file.sep,modelComparison_name,.Platform$file.sep,modelComparison_name,"_summary.txt")
     sink(file=sinkFile,split="FALSE",append=FALSE)
     
     #for sink to txt file
     print(outcharfun("SPARROW NLLS MODEL COMPARISION SUMMARY"))
-    print(outcharfun(paste("MODEL COMPARISION NAME: ",modelComparison_name,sep="")))
+    print(outcharfun(paste0("MODEL COMPARISION NAME: ",modelComparison_name)))
     print(space)
     print(space)
     print(outcharfun("SPARROW NLLS MODEL SUMMARY"))
-    print(outcharfun(paste("MODEL NAME: ",run_id,sep="")))
+    print(outcharfun(paste0("MODEL NAME: ",run_id)))
     print(outcharfun("MODEL PERFORMANCE (Monitoring adjustment)"))
     print(modelPerformance)
     print(space)
@@ -98,31 +100,31 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
     }
     
     for (m in compare_models){
-      path_summary<-paste(dirname(path_results),.Platform$file.sep,m,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep,sep="")
+      path_summary<-paste0(dirname(path_results),.Platform$file.sep,m,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep)
       if (dir.exists(path_summary)){
         #get model data
-        cmodelPerformance<-read.csv(file=paste(path_summary,"ModelPerformanceMonitoringAdj.csv",sep=""),
+        cmodelPerformance<-read.csv(file=paste0(path_summary,"ModelPerformanceMonitoringAdj.csv"),
                                     dec = csv_decimalSeparator,sep=csv_columnSeparator)
         ch <- " "
         row.names(cmodelPerformance) <- ch
-        ceigenSpread<-read.csv(file=paste(path_summary,"EigenValueSpread.csv",sep=""),
+        ceigenSpread<-read.csv(file=paste0(path_summary,"EigenValueSpread.csv"),
                                dec = csv_decimalSeparator,sep=csv_columnSeparator)
         row.names(ceigenSpread) <- ch
-        cifdiag<-read.csv(file=paste(dirname(path_results),.Platform$file.sep,m,.Platform$file.sep,m,"_userSettings.csv",sep=""),
+        cifdiag<-read.csv(file=paste0(dirname(path_results),.Platform$file.sep,m,.Platform$file.sep,m,"_userSettings.csv"),
                           dec = csv_decimalSeparator,sep=csv_columnSeparator)
         cifdiag<-as.character(cifdiag[which(cifdiag$setting=="if_spatialAutoCorr"),]$value)
         cifdiag<-gsub("\"","",cifdiag)
-        cparamEst<-read.csv(file=paste(path_summary,"ParameterEstimates.csv",sep=""),
+        cparamEst<-read.csv(file=paste0(path_summary,"ParameterEstimates.csv"),
                             dec = csv_decimalSeparator,sep=csv_columnSeparator)
         
         if (cifdiag=="yes"){
-          cmoran<-read.csv(file=paste(path_summary,"EuclideanMoransI.csv",sep=""),
+          cmoran<-read.csv(file=paste0(path_summary,"EuclideanMoransI.csv"),
                            dec = csv_decimalSeparator,sep=csv_columnSeparator)
         }
         
         #sink to txt file
         print(outcharfun("SPARROW NLLS MODEL SUMMARY"))
-        print(outcharfun(paste("MODEL NAME: ",m,sep="")))
+        print(outcharfun(paste0("MODEL NAME: ",m)))
         print(outcharfun("MODEL PERFORMANCE (Monitoring adjustment)"))
         print(cmodelPerformance)
         print(space)
@@ -164,7 +166,7 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
         
         
       }else{
-        message(paste(path_summary," DOES NOT EXIST.  MODEL COMPARISON NOT RUN.",sep=""))
+        message(paste0(path_summary," DOES NOT EXIST.  MODEL COMPARISON NOT RUN."))
       }
       
     }#for each model to compare
@@ -172,14 +174,14 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
     sink()
     #output csv files
     dirOUT<-dirname(sinkFile)
-    fwrite(file=paste(dirOUT,.Platform$file.sep,modelComparison_name,"_ModelPerformanceMonitoringAdj.csv",sep=""),modelPerformance,row.names=FALSE,
+    fwrite(file=paste0(dirOUT,.Platform$file.sep,modelComparison_name,"_ModelPerformanceMonitoringAdj.csv"),modelPerformance,row.names=FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
-    fwrite(file=paste(dirOUT,.Platform$file.sep,modelComparison_name,"_EigenValueSpread.csv",sep=""),eigenSpread,row.names=FALSE,
+    fwrite(file=paste0(dirOUT,.Platform$file.sep,modelComparison_name,"_EigenValueSpread.csv"),eigenSpread,row.names=FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
-    fwrite(file=paste(dirOUT,.Platform$file.sep,modelComparison_name,"_ParameterEstimates.csv",sep=""),paramEst,row.names=FALSE,
+    fwrite(file=paste0(dirOUT,.Platform$file.sep,modelComparison_name,"_ParameterEstimates.csv"),paramEst,row.names=FALSE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     if (if_spatialAutoCorr=="yes"){
-      fwrite(file=paste(dirOUT,.Platform$file.sep,modelComparison_name,"_EuclideanMoransI.csv",sep=""),moran,row.names=FALSE,
+      fwrite(file=paste0(dirOUT,.Platform$file.sep,modelComparison_name,"_EuclideanMoransI.csv"),moran,row.names=FALSE,
              dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
     }
   }#if models to compare

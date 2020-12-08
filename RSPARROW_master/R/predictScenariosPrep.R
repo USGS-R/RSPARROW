@@ -10,6 +10,7 @@
 #'@param output_map_type character string control setting to identify type of map(s) to output 
 #'       to PDF file from "stream","catchment", or "both"
 #'@param Rshiny TRUE/FALSE indicating whether routine is being run from the Shiny app
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param data `DataMatrix.list$data` to be used in source reduction scenario setup. For more 
@@ -24,6 +25,8 @@
 #'       residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
 #'       documentation Section 5.2.4.5.
 #'@param subdata data.frame input data (subdata)
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@return `scenarioPrep.list` list of source change scenario setup control settings, data with 
 #'            change factors applied, and the scenarioFlag indicating the scenario mapping area
 
@@ -49,13 +52,13 @@ predictScenariosPrep<-function(##Rshiny
   
   #create scenario_name directory
   options(warn=-1)
-  if (Rshiny==FALSE){
-    if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,sep=""))){
-      dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,sep=""))
+  if (!Rshiny){
+    if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name))){
+      dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name))
     }#if directory not found
   }else{#Rshiny TRUE
-    if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
-      dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
+    if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName))){
+      dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName),showWarnings = FALSE)
     }#if direcotry not found
   }#if Rshiny TRUE
   options(warn=0)  
@@ -74,7 +77,7 @@ predictScenariosPrep<-function(##Rshiny
                                    PercentChange = rep(0,length(JacobResults$oEstimate)))
   
   #convert Rshiny metrics to control setting names 
-  if (Rshiny==TRUE){
+  if (Rshiny){
     scenario_name<-as.character(input$scenarioName)
     scenario_sources<-as.character(input$scenario_sources)
     select_targetReachWatersheds<-as.character(input$target)
@@ -116,12 +119,12 @@ predictScenariosPrep<-function(##Rshiny
       select_targetReachWatersheds<-NA
     }else if (tolower(select_targetReachWatersheds)=="import"){
       #read flag file
-      filein <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv",sep="")
+      filein <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv")
       select_targetReachWatersheds <- fread(filein,header=TRUE,stringsAsFactors=FALSE,
                                             dec = csv_decimalSeparator,sep=csv_columnSeparator)
       
       #save flag file to subdirectory
-      fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv",sep="")
+      fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv")
       fwrite(select_targetReachWatersheds,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,
              dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")      
       
@@ -137,7 +140,7 @@ predictScenariosPrep<-function(##Rshiny
         
         
         #save flag file to subdirectory
-        fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv",sep="")
+        fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv")
         fwrite(select_targetReachWatersheds,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,
                dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
         
@@ -186,10 +189,10 @@ predictScenariosPrep<-function(##Rshiny
     }else{#selected reaches
       
       if (!is.na(landuseConversion[i]) & !exists(paste0("S_",scenario_sources[i],"_LC"))){
-        if (Rshiny==TRUE){
+        if (Rshiny){
           eval(parse(text = paste0("S_",scenario_sources[i],"_LC <- ifelse(S_",scenario_sources[i],"!=1,'",landuseConversion[i],"',NA)"))) 
         }
-      }else if (Rshiny==FALSE & exists(paste0("S_",scenario_sources[i],"_LC"))){
+      }else if (!Rshiny & exists(paste0("S_",scenario_sources[i],"_LC"))){
         temp<-eval(parse(text =paste0("S_",scenario_sources[i],"_LC") ))
         
         if (length(unique(temp))==1 & is.na(unique(temp))){
@@ -349,7 +352,7 @@ predictScenariosPrep<-function(##Rshiny
   #if sumarea!=0 where reduction occurs
   errorLU<-any(errorMat[which(sumarea!=0)]!=0)
   
-  if (errorLU==FALSE){
+  if (!errorLU){
     #apply landuse conversions
     testApply<-data
     testApply[,jsrcvar]<-testApply[,jsrcvar]+sumarea
@@ -361,13 +364,13 @@ predictScenariosPrep<-function(##Rshiny
     
   }
   
-  if (errorLU==FALSE & length(LUsourceError)==0 & negTest==FALSE){#apply reductions to data
+  if (!errorLU & length(LUsourceError)==0 & !negTest){#apply reductions to data
     data[,jsrcvar]<-data[,jsrcvar]+sumarea
     data[,jsrcvar]<-data[,jsrcvar]-reducMat  
     
   }
   
-  if (negTest==TRUE){#negative landuse data
+  if (negTest){#negative landuse data
     negTest<-testApply[,jsrcvar]
     negTest<-which(sumarea!=0 & negTest<0,arr.ind = TRUE)
     
@@ -376,15 +379,15 @@ predictScenariosPrep<-function(##Rshiny
     
     negTest<-data[negTest[,1],]
     
-    colnames(negTest)<-DataMatrix.list$dataNames
+    colnames(negTest)<-dataNames
     negTest<-subdata[which(subdata$waterid %in% negTest[,1]),]
-    fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_NegativeLanduseFound.csv",sep="")
+    fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_NegativeLanduseFound.csv")
     fwrite(negTest,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
     message("\n \nWARNING : Invalid Landuse Conversion.  Negative landuse data found for ",nrow(negTest)," waterids, saved to \n",fileout)
     
     
-  }else if (any(sumarea!=0) & errorLU==TRUE){#compound reductions
+  }else if (any(sumarea!=0) & errorLU){#compound reductions
     message("\n \nWARNING : Invalid Landuse Conversion.  Compound reductions found.\nNO SCENARIO EXECUTED")
     scenarioError<-TRUE
   }else if (length(LUsourceError)!=0){

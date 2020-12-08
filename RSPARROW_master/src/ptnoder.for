@@ -1,4 +1,7 @@
-C     
+C ptnoder.for
+
+C Purpose: Load stream network accumulation routine that returns predictions.  
+
       subroutine ptnoder(ifadj,nreach,nnode,data2,incddsrc,carryf,pred)
         !GCC$ ATTRIBUTES DLLEXPORT::ptnoder
         integer, intent(in) :: ifadj

@@ -46,8 +46,9 @@ createDataMatrix <- function(if_mean_adjust_delivery_vars,subdata,SelParmValues,
   jdepvar <- which(datalst%in%"depvar")   # Dependent variable load (kg/yr)
   jhydseq <- which(datalst%in%"hydseq")   # SPARROW Reach Hydrologic Sequencing Code
   jmean_flow <- which(datalst%in%"meanq") # Mean flow (cfs)
+  jcalsites <- which(datalst%in%"calsites") #Calibration site index
   
-  ivar <- 12   # number of required network variables
+  ivar <- 13   # number of required network variables
   
   # pselect created in 'selectParmValues.R'
   srcselect <- ifelse(betavalues$parmType == "SOURCE" & pselect == 1,1,0)
@@ -105,7 +106,7 @@ createDataMatrix <- function(if_mean_adjust_delivery_vars,subdata,SelParmValues,
   data <- matrix(1:length(depvar), ncol=ncols, nrow=length(depvar))
   
   dataNames <- c("waterid","staid","fnode","tnode","frac","iftran","target",
-                 "demtarea","demiarea","depvar","hydseq","meanq")
+                 "demtarea","demiarea","depvar","hydseq","meanq","calsites")
   
   for (i in 1:ivar) {
     data[,i] <- eval(parse(text=datalst[i]))  # transfer required 12 variables to data

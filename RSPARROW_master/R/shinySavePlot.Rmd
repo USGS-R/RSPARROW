@@ -1,0 +1,23 @@
+---
+title: "`r params$run_id`"
+output: html_document
+params:
+  p: p
+  run_id: run_id
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.width=8, fig.height=8}
+#unpack params
+p<-params$p
+
+p
+
+
+
+
+
+

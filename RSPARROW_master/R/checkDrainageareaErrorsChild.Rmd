@@ -1,0 +1,133 @@
+
+```{r ,eval = TRUE, echo = FALSE,warning = FALSE, message = FALSE}
+k<-{{k}}
+
+prepReturns.list<-checkDrainageareaMapPrep(file.output.list,mapping.input.list,
+                                           DAreaFailCheckObj,data1, 
+                                           existGeoLines, commonvar, map.vars.list, k)
+makePlot<-!is.na(prepReturns.list)
+if (makePlot){
+  unPackList(lists = list(prepReturns.list = prepReturns.list),
+             parentObj = list(NA)) 
+}#if iprob>=2
+```
+
+
+```{r chunkCont{{k}},eval = makePlot, echo = FALSE, fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+if (enable_plotlyMaps=="yes"){
+  if (!is.na(add_plotlyVars[1])){
+    data1Merge<-merge(dmap,data1,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
+    names(data1Merge)[names(data1Merge)==commonvar]<-"waterid_for_RSPARROW_mapping"
+    data1Merge<-data1Merge[,names(data1Merge) %in% names(data1)]
+    dmap<-addMarkerText("",c(add_plotlyVars, "lat","lon"), dmap, data1Merge)$mapData
+    
+  }
+  
+  lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
+  
+  titleStr<-title_name[k]
+  
+  
+  #start plotly plot
+  p<-plot_ly() %>%
+    layout(
+      showlegend =TRUE,
+      xaxis = list(range = lon_limit,
+                   showticklabels= TRUE,
+                   title = "Longitude"),
+      yaxis = list(range = lat_limit,
+                   showticklabels = TRUE,
+                   title = "Latitude"),
+      title = titleStr,
+      legend = TRUE)#list(x = 1.1, y = 0.95)) %>%
+
+  
+  if(existGeoLines) {
+    p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+                      stroke = I("black"),color = I(predictionMapBackground),
+                      name = LineShapeGeo, hoverinfo = "none")
+  }
+  
+  remove(list = c("lat","lon",add_plotlyVars))
+  
+  
+  for (c in Mcol){
+    
+    mapdata<-lineShape[lineShape$MAPCOLORS==c,]
+    
+    lineText<-"~paste('</br> ',title_name[k],' :',
+                   round(VVAR,predictionClassRounding)"
+    
+    lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
+    
+    
+    p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
+                      color = I(c),
+                      name = break1[Mcol==c],
+                      line = list(width = lineWidth),
+                      hoverinfo = 'text',
+                      text = eval(parse(text = lineText)))
+    
+  }
+  p
+}else{#not plotly
+  if(existGeoLines){
+    p <- ggplot() +
+      geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
+      theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                         panel.grid.minor = element_blank(), axis.line = element_blank()) 
+  }
+  
+  lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
+  #if(!is.na(LineShapeGeo)) {
+  if(existGeoLines) {
+    
+    #plot(st_geometry(lineShape),col=lineShape$MAPCOLORS,lwd=0.8, add=TRUE
+    p<-p %+% geom_sf(data = lineShape, size = lineWidth, 
+                     aes(colour = factor(MAPCOLORS,levels =  Mcol)),
+                     show.legend = TRUE) +
+      coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+      scale_colour_manual(values = Mcol,
+                          labels = break1,
+                          name = "Mcol") +
+      ggtitle(title_name[k]) +
+      theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
+            legend.position='bottom',
+            legend.justification = 'left',
+            legend.text = element_text(size = 24*predictionLegendSize),
+            legend.title = element_blank(),
+            legend.background = element_rect(fill=predictionLegendBackground),
+            legend.key.size = unit(predictionLegendSize, 'cm')) +
+      guides(col = guide_legend(ncol=1))
+  } else {
+    #plot(st_geometry(lineShape),col=lineShape$MAPCOLORS,lwd=0.8)
+    p<-ggplot() +
+      geom_sf(data = lineShape, size = lineWidth, 
+              aes(colour = factor(MAPCOLORS,levels =  Mcol)),
+              show.legend = TRUE) +
+      coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+      scale_colour_manual(values = Mcol,
+                          labels = break1,
+                          name = "colors") +
+      ggtitle(title_name[k]) +
+      theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
+            legend.position='bottom',
+            legend.justification = 'left',
+            legend.text = element_text(size = 24*predictionLegendSize),
+            legend.title = element_blank(),
+            legend.background = element_rect(fill=predictionLegendBackground),
+            legend.key.size = unit(predictionLegendSize, 'cm')) +
+      guides(col = guide_legend(ncol=1))
+  }
+  print(p)  
+
+}
+drops <- c("MAPCOLORS","VVAR","fMAPCOLORS",gsub("waterid","waterid_for_RSPARROW_mapping",add_plotlyVars)) # list of col names
+lineShape <- lineShape[,!(names(lineShape) %in% drops)]   # drop MAPCOLORS for re-creation
+
+
+```
+
+```{r mapPgBr{{k}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

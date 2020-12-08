@@ -14,28 +14,58 @@
 #'             \\item predictOutCSV.R
 #'             \\item predictScenarios.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
-#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
-#'       parmMin>=0) | parmType!="SOURCE")`
+#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & 
+#'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
 #'@param betavalues data.frame of model parameters from parameters.csv
+#'@param Csites.weights.list regression weights as proportional to incremental area size
 #'@param subdata data.frame input data (subdata)
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
-#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
+#'@param Vsites.list named list of sites for validation
+#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0
+#'                 & subdata$calsites==1), ]`
 #'@param numsites number of sites selected for calibration
+#'@param class.input.list list of control settings related to classification variables
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
 #'@param minimum_reaches_separating_sites number indicating the minimum number of reaches 
 #'       separating sites
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
 #'@param dlvdsgn design matrix imported from design_matrix.csv
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param if_validate yes/no indicating whether or not validation is run
+#'@param sitedata.landuse Land use for incremental basins for diagnostics.
+#'@param vsitedata.landuse Land use for incremental basins for diagnostics for validation 
+#'                         sites.
+#'@param sitedata.demtarea.class Total drainage area classification variable for calibration 
+#'                               sites.
+#'@param vsitedata.demtarea.class Total drainage area classification variable for validation 
+#'                                sites.
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param biters User specified number of parametric bootstrap iterations from sparrow_control
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied
 #'@return `runTimes`  named list of run times for bootstrap estimation, bootstrap prediction, 
 #'            mapping, and estimate.list
 
@@ -111,11 +141,11 @@ controlFileTasksModel <- function(# pathnames
                             batch_mode)
   
   # save the DataMatrix.list used to estimate the model
-  objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_DataMatrix.list",sep="")
+  objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_DataMatrix.list")
   save(DataMatrix.list,file=objfile)
   
   # save the SelParmValues information used to estimate the model
-  objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_SelParmValues",sep="")
+  objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_SelParmValues")
   save(SelParmValues,file=objfile)
   
   #  HesRunTime <- estimate.list$HesResults$HesRunTime
@@ -126,7 +156,11 @@ controlFileTasksModel <- function(# pathnames
   
   if(if_spatialAutoCorr == "yes") {   
     
-    nn <- ifelse(DataMatrix.list$data[,10] > 0,1,0)  # jdepvar site load index (monitoring sites must be present)
+    nn <- ifelse(DataMatrix.list$data[,10] > 0 # jdepvar site load index
+                 & DataMatrix.list$data[,13]==1, #calistes ==1
+                 1,0)
+
+   
     if( (if_estimate=="yes" | if_estimate_simulation=="yes") & (sum(nn) > 0) ) {
       
       ############################################
@@ -137,7 +171,7 @@ controlFileTasksModel <- function(# pathnames
       # only execute if stream 'length' available for all reaches
       if(sum(!is.na(subdata$length))>0) {
         diagnosticSpatialAutoCorr(file.output.list,classvar,sitedata,numsites,estimate.list,
-                                  estimate.input.list,subdata)
+                                  estimate.input.list,mapping.input.list,subdata)
       }
       
     } else {
@@ -157,7 +191,7 @@ controlFileTasksModel <- function(# pathnames
   BootEstRunTime <- " "
   ptm <- proc.time()
   
-  objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults",sep="") # needed for covariance 
+  objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults") # needed for covariance 
   
   if(if_boot_estimate == "yes" & file.exists(objfile) == TRUE) {
     message("Estimating bootstrap model coefficients and errors...")
@@ -168,15 +202,15 @@ controlFileTasksModel <- function(# pathnames
     
   } else {  # no bootstrap estimation; check to see if already exists
     
-    objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest",sep="")  # BootResults
+    objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest")  # BootResults
     if(file.exists(objfile) == TRUE) {
       load(objfile)
     } else {
-      objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults",sep="") # needed for covariance 
+      objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults") # needed for covariance 
       if(if_boot_estimate == "yes" & file.exists(objfile) == FALSE) {
-        message(paste(" \nWARNING : HesResults DOES NOT EXIST.  boot_estimate NOT RUN.\n ",sep=""))     # please edit this with additional info to report on prediction condition as you see fit
+        message(paste0(" \nWARNING : HesResults DOES NOT EXIST.  boot_estimate NOT RUN.\n "))     # please edit this with additional info to report on prediction condition as you see fit
         if (batch_mode=="yes"){
-          cat(paste(" \nWARNING : HesResults DOES NOT EXIST.  boot_estimate NOT RUN.\n ",sep=""))     # please edit this with additional info to report on prediction condition as you see fit
+          cat(paste0(" \nWARNING : HesResults DOES NOT EXIST.  boot_estimate NOT RUN.\n "))     # please edit this with additional info to report on prediction condition as you see fit
         } 
       }
     }
@@ -229,7 +263,7 @@ controlFileTasksModel <- function(# pathnames
   
   if(if_predict == "yes") {
     
-    objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep="")
+    objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults")
     if(file.exists(objfile) == TRUE) {
       
       message("Running predictions...")     
@@ -245,7 +279,7 @@ controlFileTasksModel <- function(# pathnames
       predict.list <- predict(estimate.list,estimate.input.list,bootcorrection,DataMatrix.list,
                               SelParmValues,subdata)
       
-      objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list")
       save(predict.list,file=objfile)
       predictOutCSV(file.output.list,estimate.list,predict.list,subdata,
                     add_vars,data_names)
@@ -261,11 +295,11 @@ controlFileTasksModel <- function(# pathnames
   ptm <- proc.time()
   if(if_boot_predict == "yes") { 
     
-    if (file.exists(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest",sep="")) &
-        (file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")) | if_predict == "yes")  )  {
+    if (file.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest")) &
+        (file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list")) | if_predict == "yes")  )  {
       
-      load(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest",sep=""))
-      load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))
+      load(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest"))
+      load(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))
       
       assign("BootResults",BootResults,envir = .GlobalEnv)
       
@@ -274,22 +308,22 @@ controlFileTasksModel <- function(# pathnames
                                              DataMatrix.list,SelParmValues,
                                              subdata,file.output.list)
       
-      objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predictBoots.list",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predictBoots.list")
       save(predictBoots.list,file=objfile)
       
       predictBootsOutCSV(file.output.list,estimate.list,predictBoots.list,subdata,
                          add_vars,data_names)   # edit preditBootsOutCSV accordingly
       
       
-    } else if (!file.exists(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest",sep=""))){
-      message(paste(" \nWARNING : BootBetaest DOES NOT EXIST.  boot_predict NOT RUN.\n ",sep=""))     # please edit this with additional info to report on prediction condition as you see fit
+    } else if (!file.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_BootBetaest"))){
+      message(paste0(" \nWARNING : BootBetaest DOES NOT EXIST.  boot_predict NOT RUN.\n "))     # please edit this with additional info to report on prediction condition as you see fit
       if (batch_mode=="yes"){
-        cat(paste(" \nWARNING : BootBetaest DOES NOT EXIST.  boot_predict NOT RUN.\n ",sep=""))     # please edit this with additional info to report on prediction condition as you see fit
+        cat(paste0(" \nWARNING : BootBetaest DOES NOT EXIST.  boot_predict NOT RUN.\n "))     # please edit this with additional info to report on prediction condition as you see fit
       }   
-    }else if (!(file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")) | if_predict == "yes")){
-      message(paste(" \nWARNING : predict.list DOES NOT EXIST.  boot_predict NOT RUN.\n ",sep=""))     # please edit this with additional info to report on prediction condition as you see fit
+    }else if (!(file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list")) | if_predict == "yes")){
+      message(paste0(" \nWARNING : predict.list DOES NOT EXIST.  boot_predict NOT RUN.\n "))     # please edit this with additional info to report on prediction condition as you see fit
       if (batch_mode=="yes"){
-        cat(paste(" \nWARNING : predict.list DOES NOT EXIST.  boot_predict NOT RUN.\n ",sep=""))     # please edit this with additional info to report on prediction condition as you see fit
+        cat(paste0(" \nWARNING : predict.list DOES NOT EXIST.  boot_predict NOT RUN.\n "))     # please edit this with additional info to report on prediction condition as you see fit
       }   
     }#end if file.exists
     
@@ -309,7 +343,7 @@ controlFileTasksModel <- function(# pathnames
     #predictMaps
     if (!is.na(output_map_type)){
       
-      dir.create(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",sep=""))
+      dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch"))
       mapScenarios<-FALSE
       Rshiny<-FALSE
       allMetrics<-NA
@@ -317,17 +351,17 @@ controlFileTasksModel <- function(# pathnames
       save(list = c(as.character(outputSettings(file.output.list,FALSE)$setting),
                     "runScript","run2","file.output.list","scenario.input.list","RSPARROW_errorOption",
                     ls()[(regexpr("file_",ls())>0)],"estimate.input.list","mapping.input.list","mapScenarios","Rshiny","allMetrics","scenarioFlag"),
-           file=paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""))
+           file=paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData"))
       
       
       save(list=c("data_names"),
-           file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""),compress = FALSE)
+           file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData"),compress = FALSE)
       
       message("Running Prediction Maps in batch mode.")
-      system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchMaps.R",sep="")),sep=""), wait = TRUE, invisible = TRUE)
+      system(paste0(Sys.which("Rscript.exe")," ",file.path(paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchMaps.R"))), wait = TRUE, invisible = TRUE)
       
       
-      unlink(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",sep=""),recursive=TRUE)
+      unlink(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch"),recursive=TRUE)
       
       
     }
@@ -347,12 +381,11 @@ controlFileTasksModel <- function(# pathnames
   
   
   input<-list(variable="",scLoadCheck="",batch="",scYieldCheck="",domain="",selectReaches="",sourcesCheck="",factors="")
-
   if (exists("estimate.list") & !is.null(estimate.list)){
-  predictScenarios(#Rshiny
+   predictScenarios(#Rshiny
     input,NA, output_map_type,FALSE,
     #regular
-    estimate.input.list,
+    estimate.input.list,estimate.list,
     predict.list,scenario.input.list,
     data_names,estimate.list$JacobResults,if_predict,
     #bootcorrection,

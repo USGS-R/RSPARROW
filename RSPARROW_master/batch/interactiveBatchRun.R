@@ -9,15 +9,15 @@ load(gsub("interactiveBatchRun.R","interactiveBatch.RData",res))
 
 #load RSPARROW
 runRsparrow<-"no"
-if_install_packages<-"no"
 devtools::load_all(path_main,recompile = FALSE)
 
 #get batch plot data
 load(batchFilename)  
 
 unPackList(lists = list(file.output.list = file.output.list,
-                        scenario.input.list = scenario.input.list),
-           parentObj = list(NA,NA)) 
+                        scenario.input.list = scenario.input.list,
+                        mapping.input.list = mapping.input.list),
+           parentObj = list(NA,NA,NA)) 
 
 
 if (RSPARROW_errorOption=="yes"){
@@ -92,16 +92,46 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
 }else if (inputShiny$mapType=="Site Attributes"){
   
   for (a in inputShiny$dataCheck){
-    filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,run_id,"_SiteAttributes_",a,".pdf",sep="")
-    pdf(filename)
+    filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,run_id,"_SiteAttributes_",a,".pdf")
+    if (inputShiny$enablePlotly=="static"){
+      pdf(filename)
+    }else{
+      filename<-gsub(".pdf",".html",filename)
+    }
     
-    mapSiteAttributes(#Rshiny
+    p<-mapSiteAttributes(#Rshiny
       inputShiny,a, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
       #regular
       mapColumn,mapdata,GeoLines,mapping.input.list,
       strTitle,unitAttr,batch_mode)
     
-    dev.off()
+    if (inputShiny$enablePlotly=="static"){
+      replayPlot(p)
+    
+      }else{
+        reportPath<-paste0(path_master,"shinySavePlot.Rmd")
+        #edit title of report
+        reportTitle<-run_id
+        #read Rmd file as text
+        x <- readLines(reportPath)
+        #find where title is designated
+        editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+        #replace with current reportTitle
+        y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+        #overwrite the file
+        cat(y, file=reportPath, sep="\n") 
+        #ptm <- proc.time()
+        rmarkdown::render(
+          reportPath, params = list(
+            p = p
+          ),
+          output_file = filename, quiet = TRUE
+        )
+        #saveWidget(p,filename,selfcontained = FALSE)
+      }
+    if (inputShiny$enablePlotly=="static"){
+      dev.off()
+    } 
     if (a==inputShiny$dataCheck[length(inputShiny$dataCheck)]){
       shell.exec(filename)  
     }
@@ -118,7 +148,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
     siteAttrshape<-data.frame(xlat,xlon)
     for (s in 1:length(map_siteAttributes.list)){
       if (length(names(sitedata)[which(names(sitedata)==map_siteAttributes.list[s])])!=0){
-        siteAttr<-eval(parse(text= paste("data.frame(",map_siteAttributes.list[s],"=sitedata$",map_siteAttributes.list[s],")",sep="")))
+        siteAttr<-eval(parse(text= paste0("data.frame(",map_siteAttributes.list[s],"=sitedata$",map_siteAttributes.list[s],")")))
         siteAttrshape<-data.frame(siteAttrshape,siteAttr)
         names(siteAttrshape)[length(siteAttrshape)]<-map_siteAttributes.list[s]
       }
@@ -128,15 +158,15 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
     
     siteAttrshape<-sp::SpatialPointsDataFrame(siteAttrshape[,c("xlon","xlat")],siteAttrshape[,which(!names(siteAttrshape) %in% c("xlat","xlon"))],proj4string=sp::CRS(CRStext))
     
-    if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-      dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+    if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+      dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
     }
-    if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,sep=""))){
-      dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,sep=""),showWarnings = FALSE)
+    if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep))){
+      dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep),showWarnings = FALSE)
     }
     
-    maptools::writeSpatialShape(siteAttrshape,paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape",sep=""))
-    cat(rgdal::showWKT(sp::proj4string(siteAttrshape)),file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj",sep="")) 
+    maptools::writeSpatialShape(siteAttrshape,paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape"))
+    cat(rgdal::showWKT(sp::proj4string(siteAttrshape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj")) 
   }
   
 }else if (inputShiny$mapType=="Source Change Scenarios"){
@@ -146,7 +176,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
   predictScenarios(#Rshiny
     inputShiny,allMetrics, output_map_type,TRUE,
     #regular
-    estimate.input.list,
+    estimate.input.list,estimate.list,
     predict.list,scenario.input.list,
     data_names,JacobResults,if_predict,
     #bootcorrection,

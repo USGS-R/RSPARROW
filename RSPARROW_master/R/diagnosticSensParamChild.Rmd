@@ -1,0 +1,21 @@
+```{r chunkParam{{i}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+i<-{{i}}
+x1 <- apredict_sum[,i]
+xx <- data.frame(x1,depvar,xclass)
+parmsens <- xx[(xx$depvar > 0), ] 
+
+plotlyLayout(NA,parmsens$x1, log = "", nTicks = 5, digits = 0,
+                  xTitle = "",  xZeroLine = FALSE, xLabs = parmsens$xclass,
+                  yTitle = "Prediction Change (%) Relative to 1% Change",  yZeroLine = FALSE,
+                  plotTitle = paste0("Parameter Sensitivity:  ",Parmnames[i]),
+                  legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(y = parmsens$x1,x = parmsens$xclass, type = 'box', name = Parmnames[i], color = I("black"), 
+                     fillcolor = "white")
+
+
+
+```
+
+```{r sensPgBr{{i}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

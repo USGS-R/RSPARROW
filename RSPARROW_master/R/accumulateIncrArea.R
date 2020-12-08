@@ -21,7 +21,7 @@ accumulateIncrArea<-function(indata,accum_elements,accum_names){
   
   #replace any NAs with 0
   for (c in c("termflag","fnode","tnode",accum_elements)){
-    eval(parse(text = paste("data$",c,"<-ifelse(is.na(data$",c,"),0,data$",c,")",sep="")))
+    eval(parse(text = paste0("data$",c,"<-ifelse(is.na(data$",c,"),0,data$",c,")")))
   }
   
   data <- data[which(data$fnode > 0 & data$tnode > 0 & data$termflag != 3), ]
@@ -39,7 +39,7 @@ accumulateIncrArea<-function(indata,accum_elements,accum_names){
   
   #loop through accum_elements
   for (e in accum_elements){
-    area<-eval(parse(text = paste("data$",e,sep="")))
+    area<-eval(parse(text = paste0("data$",e)))
     
     carea<-rep(0,maxArc)
     arearch<-rep(0,nr)

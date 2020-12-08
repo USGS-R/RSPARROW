@@ -16,16 +16,16 @@ createSubdataSorted <- function(filter_data1_conditions,data1) {
   if(is.na(filter_data1_conditions)) {
     data1$fnode[is.na(data1$fnode)] <- 0
     data1$tnode[is.na(data1$tnode)] <- 0
-    dname <- paste("subdata <- data1[(data1$fnode > 0 & data1$tnode > 0), ]",sep="") 
+    dname <- paste0("subdata <- data1[(data1$fnode > 0 & data1$tnode > 0), ]") 
     eval(parse(text=dname))   # create subdata            
   } else {
     data1$fnode[is.na(data1$fnode)] <- 0
     data1$tnode[is.na(data1$tnode)] <- 0
     dname1 <- "subdata <- data1[(data1$fnode > 0 & data1$tnode > 0 "
     for (i in 1:length(filter_data1_conditions)) {
-      dname1 <- paste(dname1,"& ",filter_data1_conditions[i]," ",sep="") 
+      dname1 <- paste0(dname1,"& ",filter_data1_conditions[i]," ") 
     }
-    dname <- paste(dname1,"), ]",sep="") 
+    dname <- paste0(dname1,"), ]") 
     eval(parse(text=dname))   # create subdata 
   }
   

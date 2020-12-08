@@ -5,6 +5,8 @@
 #'Executes Routines: \\itemize\{\\item getVarList.R
 #'             \\item importCSVcontrol.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
@@ -18,7 +20,7 @@ readDesignMatrix <- function(file.output.list,betavalues,batch_mode){
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA)) 
   
-  filed <- paste(path_results,run_id,"_design_matrix.csv",sep="")
+  filed <- paste0(path_results,run_id,"_design_matrix.csv")
   
   #columns for DELIVF
   NAMES<-betavalues[which(betavalues$parmType=="DELIVF"),]$sparrowNames

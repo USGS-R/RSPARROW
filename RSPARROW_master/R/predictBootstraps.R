@@ -8,13 +8,24 @@
 #'             \\item unPackList.R\} \\cr
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param biters User specified number of parametric bootstrap iterations from sparrow_control
+#'@param estimate.list list output from `estimate.R`
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param predict.list archive with all load and yield prediction variables to provide for the 
+#'                    efficient access and use of predictions in subsequent execution of the parametric
+#'                    bootstrap predictions and uncertainties, mapping, and scenario evaluations.  
+#'                    For more details see documentation Section 5.3.1.5
 #'@param BootResults data archive using the control setting `if_boot_estimate <- "yes"` for 
 #'       use in subsequent execution of parametric bootstrap predictions. For more details see 
 #'       documenation Section 5.2.6.2.
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@return `predictBoots.list` contains parametric bootstrap predictions for load and yield. 
 #'            For more details see documentation Section 5.3.2.3
 
@@ -47,7 +58,8 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   yieldFactor <- estimate.input.list$yieldFactor
   
   nreach <- length(DataMatrix.list$data[,1])
-  numsites <- sum(ifelse(DataMatrix.list$data[,10] > 0,1,0))  # jdepvar site load index
+  numsites <- sum(DataMatrix.list$data[,10] > 0 & DataMatrix.list$data[,13]==1)
+
   
   nnrows <- nreach
   ncols.load <- length(predict.list$oparmlist)
@@ -452,10 +464,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean2 <- character(length(srclist_total)*4)
   for (i in 1:length(srclist_total)){
-    mean2[k] <- paste("mean_",srclist_total[i],sep="") 
-    mean2[k+1] <- paste("se_",srclist_total[i],sep="") 
-    mean2[k+2] <- paste("ci_lo_",srclist_total[i],sep="") 
-    mean2[k+3] <- paste("ci_hi_",srclist_total[i],sep="") 
+    mean2[k] <- paste0("mean_",srclist_total[i]) 
+    mean2[k+1] <- paste0("se_",srclist_total[i]) 
+    mean2[k+2] <- paste0("ci_lo_",srclist_total[i]) 
+    mean2[k+3] <- paste0("ci_hi_",srclist_total[i]) 
     k <- k+4
   }
   
@@ -468,10 +480,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean4 <- character(length(srclist_mtotal)*4)
   for (i in 1:length(srclist_mtotal)){
-    mean4[k] <- paste("mean_",srclist_mtotal[i],sep="") 
-    mean4[k+1] <- paste("se_",srclist_mtotal[i],sep="") 
-    mean4[k+2] <- paste("ci_lo_",srclist_mtotal[i],sep="") 
-    mean4[k+3] <- paste("ci_hi_",srclist_mtotal[i],sep="") 
+    mean4[k] <- paste0("mean_",srclist_mtotal[i]) 
+    mean4[k+1] <- paste0("se_",srclist_mtotal[i]) 
+    mean4[k+2] <- paste0("ci_lo_",srclist_mtotal[i]) 
+    mean4[k+3] <- paste0("ci_hi_",srclist_mtotal[i]) 
     k <- k+4
   }
   
@@ -484,10 +496,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean6 <- character(length(srclist_nd_total)*4)
   for (i in 1:length(srclist_nd_total)){
-    mean6[k] <- paste("mean_",srclist_nd_total[i],sep="") 
-    mean6[k+1] <- paste("se_",srclist_nd_total[i],sep="") 
-    mean6[k+2] <- paste("ci_lo_",srclist_nd_total[i],sep="") 
-    mean6[k+3] <- paste("ci_hi_",srclist_nd_total[i],sep="") 
+    mean6[k] <- paste0("mean_",srclist_nd_total[i]) 
+    mean6[k+1] <- paste0("se_",srclist_nd_total[i]) 
+    mean6[k+2] <- paste0("ci_lo_",srclist_nd_total[i]) 
+    mean6[k+3] <- paste0("ci_hi_",srclist_nd_total[i]) 
     k <- k+4
   }
   
@@ -500,10 +512,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean8 <- character(length(srclist_inc)*4)
   for (i in 1:length(srclist_inc)){
-    mean8[k] <- paste("mean_",srclist_inc[i],sep="") 
-    mean8[k+1] <- paste("se_",srclist_inc[i],sep="") 
-    mean8[k+2] <- paste("ci_lo_",srclist_inc[i],sep="") 
-    mean8[k+3] <- paste("ci_hi_",srclist_inc[i],sep="") 
+    mean8[k] <- paste0("mean_",srclist_inc[i]) 
+    mean8[k+1] <- paste0("se_",srclist_inc[i]) 
+    mean8[k+2] <- paste0("ci_lo_",srclist_inc[i]) 
+    mean8[k+3] <- paste0("ci_hi_",srclist_inc[i]) 
     k <- k+4
   }
   
@@ -524,10 +536,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean11 <- character(length(srclist_inc)*4)
   for (i in 1:length(srclist_inc)){
-    mean11[k] <- paste("mean_",srclist_inc[i],"_deliv",sep="") 
-    mean11[k+1] <- paste("se_",srclist_inc[i],"_deliv",sep="") 
-    mean11[k+2] <- paste("ci_lo_",srclist_inc[i],"_deliv",sep="") 
-    mean11[k+3] <- paste("ci_hi_",srclist_inc[i],"_deliv",sep="") 
+    mean11[k] <- paste0("mean_",srclist_inc[i],"_deliv") 
+    mean11[k+1] <- paste0("se_",srclist_inc[i],"_deliv") 
+    mean11[k+2] <- paste0("ci_lo_",srclist_inc[i],"_deliv") 
+    mean11[k+3] <- paste0("ci_hi_",srclist_inc[i],"_deliv") 
     k <- k+4
   }
   
@@ -535,10 +547,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean12 <- character(length(srclist_inc)*4)
   for (i in 1:length(srclist_inc)){
-    mean12[k] <- paste("mean_","share_total_",srcvar[i],sep="") 
-    mean12[k+1] <- paste("se_","share_total_",srcvar[i],sep="") 
-    mean12[k+2] <- paste("ci_lo_","share_total_",srcvar[i],sep="") 
-    mean12[k+3] <- paste("ci_hi_","share_total_",srcvar[i],sep="") 
+    mean12[k] <- paste0("mean_","share_total_",srcvar[i]) 
+    mean12[k+1] <- paste0("se_","share_total_",srcvar[i]) 
+    mean12[k+2] <- paste0("ci_lo_","share_total_",srcvar[i]) 
+    mean12[k+3] <- paste0("ci_hi_","share_total_",srcvar[i]) 
     k <- k+4
   }
   
@@ -546,10 +558,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean13 <- character(length(srclist_inc)*4)
   for (i in 1:length(srclist_inc)){
-    mean13[k] <- paste("mean_","share_inc_",srcvar[i],sep="") 
-    mean13[k+1] <- paste("se_","share_inc_",srcvar[i],sep="") 
-    mean13[k+2] <- paste("ci_lo_","share_inc_",srcvar[i],sep="") 
-    mean13[k+3] <- paste("ci_hi_","share_inc_",srcvar[i],sep="") 
+    mean13[k] <- paste0("mean_","share_inc_",srcvar[i]) 
+    mean13[k+1] <- paste0("se_","share_inc_",srcvar[i]) 
+    mean13[k+2] <- paste0("ci_lo_","share_inc_",srcvar[i]) 
+    mean13[k+3] <- paste0("ci_hi_","share_inc_",srcvar[i]) 
     k <- k+4
   }
   
@@ -583,7 +595,7 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   
   BootUncertainties <- named.list(se_pload_total,ci_pload_total,se_mpload_total,ci_mpload_total,
                                   model.error.var,sample.error.var.boots)
-  objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties",sep="")
+  objfile <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties")
   save(BootUncertainties,file=objfile)
   assign("BootUncertainties",BootUncertainties,envir = .GlobalEnv)
   
@@ -607,10 +619,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean2 <- character(length(srclist_total)*4)
   for (i in 1:length(srclist_total)){
-    mean2[k] <- paste("mean_",srclist_yield[i],sep="") 
-    mean2[k+1] <- paste("se_",srclist_yield[i],sep="") 
-    mean2[k+2] <- paste("ci_lo_",srclist_yield[i],sep="") 
-    mean2[k+3] <- paste("ci_hi_",srclist_yield[i],sep="") 
+    mean2[k] <- paste0("mean_",srclist_yield[i]) 
+    mean2[k+1] <- paste0("se_",srclist_yield[i]) 
+    mean2[k+2] <- paste0("ci_lo_",srclist_yield[i]) 
+    mean2[k+3] <- paste0("ci_hi_",srclist_yield[i]) 
     k <- k+4
   }
   
@@ -623,10 +635,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean4 <- character(length(srclist_myield)*4)
   for (i in 1:length(srclist_mtotal)){
-    mean4[k] <- paste("mean_",srclist_myield[i],sep="") 
-    mean4[k+1] <- paste("se_",srclist_myield[i],sep="") 
-    mean4[k+2] <- paste("ci_lo_",srclist_myield[i],sep="") 
-    mean4[k+3] <- paste("ci_hi_",srclist_myield[i],sep="") 
+    mean4[k] <- paste0("mean_",srclist_myield[i]) 
+    mean4[k+1] <- paste0("se_",srclist_myield[i]) 
+    mean4[k+2] <- paste0("ci_lo_",srclist_myield[i]) 
+    mean4[k+3] <- paste0("ci_hi_",srclist_myield[i]) 
     k <- k+4
   }
   
@@ -639,10 +651,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean8 <- character(length(srclist_inc)*4)
   for (i in 1:length(srclist_inc)){
-    mean8[k] <- paste("mean_",srclist_yldinc[i],sep="") 
-    mean8[k+1] <- paste("se_",srclist_yldinc[i],sep="") 
-    mean8[k+2] <- paste("ci_lo_",srclist_yldinc[i],sep="") 
-    mean8[k+3] <- paste("ci_hi_",srclist_yldinc[i],sep="") 
+    mean8[k] <- paste0("mean_",srclist_yldinc[i]) 
+    mean8[k+1] <- paste0("se_",srclist_yldinc[i]) 
+    mean8[k+2] <- paste0("ci_lo_",srclist_yldinc[i]) 
+    mean8[k+3] <- paste0("ci_hi_",srclist_yldinc[i]) 
     k <- k+4
   }
   
@@ -655,10 +667,10 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   k <- 1
   mean11 <- character(length(srclist_inc)*4)
   for (i in 1:length(srclist_inc)){
-    mean11[k] <- paste("mean_",srclist_yldinc_deliv[i],sep="") 
-    mean11[k+1] <- paste("se_",srclist_yldinc_deliv[i],sep="") 
-    mean11[k+2] <- paste("ci_lo_",srclist_yldinc_deliv[i],sep="") 
-    mean11[k+3] <- paste("ci_hi_",srclist_yldinc_deliv[i],sep="") 
+    mean11[k] <- paste0("mean_",srclist_yldinc_deliv[i]) 
+    mean11[k+1] <- paste0("se_",srclist_yldinc_deliv[i]) 
+    mean11[k+2] <- paste0("ci_lo_",srclist_yldinc_deliv[i]) 
+    mean11[k+3] <- paste0("ci_hi_",srclist_yldinc_deliv[i]) 
     k <- k+4
   }
   

@@ -7,6 +7,7 @@ Author: Richard Alexander, Lillian Gorman Sanisaca
 Maintainer: Richard Alexander <ralex@usgs.gov>, Lillian Gorman Sanisaca <lgormansanisaca@usgs.gov>
 Description: Setup and execution of the USGS SPARROW water-quality model for a user-defined domain.
 Roxygen: list(markdown=TRUE)
+OS_type: windows
 VignetteBuilder: knitr
 Depends:
     R(>= 4.0.3),

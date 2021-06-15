@@ -1,6 +1,14 @@
 if (exists("runRsparrow")){
   if (runRsparrow=="yes"){   
     
+    #load dynamic libraries
+    dyn.load(paste0(path_master,"/src/deliv_fraction",.Platform$dynlib.ext))
+    dyn.load(paste0(path_master,"/src/mptnoder",.Platform$dynlib.ext))
+    dyn.load(paste0(path_master,"/src/ptnoder",.Platform$dynlib.ext))
+    dyn.load(paste0(path_master,"/src/sites_incr",.Platform$dynlib.ext))
+    dyn.load(paste0(path_master,"/src/tnoder",.Platform$dynlib.ext))
+    dyn.load(paste0(path_master,"/src/sum_atts",.Platform$dynlib.ext))
+    
     if (RSPARROW_errorOption=="yes"){
       
       
